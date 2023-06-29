@@ -1,3 +1,3 @@
 
-rootProject.name = "simple-test-generator"
+rootProject.name = "simple-questionary-generator"
 
