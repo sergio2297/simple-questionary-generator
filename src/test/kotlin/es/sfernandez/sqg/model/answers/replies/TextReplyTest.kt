@@ -9,12 +9,10 @@ class TextReplyTest {
     //---- Attributes ----
     private lateinit var reply : TextReply
 
-    //---- Fixtures ----
-
     //---- Tests ----
     @Test
     fun get_returnsTextGivenInConstructionTest() {
-        val text = BasicFixtures.SOME_TEXT
+        val text = BasicFixtures.SOME_TEXT_1
 
         reply = TextReply(text)
 
