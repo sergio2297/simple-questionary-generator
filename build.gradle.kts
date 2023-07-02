@@ -12,6 +12,9 @@ repositories {
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+
     testImplementation(kotlin("test"))
 
     // https://mvnrepository.com/artifact/org.assertj/assertj-core
