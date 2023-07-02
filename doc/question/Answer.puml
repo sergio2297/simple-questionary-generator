@@ -1,0 +1,81 @@
+@startuml
+
+hide empty members
+
++class AnswerException {
+}
+
++abstract Answer<REPLY : Reply> {
+    + {abstract} isRight(reply : REPLY) : Boolean
+}
+
++abstract SelectionAnswer<REPLY : Reply> {
+    - possibleChoices : Array<Choice>
+    # validateRightChoicesInPossibleChoices(choices : Array<Choice>)
+}
+
++class SingleSelectionAnswer<SingleReply> {
+    - rightChoice : Choice
+    + SingleReply(rightChoice : Choice)
+    + isRight(reply: SingleReply) : Boolean
+}
+
++class MultipleSelectionAnswer<MultipleReply> {
+    - rightChoices : Array<Choice>
+    + MultipleReply(rightChoices : Array<Choice>)
+    + isRight(reply: MultipleReply) : Boolean
+}
+
++class TextAnswer<TextReply> {
+    - checkWithRegex : Boolean,
+    - possibleReplies : Array<String>,
+    - replyRegex : Regex,
+    + TextAnswer(possibleRepplies : Array<String>)
+    + TextAnswer(replyRegex : Regex)
+    + isRight(reply : TextReply) : Boolean
+    - shouldCheckWithRegex() : Boolean
+}
+
++enum AnswerTypes {
+    SINGLE_SELECTION,
+    MULTIPLE_SELECTION,
+    TEXT_INPUT
+}
+
++interface Choice {
+    + id() : String
+    + content() : Content
+    + {static} create(id : String, content : Content) : Choice
+}
+
++interface Reply<T> {
+    + get() : T
+}
+
++class SingleReply<Choice> {
+    - selection : Choice
+    + get() : Choice
+}
+
++class MultipleReply<Array<Choice>> {
+    - selection : Array<Choice>
+    + get() : Array<Choice>
+}
+
++class TextReply<String> {
+    - text : String
+    + get() : String
+}
+
+Answer o-- AnswerTypes
+Answer <|-- SelectionAnswer
+Answer <|-- TextAnswer
+
+SelectionAnswer <|-- SingleSelectionAnswer
+SelectionAnswer <|-- MultipleSelectionAnswer
+
+Reply <|.. SingleReply
+Reply <|.. MultipleReply
+Reply <|.. TextReply
+
+@enduml
