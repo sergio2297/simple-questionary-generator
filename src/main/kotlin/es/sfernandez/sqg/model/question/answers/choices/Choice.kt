@@ -4,7 +4,19 @@ import es.sfernandez.sqg.model.contents.Content
 
 interface Choice {
 
-//    val id : Int
-//    val content : Content
+    val id : String
+    val content : Content
+
+    companion object {
+        fun create(id : String, content : Content) : Choice {
+            return object : Choice {
+                override val id: String
+                    get() = id
+                override val content: Content
+                    get() = content
+
+            }
+        }
+    }
 
 }
