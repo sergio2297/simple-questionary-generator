@@ -1,12 +1,13 @@
 package es.sfernandez.sqg.model.question.answers
 
 import es.sfernandez.sqg.model.contents.Content
+import es.sfernandez.sqg.model.contents.ContentType
 import es.sfernandez.sqg.model.question.answers.choices.Choice
 
 object AnswerFixtures {
 
     /** An arbitrary type of [Content] */
-    class FooContent : Content
+    class FooContent(override val type: ContentType = ContentType.UNKNOWN) : Content
 
     /** An arbitrary type of [Choice] */
     class FooChoice(override val id: String, override val content: Content) : Choice {
