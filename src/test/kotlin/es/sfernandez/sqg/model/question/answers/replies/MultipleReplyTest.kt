@@ -8,9 +8,6 @@ import org.junit.jupiter.api.Test
 
 class MultipleReplyTest {
 
-    //---- Constants and Definitions ----
-    private class FooChoice : Choice
-
     //---- Attributes ----
     private lateinit var reply : MultipleReply
 

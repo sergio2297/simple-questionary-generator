@@ -1,11 +1,17 @@
 package es.sfernandez.sqg.model.question.answers
 
+import es.sfernandez.sqg.model.contents.Content
 import es.sfernandez.sqg.model.question.answers.choices.Choice
 
 object AnswerFixtures {
 
+    /** An arbitrary type of [Content] */
+    class FooContent : Content
+
     /** An arbitrary type of [Choice] */
-    class FooChoice : Choice
+    class FooChoice(override val id: String, override val content: Content) : Choice {
+        constructor() : this("", FooContent())
+    }
 
     /**
      * Generate num [FooChoice]

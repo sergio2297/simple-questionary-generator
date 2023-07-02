@@ -1,5 +1,6 @@
 package es.sfernandez.sqg.model.question.answers.replies
 
+import es.sfernandez.sqg.model.question.answers.AnswerFixtures
 import es.sfernandez.sqg.model.question.answers.choices.Choice
 import es.sfernandez.sqg.model.question.answers.replies.SingleReply
 import org.assertj.core.api.Assertions.assertThat
@@ -7,14 +8,11 @@ import org.junit.jupiter.api.Test
 
 class SingleReplyTest {
 
-    //---- Constants and Definitions ----
-    private class FooChoice : Choice
-
     //---- Attributes ----
     private lateinit var reply : SingleReply
 
     //---- Fixtures ----
-    private val aChoice = FooChoice()
+    private val aChoice = AnswerFixtures.FooChoice()
 
     //---- Tests ----
     @Test

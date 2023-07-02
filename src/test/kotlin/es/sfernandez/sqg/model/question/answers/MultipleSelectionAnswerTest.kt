@@ -1,19 +1,12 @@
 package es.sfernandez.sqg.model.question.answers
 
 import es.sfernandez.sqg.model.question.answers.AnswerFixtures.generateSomeChoices
-import es.sfernandez.sqg.model.question.answers.choices.Choice
 import es.sfernandez.sqg.model.question.answers.replies.MultipleReply
-import es.sfernandez.sqg.model.question.answers.AnswerException
-import es.sfernandez.sqg.model.question.answers.AnswerTypes
-import es.sfernandez.sqg.model.question.answers.MultipleSelectionAnswer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 class MultipleSelectionAnswerTest {
-
-    //---- Constants and Definitions ----
-    private class FooChoice : Choice
 
     //---- Attributes ----
     private lateinit var answer : MultipleSelectionAnswer
@@ -36,7 +29,7 @@ class MultipleSelectionAnswerTest {
 
     @Test
     fun constructWith_rightAnswerNotContainedByPossibleChoices_throwsAnswerExceptionTest() {
-        assertThrows<AnswerException> { MultipleSelectionAnswer(possibleChoices, arrayOf(FooChoice())) }
+        assertThrows<AnswerException> { MultipleSelectionAnswer(possibleChoices, arrayOf(AnswerFixtures.FooChoice())) }
     }
 
     @Test
