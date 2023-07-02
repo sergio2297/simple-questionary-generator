@@ -1,4 +1,14 @@
 package es.sfernandez.sqg.model.contents
 
-data class Text(val value : String) : Content {
+class Text
+private constructor(
+    override val type: ContentType = ContentType.TEXT,
+    val value : String,
+) : Content {
+
+    //---- Constructor ----
+    constructor(value: String) : this(ContentType.TEXT, value)
+
+    constructor() : this("")
+
 }
