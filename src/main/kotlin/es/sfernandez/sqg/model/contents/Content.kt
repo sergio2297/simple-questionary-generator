@@ -9,6 +9,7 @@ import es.sfernandez.sqg.model.question.explanations.Explanation
  */
 interface Content {
 
+    // TODO(It may be removed soon)
     /** The type of content */
     val type: ContentType
 

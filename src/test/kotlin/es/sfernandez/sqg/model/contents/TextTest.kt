@@ -3,6 +3,8 @@ package es.sfernandez.sqg.model.contents
 import es.sfernandez.sqg.BasicFixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 
 class TextTest {
 
@@ -32,12 +34,27 @@ class TextTest {
     }
 
     @Test
+    fun constructEmptyText_markupIsSimpleTest() {
+        text = Text()
+
+        assertThat(text.markup).isEqualTo(Text.Markup.SIMPLE)
+    }
+
+    @Test
     fun constructText_withValue_worksTest() {
         val value = BasicFixtures.SOME_TEXT_1
 
         text = Text(value)
 
         assertThat(text.value).isEqualTo(value)
+    }
+
+    @ParameterizedTest
+    @EnumSource(Text.Markup::class)
+    fun constructText_withMarkup_worksTest(markup: Text.Markup) {
+        text = Text(BasicFixtures.SOME_TEXT_1, markup)
+
+        assertThat(text.markup).isEqualTo(markup)
     }
 
 }
