@@ -1,7 +1,9 @@
 package es.sfernandez.sqg.deserializer.json
 
 import es.sfernandez.sqg.deserializer.DeserializationException
+import es.sfernandez.sqg.model.contents.GroupOfContents
 import es.sfernandez.sqg.model.question.answers.replies.Reply
+import es.sfernandez.sqg.model.question.explanations.Explanation
 import es.sfernandez.sqg.model.question.problems.Problem
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
@@ -25,17 +27,19 @@ class JsonDeserializerFactoryTest {
     //---- Tests ----
     companion object {
         @JvmStatic
-        fun deserializersAvailables(): List<KClassWithJsonDeserializer> {
+        fun deserializersAvailable(): List<KClassWithJsonDeserializer> {
             return listOf(
+                KClassWithJsonDeserializer(GroupOfContents::class, GroupOfContentsJsonDeserializer::class),
 //                KClassWithJsonDeserializer(Text::class, TextJsonDeserializer::class),
 //                KClassWithJsonDeserializer(Sound::class, SoundJsonDeserializer::class),
 //                KClassWithJsonDeserializer(Image::class, ImageJsonDeserializer::class),
+//                KClassWithJsonDeserializer(Video::class, VideoJsonDeserializer::class),
 
                 KClassWithJsonDeserializer(Problem::class, ProblemJsonDeserializer::class),
 //                KClassWithJsonDeserializer(Answer::class, AnswerJsonDeserializer::class),
 //                KClassWithJsonDeserializer(Choice::class, ChoiceJsonDeserializer::class),
                 KClassWithJsonDeserializer(Reply::class, ReplyJsonDeserializer::class),
-//                KClassWithJsonDeserializer(Explanation::class, ExplanationJsonDeserializer::class),
+                KClassWithJsonDeserializer(Explanation::class, ExplanationJsonDeserializer::class),
 
 //                KClassWithJsonDeserializer(Question::class, QuestionJsonDeserializer::class),
             )
@@ -43,7 +47,7 @@ class JsonDeserializerFactoryTest {
     }
 
     @ParameterizedTest
-    @MethodSource("deserializersAvailables")
+    @MethodSource("deserializersAvailable")
     fun deserializerForSpecificClass_returnsCorrectDeserializerTest(classDeserializer: KClassWithJsonDeserializer) {
         val clazz = classDeserializer.clazz
         val expectedDeserializerClazz = classDeserializer.deserializerClazz

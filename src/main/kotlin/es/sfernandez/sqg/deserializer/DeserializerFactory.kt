@@ -1,5 +1,6 @@
 package es.sfernandez.sqg.deserializer
 
+import es.sfernandez.sqg.model.contents.GroupOfContents
 import es.sfernandez.sqg.model.contents.Image
 import es.sfernandez.sqg.model.contents.Sound
 import es.sfernandez.sqg.model.contents.Text
@@ -22,6 +23,8 @@ interface DeserializerFactory {
      * @throws DeserializationException if the factory doesn't define a Deserializer for the given class
      */
     fun <T : Any> deserializerFor(clazz : KClass<T>) : Deserializer<out Any> {
+        if(clazz == GroupOfContents::class)
+            return createGroupOfContentsDeserializer()
         if(clazz == Text::class)
             return createTextDeserializer()
         if(clazz == Sound::class)
@@ -45,6 +48,8 @@ interface DeserializerFactory {
 
         throw DeserializationException("Error. Given class ${clazz.simpleName} isn't deserializable.")
     }
+
+    fun createGroupOfContentsDeserializer(): Deserializer<GroupOfContents>
 
     fun createTextDeserializer(): Deserializer<Text>
 
