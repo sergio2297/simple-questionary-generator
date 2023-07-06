@@ -1,15 +1,13 @@
 package es.sfernandez.sqg.model.question.problems
 
-import es.sfernandez.sqg.model.contents.Image
-import es.sfernandez.sqg.model.contents.Sound
+import es.sfernandez.sqg.model.contents.*
 
-data class Problem(
-    var title : String = "",
-    var content : String = "",
-    val image : Image = Image(),
-    val sound : Sound = Sound(),
-) {
+class Problem
+private constructor(
+    override val groupOfContents: GroupOfContents
+) : HasContents {
 
-    //---- Methods ----
+    //---- Constructor ----
+    constructor() : this(GroupOfContents())
 
 }
