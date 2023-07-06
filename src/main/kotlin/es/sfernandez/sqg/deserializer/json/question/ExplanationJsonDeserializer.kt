@@ -2,13 +2,10 @@ package es.sfernandez.sqg.deserializer.json.question
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
-import es.sfernandez.sqg.deserializer.DeserializationException
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonKeys
 import es.sfernandez.sqg.deserializer.json.question.contents.GroupOfContentsJsonDeserializer
-import es.sfernandez.sqg.model.contents.HasContents
 import es.sfernandez.sqg.model.question.explanations.Explanation
 
 
@@ -31,24 +28,23 @@ class ExplanationJsonDeserializer : JsonDeserializer<Explanation> {
         return CustomDeserializer()
     }
 
-    private inner class CustomDeserializer : StdDeserializer<Explanation>(mappedClass) {
+    private inner class CustomDeserializer :
+        StdDeserializer<Explanation>(mappedClass),
+        NeedsToDeserializeContents {
+
+        override val deserializer: GroupOfContentsJsonDeserializer
+            get() = groupOfContentsDeserializer
+        override val contentsKey: String
+            get() = JsonKeys.Explanation.CONTENTS
+
         override fun deserialize(parser : JsonParser?, ctxt : DeserializationContext?) : Explanation {
             val node = extractJsonNode(parser)
 
             val explanation = Explanation()
 
-            deserializeContents(explanation, node)
+            deserializeContentsIn(node, explanation)
 
             return explanation
-        }
-
-        private fun deserializeContents(hasContents : HasContents, node: JsonNode) {
-            val jsonContents = node.get(JsonKeys.Explanation.CONTENTS) ?: return
-
-            if(!jsonContents.isArray) throw DeserializationException("Error. Contents must be defined in an array")
-
-            val deserializedContents = groupOfContentsDeserializer.deserialize(jsonContents.toString())
-            hasContents.groupOfContents.add(*deserializedContents.contents().toTypedArray())
         }
 
     }

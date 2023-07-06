@@ -1,34 +1,27 @@
 package es.sfernandez.sqg.deserializer.json.question
 
-import es.sfernandez.sqg.deserializer.DeserializationException
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
-import es.sfernandez.sqg.deserializer.json.JsonFixtures
 import es.sfernandez.sqg.deserializer.json.JsonKeys
 import es.sfernandez.sqg.deserializer.json.question.contents.GroupOfContentsJsonDeserializer
 import es.sfernandez.sqg.model.contents.GroupOfContents
-import es.sfernandez.sqg.model.contents.UnknownContent
+import es.sfernandez.sqg.model.contents.HasContents
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mockito
 
-class ExplanationJsonDeserializerTest {
+class ExplanationJsonDeserializerTest : NeedsToDeserializeContentsTest {
 
     //---- Attributes ----
-    private lateinit var deserializer : ExplanationJsonDeserializer
-
-    private lateinit var groupOfContentsDeserializer: GroupOfContentsJsonDeserializer
-
-    //---- Fixtures ----
-    private val contents = GroupOfContents()
+    override var deserializer: JsonDeserializer<out HasContents> = createNormalDeserializer()
+    override lateinit var groupOfContentsDeserializer: GroupOfContentsJsonDeserializer
+    override lateinit var contents: GroupOfContents
+    override val contentsKey: String
+        get() = JsonKeys.Explanation.CONTENTS
 
     //---- Configuration ----
     @BeforeEach
     fun setup() {
         deserializer = createNormalDeserializer()
-        contents.add(*generateSequence { UnknownContent() }.take(5).toList().toTypedArray())
     }
 
     //---- Methods ----
@@ -36,8 +29,7 @@ class ExplanationJsonDeserializerTest {
         return ExplanationJsonDeserializer()
     }
 
-    private fun createMockedDeserializer(): ExplanationJsonDeserializer {
-        groupOfContentsDeserializer = Mockito.mock(GroupOfContentsJsonDeserializer::class.java)
+    override fun createMockedDeserializer(groupOfContentsDeserializer: GroupOfContentsJsonDeserializer): JsonDeserializer<out HasContents> {
         return ExplanationJsonDeserializer(groupOfContentsDeserializer)
     }
 
@@ -47,38 +39,38 @@ class ExplanationJsonDeserializerTest {
         assertThat(ExplanationJsonDeserializer()).isInstanceOf(JsonDeserializer::class.java)
     }
 
-    @Test
-    fun deserialize_objectWithoutContents_returnsExplanationWithEmptyContentsTest() {
-        val json = JsonFixtures.EMPTY_JSON_OBJECT
-
-        val problem = deserializer.deserialize(json)
-
-        assertThat(problem.groupOfContents.size()).isZero()
-    }
-
-    @Test
-    fun deserialize_objectWithContentsAsArray_returnExplanationWithContentsTest() {
-        deserializer = createMockedDeserializer()
-        Mockito.`when`(groupOfContentsDeserializer.deserialize(anyString())).thenReturn(contents)
-        val json = """
-            {
-                "${JsonKeys.Explanation.CONTENTS}": []
-            }"""
-
-        val problem = deserializer.deserialize(json)
-
-        assertThat(problem.groupOfContents.contents())
-            .containsExactly(*contents.contents().toTypedArray())
-    }
-
-    @Test
-    fun deserialize_objectWithContentsInvalid_throwsExceptionTest() {
-        val json = """
-            {
-                "${JsonKeys.Explanation.CONTENTS}": {}
-            }"""
-
-        assertThrows<DeserializationException> { deserializer.deserialize(json) }
-    }
+//    @Test
+//    fun deserialize_objectWithoutContents_returnsExplanationWithEmptyContentsTest() {
+//        val json = JsonFixtures.EMPTY_JSON_OBJECT
+//
+//        val problem = deserializer.deserialize(json)
+//
+//        assertThat(problem.groupOfContents.size()).isZero()
+//    }
+//
+//    @Test
+//    fun deserialize_objectWithContentsAsArray_returnExplanationWithContentsTest() {
+//        deserializer = createMockedDeserializer()
+//        Mockito.`when`(groupOfContentsDeserializer.deserialize(anyString())).thenReturn(contents)
+//        val json = """
+//            {
+//                "${JsonKeys.Explanation.CONTENTS}": []
+//            }"""
+//
+//        val problem = deserializer.deserialize(json)
+//
+//        assertThat(problem.groupOfContents.contents())
+//            .containsExactly(*contents.contents().toTypedArray())
+//    }
+//
+//    @Test
+//    fun deserialize_objectWithContentsInvalid_throwsExceptionTest() {
+//        val json = """
+//            {
+//                "${JsonKeys.Explanation.CONTENTS}": {}
+//            }"""
+//
+//        assertThrows<DeserializationException> { deserializer.deserialize(json) }
+//    }
 
 }
