@@ -4,7 +4,6 @@ import es.sfernandez.sqg.deserializer.DeserializationException
 import es.sfernandez.sqg.deserializer.json.question.*
 import es.sfernandez.sqg.deserializer.json.question.contents.*
 import es.sfernandez.sqg.model.contents.*
-import es.sfernandez.sqg.model.question.answers.replies.Reply
 import es.sfernandez.sqg.model.question.explanations.Explanation
 import es.sfernandez.sqg.model.question.problems.Problem
 import org.assertj.core.api.Assertions.assertThat
@@ -40,7 +39,6 @@ class JsonDeserializerFactoryTest {
                 KClassWithJsonDeserializer(Problem::class, ProblemJsonDeserializer::class),
 //                KClassWithJsonDeserializer(Answer::class, AnswerJsonDeserializer::class),
 //                KClassWithJsonDeserializer(Choice::class, ChoiceJsonDeserializer::class),
-                KClassWithJsonDeserializer(Reply::class, ReplyJsonDeserializer::class),
                 KClassWithJsonDeserializer(Explanation::class, ExplanationJsonDeserializer::class),
 
 //                KClassWithJsonDeserializer(Question::class, QuestionJsonDeserializer::class),

@@ -4,7 +4,6 @@ import es.sfernandez.sqg.model.contents.*
 import es.sfernandez.sqg.model.question.Question
 import es.sfernandez.sqg.model.question.answers.Answer
 import es.sfernandez.sqg.model.question.answers.choices.Choice
-import es.sfernandez.sqg.model.question.answers.replies.Reply
 import es.sfernandez.sqg.model.question.explanations.Explanation
 import es.sfernandez.sqg.model.question.problems.Problem
 import kotlin.reflect.KClass
@@ -37,8 +36,6 @@ interface DeserializerFactory {
             return createAnswerDeserializer()
         if(clazz == Choice::class)
             return createChoiceDeserializer()
-        if(clazz == Reply::class)
-            return createReplyDeserializer()
         if(clazz == Explanation::class)
             return createExplanationDeserializer()
 
@@ -63,8 +60,6 @@ interface DeserializerFactory {
     fun createAnswerDeserializer(): Deserializer<Answer<*>>
 
     fun createChoiceDeserializer(): Deserializer<Choice>
-
-    fun createReplyDeserializer() : Deserializer<Reply<*>>
 
     fun createExplanationDeserializer(): Deserializer<Explanation>
 
