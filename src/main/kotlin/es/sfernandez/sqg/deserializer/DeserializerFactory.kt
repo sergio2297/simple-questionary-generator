@@ -1,9 +1,6 @@
 package es.sfernandez.sqg.deserializer
 
-import es.sfernandez.sqg.model.contents.GroupOfContents
-import es.sfernandez.sqg.model.contents.Image
-import es.sfernandez.sqg.model.contents.Sound
-import es.sfernandez.sqg.model.contents.Text
+import es.sfernandez.sqg.model.contents.*
 import es.sfernandez.sqg.model.question.Question
 import es.sfernandez.sqg.model.question.answers.Answer
 import es.sfernandez.sqg.model.question.answers.choices.Choice
@@ -31,6 +28,8 @@ interface DeserializerFactory {
             return createSoundDeserializer()
         if(clazz == Image::class)
             return createImageDeserializer()
+        if(clazz == Video::class)
+            return createVideoDeserializer()
 
         if(clazz == Problem::class)
             return createProblemDeserializer()
@@ -56,6 +55,8 @@ interface DeserializerFactory {
     fun createSoundDeserializer(): Deserializer<Sound>
 
     fun createImageDeserializer(): Deserializer<Image>
+
+    fun createVideoDeserializer(): Deserializer<Video>
 
     fun createProblemDeserializer() : Deserializer<Problem>
 

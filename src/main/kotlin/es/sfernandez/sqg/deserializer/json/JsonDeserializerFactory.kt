@@ -2,10 +2,7 @@ package es.sfernandez.sqg.deserializer.json
 
 import es.sfernandez.sqg.deserializer.Deserializer
 import es.sfernandez.sqg.deserializer.DeserializerFactory
-import es.sfernandez.sqg.model.contents.GroupOfContents
-import es.sfernandez.sqg.model.contents.Image
-import es.sfernandez.sqg.model.contents.Sound
-import es.sfernandez.sqg.model.contents.Text
+import es.sfernandez.sqg.model.contents.*
 import es.sfernandez.sqg.model.question.Question
 import es.sfernandez.sqg.model.question.answers.Answer
 import es.sfernandez.sqg.model.question.answers.choices.Choice
@@ -20,15 +17,19 @@ class JsonDeserializerFactory : DeserializerFactory {
     }
 
     override fun createTextDeserializer(): Deserializer<Text> {
-        TODO("Not yet implemented")
+        return TextJsonDeserializer()
     }
 
     override fun createSoundDeserializer(): Deserializer<Sound> {
-        TODO("Not yet implemented")
+        return SoundJsonDeserializer()
     }
 
     override fun createImageDeserializer(): Deserializer<Image> {
-        TODO("Not yet implemented")
+        return ImageJsonDeserializer()
+    }
+
+    override fun createVideoDeserializer(): Deserializer<Video> {
+        return VideoJsonDeserializer()
     }
 
     override fun createProblemDeserializer() : JsonDeserializer<Problem> {
