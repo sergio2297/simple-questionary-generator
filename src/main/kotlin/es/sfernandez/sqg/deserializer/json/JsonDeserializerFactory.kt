@@ -2,6 +2,7 @@ package es.sfernandez.sqg.deserializer.json
 
 import es.sfernandez.sqg.deserializer.Deserializer
 import es.sfernandez.sqg.deserializer.DeserializerFactory
+import es.sfernandez.sqg.model.contents.GroupOfContents
 import es.sfernandez.sqg.model.contents.Image
 import es.sfernandez.sqg.model.contents.Sound
 import es.sfernandez.sqg.model.contents.Text
@@ -11,9 +12,12 @@ import es.sfernandez.sqg.model.question.answers.choices.Choice
 import es.sfernandez.sqg.model.question.answers.replies.Reply
 import es.sfernandez.sqg.model.question.explanations.Explanation
 import es.sfernandez.sqg.model.question.problems.Problem
-import kotlin.reflect.KClass
 
 class JsonDeserializerFactory : DeserializerFactory {
+
+    override fun createGroupOfContentsDeserializer(): Deserializer<GroupOfContents> {
+        return GroupOfContentsJsonDeserializer()
+    }
 
     override fun createTextDeserializer(): Deserializer<Text> {
         TODO("Not yet implemented")
@@ -44,7 +48,7 @@ class JsonDeserializerFactory : DeserializerFactory {
     }
 
     override fun createExplanationDeserializer(): Deserializer<Explanation> {
-        TODO("Not yet implemented")
+        return ExplanationJsonDeserializer()
     }
 
     override fun createQuestionDeserializer(): Deserializer<Question> {

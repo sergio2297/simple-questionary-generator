@@ -13,4 +13,12 @@ object JsonKeys {
         const val MARKUP = "markup"
     }
 
+    object Problem {
+        const val CONTENTS = "contents"
+    }
+
+    object Explanation {
+        const val CONTENTS = "contents"
+    }
+
 }
