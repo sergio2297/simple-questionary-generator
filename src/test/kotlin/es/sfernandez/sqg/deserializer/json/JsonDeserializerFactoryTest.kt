@@ -1,6 +1,8 @@
 package es.sfernandez.sqg.deserializer.json
 
 import es.sfernandez.sqg.deserializer.DeserializationException
+import es.sfernandez.sqg.deserializer.json.question.*
+import es.sfernandez.sqg.deserializer.json.question.contents.*
 import es.sfernandez.sqg.model.contents.*
 import es.sfernandez.sqg.model.question.answers.replies.Reply
 import es.sfernandez.sqg.model.question.explanations.Explanation

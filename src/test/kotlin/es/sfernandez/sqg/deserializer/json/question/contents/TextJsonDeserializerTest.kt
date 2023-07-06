@@ -1,6 +1,9 @@
-package es.sfernandez.sqg.deserializer.json
+package es.sfernandez.sqg.deserializer.json.question.contents
 
 import es.sfernandez.sqg.BasicFixtures
+import es.sfernandez.sqg.deserializer.json.JsonDeserializer
+import es.sfernandez.sqg.deserializer.json.JsonFixtures
+import es.sfernandez.sqg.deserializer.json.JsonKeys
 import es.sfernandez.sqg.model.contents.Text
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

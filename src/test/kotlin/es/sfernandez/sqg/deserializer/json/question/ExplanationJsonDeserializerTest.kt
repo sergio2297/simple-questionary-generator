@@ -1,6 +1,10 @@
-package es.sfernandez.sqg.deserializer.json
+package es.sfernandez.sqg.deserializer.json.question
 
 import es.sfernandez.sqg.deserializer.DeserializationException
+import es.sfernandez.sqg.deserializer.json.JsonDeserializer
+import es.sfernandez.sqg.deserializer.json.JsonFixtures
+import es.sfernandez.sqg.deserializer.json.JsonKeys
+import es.sfernandez.sqg.deserializer.json.question.contents.GroupOfContentsJsonDeserializer
 import es.sfernandez.sqg.model.contents.GroupOfContents
 import es.sfernandez.sqg.model.contents.UnknownContent
 import org.assertj.core.api.Assertions.assertThat
@@ -10,10 +14,10 @@ import org.junit.jupiter.api.assertThrows
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
 
-class ProblemJsonDeserializerTest {
+class ExplanationJsonDeserializerTest {
 
     //---- Attributes ----
-    private lateinit var deserializer : ProblemJsonDeserializer
+    private lateinit var deserializer : ExplanationJsonDeserializer
 
     private lateinit var groupOfContentsDeserializer: GroupOfContentsJsonDeserializer
 
@@ -28,23 +32,23 @@ class ProblemJsonDeserializerTest {
     }
 
     //---- Methods ----
-    private fun createNormalDeserializer(): ProblemJsonDeserializer {
-        return ProblemJsonDeserializer()
+    private fun createNormalDeserializer(): ExplanationJsonDeserializer {
+        return ExplanationJsonDeserializer()
     }
 
-    private fun createMockedDeserializer(): ProblemJsonDeserializer {
+    private fun createMockedDeserializer(): ExplanationJsonDeserializer {
         groupOfContentsDeserializer = Mockito.mock(GroupOfContentsJsonDeserializer::class.java)
-        return ProblemJsonDeserializer(groupOfContentsDeserializer)
+        return ExplanationJsonDeserializer(groupOfContentsDeserializer)
     }
 
     //---- Tests ----
     @Test
     fun problemJsonDeserializer_isInstanceOf_JsonDeserializerTest() {
-        assertThat(ProblemJsonDeserializer()).isInstanceOf(JsonDeserializer::class.java)
+        assertThat(ExplanationJsonDeserializer()).isInstanceOf(JsonDeserializer::class.java)
     }
 
     @Test
-    fun deserialize_objectWithoutContents_returnsProblemWithEmptyContentsTest() {
+    fun deserialize_objectWithoutContents_returnsExplanationWithEmptyContentsTest() {
         val json = JsonFixtures.EMPTY_JSON_OBJECT
 
         val problem = deserializer.deserialize(json)
@@ -53,12 +57,12 @@ class ProblemJsonDeserializerTest {
     }
 
     @Test
-    fun deserialize_objectWithContentsAsArray_returnProblemWithContentsTest() {
+    fun deserialize_objectWithContentsAsArray_returnExplanationWithContentsTest() {
         deserializer = createMockedDeserializer()
         Mockito.`when`(groupOfContentsDeserializer.deserialize(anyString())).thenReturn(contents)
         val json = """
             {
-                "${JsonKeys.Problem.CONTENTS}": []
+                "${JsonKeys.Explanation.CONTENTS}": []
             }"""
 
         val problem = deserializer.deserialize(json)
@@ -71,7 +75,7 @@ class ProblemJsonDeserializerTest {
     fun deserialize_objectWithContentsInvalid_throwsExceptionTest() {
         val json = """
             {
-                "${JsonKeys.Problem.CONTENTS}": {}
+                "${JsonKeys.Explanation.CONTENTS}": {}
             }"""
 
         assertThrows<DeserializationException> { deserializer.deserialize(json) }

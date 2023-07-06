@@ -1,9 +1,11 @@
-package es.sfernandez.sqg.deserializer.json
+package es.sfernandez.sqg.deserializer.json.question.contents
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
+import es.sfernandez.sqg.deserializer.json.JsonDeserializer
+import es.sfernandez.sqg.deserializer.json.JsonKeys
 import es.sfernandez.sqg.model.contents.Text
 
 class TextJsonDeserializer : JsonDeserializer<Text>(Text::class.java) {

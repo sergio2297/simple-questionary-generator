@@ -1,8 +1,9 @@
-package es.sfernandez.sqg.deserializer.json
+package es.sfernandez.sqg.deserializer.json.question.contents
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
+import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.model.contents.Sound
 
 class SoundJsonDeserializer : JsonDeserializer<Sound>(Sound::class.java) {

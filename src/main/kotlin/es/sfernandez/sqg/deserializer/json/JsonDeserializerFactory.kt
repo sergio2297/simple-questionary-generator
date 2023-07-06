@@ -2,6 +2,8 @@ package es.sfernandez.sqg.deserializer.json
 
 import es.sfernandez.sqg.deserializer.Deserializer
 import es.sfernandez.sqg.deserializer.DeserializerFactory
+import es.sfernandez.sqg.deserializer.json.question.*
+import es.sfernandez.sqg.deserializer.json.question.contents.*
 import es.sfernandez.sqg.model.contents.*
 import es.sfernandez.sqg.model.question.Question
 import es.sfernandez.sqg.model.question.answers.Answer

@@ -1,11 +1,11 @@
-package es.sfernandez.sqg.deserializer.json
+package es.sfernandez.sqg.deserializer.json.question
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
+import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.model.question.answers.replies.Reply
 import es.sfernandez.sqg.model.question.answers.replies.TextReply
-import es.sfernandez.sqg.model.question.problems.Problem
 
 class ReplyJsonDeserializer() : JsonDeserializer<Reply<*>>(Reply::class.java) {
     override fun createDeserializer(): StdDeserializer<Reply<*>> {

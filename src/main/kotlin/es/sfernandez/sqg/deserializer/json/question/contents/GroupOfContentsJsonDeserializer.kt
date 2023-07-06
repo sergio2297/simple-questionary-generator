@@ -1,4 +1,4 @@
-package es.sfernandez.sqg.deserializer.json
+package es.sfernandez.sqg.deserializer.json.question.contents
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.fasterxml.jackson.databind.node.ArrayNode
 import es.sfernandez.sqg.deserializer.DeserializationException
+import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.model.contents.Content
 import es.sfernandez.sqg.model.contents.GroupOfContents
 import es.sfernandez.sqg.model.contents.ContentType
@@ -27,9 +28,10 @@ class GroupOfContentsJsonDeserializer : JsonDeserializer<GroupOfContents> {
     }
 
     internal constructor(textDeserializer: TextJsonDeserializer,
-            soundDeserializer: SoundJsonDeserializer,
-            videoDeserializer: VideoJsonDeserializer,
-            imageDeserializer: ImageJsonDeserializer) : super(GroupOfContents::class.java) {
+                         soundDeserializer: SoundJsonDeserializer,
+                         videoDeserializer: VideoJsonDeserializer,
+                         imageDeserializer: ImageJsonDeserializer
+    ) : super(GroupOfContents::class.java) {
         this.textDeserializer = textDeserializer
         this.soundDeserializer = soundDeserializer
         this.videoDeserializer = videoDeserializer

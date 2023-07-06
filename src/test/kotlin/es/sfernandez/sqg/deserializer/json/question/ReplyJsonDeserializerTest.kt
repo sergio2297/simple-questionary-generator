@@ -1,7 +1,7 @@
-package es.sfernandez.sqg.deserializer.json
+package es.sfernandez.sqg.deserializer.json.question
 
+import es.sfernandez.sqg.deserializer.json.question.ReplyJsonDeserializer
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class ReplyJsonDeserializerTest {
