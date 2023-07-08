@@ -1,0 +1,47 @@
+@startuml
+
+hide empty members
+
++class Question {
+    - title : String
+}
+
++class Problem {
+}
+
++abstract Answer {
+}
+
++abstract SelectionAnswer {
+}
+
++class SingleSelectionAnswer {
+}
+
++class MultipleSelectionAnswer {
+}
+
++class TextAnswer {
+}
+
++class Explanation {
+}
+
++enum AnswerTypes {
+    SINGLE_SELECTION,
+    MULTIPLE_SELECTION,
+    TEXT_INPUT
+}
+
+Question o-- Problem
+Question o-- Answer
+Question o-- Explanation
+
+Answer o-- AnswerTypes
+Answer <|-- SelectionAnswer
+Answer <|-- TextAnswer
+
+SelectionAnswer <|-- SingleSelectionAnswer
+SelectionAnswer <|-- MultipleSelectionAnswer
+
+@enduml

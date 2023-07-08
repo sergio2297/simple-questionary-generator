@@ -17,6 +17,11 @@ object JsonKeys {
         const val CONTENTS = "contents"
     }
 
+    object Choice {
+        const val ID = "id"
+        const val CONTENT = "content"
+    }
+
     object Explanation {
         const val CONTENTS = "contents"
     }
