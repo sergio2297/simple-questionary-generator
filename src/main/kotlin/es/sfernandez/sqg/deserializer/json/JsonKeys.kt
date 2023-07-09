@@ -13,6 +13,11 @@ object JsonKeys {
         const val MARKUP = "markup"
     }
 
+    object Image {
+        const val PATH = "path"
+        const val CLICK_TO_SEE = "clickToSee"
+    }
+
     object Problem {
         const val CONTENTS = "contents"
     }
