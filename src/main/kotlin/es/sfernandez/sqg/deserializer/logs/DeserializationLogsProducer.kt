@@ -69,6 +69,17 @@ class DeserializationLogsProducer {
     }
 
     /**
+     * Creates and stores an undefined enum constant message with warning level
+     *
+     * @param key Name of the property
+     * @param replacement Replacement used instead of undefined enum constant value.
+     */
+    fun <T : Enum<T>> warningUndefinedEnumConstant(key: String, replacement: T) {
+        warning("Undefined enum constant used for property \"$key\". " +
+                "Default value \"${replacement.name}\" assigned.")
+    }
+
+    /**
      * Creates and stores an error message
      *
      * @param msg Log's message
@@ -95,4 +106,12 @@ class DeserializationLogsProducer {
         error("Incorrect type used for property \"$key\".")
     }
 
+    /**
+     * Creates and stores an undefined enum constant message with error level
+     *
+     * @param key Name of the property
+     */
+    fun errorUndefinedEnumConstant(key: String) {
+        error("Undefined enum constant used for property \"$key\".")
+    }
 }

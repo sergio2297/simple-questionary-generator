@@ -144,6 +144,26 @@ class DeserializationLogsProducerTest {
     }
 
     @Test
+    fun warningUndefinedEnumConstant_storesDeserializationLog_createdFormFactoryTest() {
+        val log = mockDeserializationLog()
+        Mockito.`when`(factory.warning(anyString())).thenReturn(log)
+
+        producer.warningUndefinedEnumConstant(someProperty, BasicFixtures.FooEnum.FOO_1)
+
+        assertThat(producer.logs()).contains(log)
+    }
+
+    @Test
+    fun warningUndefinedEnumConstant_requestFromFactory_warningLogTest() {
+        val replacement = BasicFixtures.FooEnum.FOO_1
+        producer.warningUndefinedEnumConstant(someProperty, replacement)
+
+        val msg = "Undefined enum constant used for property \"$someProperty\". " +
+                "Default value \"${replacement.name}\" assigned."
+        Mockito.verify(factory).warning(msg)
+    }
+
+    @Test
     fun error_storesDeserializationLog_createdFormFactoryTest() {
         val log = mockDeserializationLog()
         Mockito.`when`(factory.error(anyString())).thenReturn(log)
@@ -193,6 +213,24 @@ class DeserializationLogsProducerTest {
         producer.errorIncorrectType(someProperty)
 
         val msg = "Incorrect type used for property \"$someProperty\"."
+        Mockito.verify(factory).error(msg)
+    }
+
+    @Test
+    fun errorUndefinedEnumConstant_storesDeserializationLog_createdFormFactoryTest() {
+        val log = mockDeserializationLog()
+        Mockito.`when`(factory.error(anyString())).thenReturn(log)
+
+        producer.errorUndefinedEnumConstant(someProperty)
+
+        assertThat(producer.logs()).contains(log)
+    }
+
+    @Test
+    fun errorUndefinedEnumConstant_requestFromFactory_errorLogTest() {
+        producer.errorUndefinedEnumConstant(someProperty)
+
+        val msg = "Undefined enum constant used for property \"$someProperty\"."
         Mockito.verify(factory).error(msg)
     }
 

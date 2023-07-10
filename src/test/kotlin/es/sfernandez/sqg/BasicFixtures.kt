@@ -17,4 +17,8 @@ object BasicFixtures {
     /** A String containing some arbitrary text 4 */
     const val SOME_TEXT_4 = "Some text 4"
 
+    enum class FooEnum {
+        FOO_1, FOO_2, FOO_3, FOO_4,
+    }
+
 }
