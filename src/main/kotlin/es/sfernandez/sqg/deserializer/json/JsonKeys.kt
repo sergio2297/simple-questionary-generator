@@ -13,6 +13,11 @@ object JsonKeys {
         const val MARKUP = "markup"
     }
 
+    object Sound {
+        const val PATH = "path"
+        const val AUTOPLAY = "autoplay"
+    }
+
     object Image {
         const val PATH = "path"
         const val CLICK_TO_SEE = "clickToSee"
