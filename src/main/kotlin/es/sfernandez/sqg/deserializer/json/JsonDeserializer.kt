@@ -104,4 +104,33 @@ abstract class JsonDeserializer<T> : Deserializer<T>, ProducesDeserializationLog
         return jsonProperty.asBoolean()
     }
 
+    /**
+     * Extracts the enum value of field "key" from the "node". If missing, returns defaultValue
+     *
+     * @param node JsonNode where to extract the value from
+     * @param key Field name to extract
+     * @param defaultValue Default enum value if missing property
+     * @return the extracted enum value
+     */
+    protected inline fun <reified T : Enum<T>> extractEnum(node: JsonNode, key: String, defaultValue: T) : T {
+        val jsonProperty = node[key]
+
+        if(jsonProperty == null) {
+            log.warningMissingProperty(key, defaultValue.name)
+            return defaultValue
+        }
+
+        if(!jsonProperty.isTextual) {
+            log.warningIncorrectType(key, defaultValue.name)
+            return defaultValue
+        }
+
+        return try {
+            enumValueOf<T>(jsonProperty.asText())
+        } catch (ex: IllegalArgumentException) {
+            log.warningUndefinedEnumConstant(key, defaultValue)
+            defaultValue
+        }
+    }
+
 }

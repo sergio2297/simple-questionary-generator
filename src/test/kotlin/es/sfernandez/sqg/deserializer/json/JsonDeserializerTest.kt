@@ -4,9 +4,11 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
+import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Basic
 import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.deserializer.logs.DeserializationLog
 import es.sfernandez.sqg.deserializer.logs.DeserializationLogFactory
+import es.sfernandez.sqg.model.contents.Text
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.anyString
@@ -43,6 +45,10 @@ class JsonDeserializerTest {
             return super.extractBool(node, key, defaultValue)
         }
 
+        inline fun <reified T : Enum<T>> doExtractEnumFromSuper(node: JsonNode, key: String, defaultValue: T) : T {
+            return super.extractEnum(node, key, defaultValue)
+        }
+
     }
 
     //---- Attributes ----
@@ -51,6 +57,7 @@ class JsonDeserializerTest {
 
     //---- Fixtures ----
     private val someKey = BasicFixtures.SOME_TEXT_1
+    private val defaultEnumValue = BasicFixtures.FooEnum.FOO_4
 
     //---- Configuration ----
     @BeforeTest
@@ -251,4 +258,78 @@ class JsonDeserializerTest {
 
         assertThat(deserializer.logs).contains(expectedLog)
     }
+
+
+
+
+    @Test
+    fun extractEnum_fromTextualNode_returnsCorrectEnumValueTest() {
+        val expectedValue = BasicFixtures.FooEnum.FOO_1
+        val jsonNode = mockJsonNodeWithKey(someKey, mockTextJsonNode(expectedValue.name))
+
+        val returnedValue = deserializer.doExtractEnumFromSuper(jsonNode, someKey, defaultEnumValue)
+
+        assertThat(returnedValue).isEqualTo(expectedValue)
+    }
+
+    @Test
+    fun extractEnum_fromNode_withoutSearchedKey_returnsDefaultValueTest() {
+        val defaultValue = BasicFixtures.FooEnum.FOO_1
+        val jsonNode = mockJsonNodeWithoutKey(someKey)
+
+        val returnedValue = deserializer.doExtractEnumFromSuper(jsonNode, someKey, defaultValue)
+
+        assertThat(returnedValue).isEqualTo(defaultValue)
+    }
+
+    @Test
+    fun extractEnum_fromNode_withoutSearchedKey_addsWarningLogTest() {
+        val jsonNode = mockJsonNodeWithoutKey(someKey)
+        val expectedLog = mockLogFactoryWarningMethod()
+
+        deserializer.doExtractEnumFromSuper(jsonNode, someKey, defaultEnumValue)
+
+        assertThat(deserializer.logs).contains(expectedLog)
+    }
+
+    @Test
+    fun extractEnum_fromNotTextualNode_returnsDefaultEnumValueTest() {
+        val defaultValue = BasicFixtures.FooEnum.FOO_1
+        val jsonNode = mockJsonNodeWithKey(someKey, mockNotTextJsonNode())
+
+        val returnedValue = deserializer.doExtractEnumFromSuper(jsonNode, someKey, defaultValue)
+
+        assertThat(returnedValue).isEqualTo(defaultValue)
+    }
+
+    @Test
+    fun extractEnum_fromNotTextualNode_addsWarningLogTest() {
+        val jsonNode = mockJsonNodeWithKey(someKey, mockNotTextJsonNode())
+        val expectedLog = mockLogFactoryWarningMethod()
+
+        deserializer.doExtractEnumFromSuper(jsonNode, someKey, defaultEnumValue)
+
+        assertThat(deserializer.logs).contains(expectedLog)
+    }
+
+    @Test
+    fun extractEnum_fromTextualNode_withUndefinedEnumConstant_returnsDefaultEnumValueTest() {
+        val defaultValue = BasicFixtures.FooEnum.FOO_1
+        val jsonNode = mockJsonNodeWithKey(someKey, mockTextJsonNode(BasicFixtures.SOME_TEXT_1))
+
+        val returnedValue = deserializer.doExtractEnumFromSuper(jsonNode, someKey, defaultValue)
+
+        assertThat(returnedValue).isEqualTo(defaultValue)
+    }
+
+    @Test
+    fun extractEnum_fromTextualNode_withUndefinedEnumConstant_addsWarningLogTest() {
+        val jsonNode = mockJsonNodeWithKey(someKey, mockTextJsonNode(BasicFixtures.SOME_TEXT_1))
+        val expectedLog = mockLogFactoryWarningMethod()
+
+        deserializer.doExtractEnumFromSuper(jsonNode, someKey, defaultEnumValue)
+
+        assertThat(deserializer.logs).contains(expectedLog)
+    }
+
 }
