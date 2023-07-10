@@ -10,9 +10,9 @@ interface Deserializer<T> {
     /**
      * Deserialize the given text to an object of type T
      *
-     * @param text Text to deserialize (it may representa XML, JSON, UUID...)
+     * @param text Text to deserialize (it may represents XML, JSON, UUID...)
      * @return the result of deserialize the given text
      */
-    fun deserialize(text : String) : T
+    fun deserialize(text: String) : T
 
 }
