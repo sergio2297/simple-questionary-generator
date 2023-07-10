@@ -15,6 +15,14 @@ class ImageJsonDeserializerTest {
     //---- Attributes ----
     private val deserializer = ImageJsonDeserializer()
 
+    //---- Methods ----
+    private fun checkDeserializerLogsContainsWarningWithKey(key: String) {
+        assertThat(deserializer.logs.asSequence()
+            .any { log -> log.level == DeserializationLog.Level.WARNING
+                    && log.msg.contains(key)})
+            .isTrue()
+    }
+
     //---- Tests ----
     @Test
     fun imageJsonDeserializer_isInstanceOf_JsonDeserializerTest() {
@@ -61,13 +69,6 @@ class ImageJsonDeserializerTest {
         val image = deserializer.deserialize(json)
 
         assertThat(image.clickToSee).isEqualTo(clickToSee)
-    }
-
-    private fun checkDeserializerLogsContainsWarningWithKey(key: String) {
-        assertThat(deserializer.logs.asSequence()
-            .any { log -> log.level == DeserializationLog.Level.WARNING
-                    && log.msg.contains(key)})
-            .isTrue()
     }
 
     @Test
