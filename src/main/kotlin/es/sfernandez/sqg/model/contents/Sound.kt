@@ -8,6 +8,6 @@ private constructor(
 ) : IsResource, Content {
 
     //---- Constructor ----
-    constructor() : this(ContentType.SOUND,"", true)
+    constructor(path: String = "", autoplay: Boolean = true) : this(ContentType.SOUND,path, autoplay)
 
 }
