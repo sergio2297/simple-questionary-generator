@@ -2,7 +2,6 @@ package es.sfernandez.sqg.deserializer.json.question.contents
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonKeys
@@ -19,20 +18,10 @@ class TextJsonDeserializer : JsonDeserializer<Text>(Text::class.java) {
         override fun deserialize(parser: JsonParser?, ctxt: DeserializationContext?): Text {
             val node = extractJsonNode(parser)
 
-            val text = Text()
-            text.value = extractValue(node)
-            text.markup = extractMarkup(node)
-            return text
-        }
+            val value = extractText(node, JsonKeys.Text.VALUE)
+            val markup = extractEnum(node, JsonKeys.Text.MARKUP, Text.Markup.SIMPLE)
 
-        private fun extractValue(node: JsonNode) : String {
-            val valueNode = node[JsonKeys.Text.VALUE]
-            return if(valueNode == null) "" else valueNode.asText()
-        }
-
-        private fun extractMarkup(node: JsonNode): Text.Markup {
-            val markupNode = node[JsonKeys.Text.MARKUP]
-            return if(markupNode == null) Text.Markup.SIMPLE else Text.Markup.valueOf(markupNode.asText())
+            return Text(value, markup)
         }
 
     }
