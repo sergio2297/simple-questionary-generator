@@ -13,10 +13,6 @@ private constructor(
     }
 
     //---- Constructor ----
-    constructor() : this("")
-
-    constructor(value: String) : this(value, Markup.SIMPLE)
-
-    constructor(value: String, markup : Markup) : this(ContentType.TEXT, value, markup)
+    constructor(value: String = "", markup : Markup = Markup.SIMPLE) : this(ContentType.TEXT, value, markup)
 
 }

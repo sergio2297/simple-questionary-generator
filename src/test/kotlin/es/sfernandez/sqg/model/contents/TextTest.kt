@@ -52,7 +52,7 @@ class TextTest {
     @ParameterizedTest
     @EnumSource(Text.Markup::class)
     fun constructText_withMarkup_worksTest(markup: Text.Markup) {
-        text = Text(BasicFixtures.SOME_TEXT_1, markup)
+        text = Text(markup = markup)
 
         assertThat(text.markup).isEqualTo(markup)
     }
