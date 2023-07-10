@@ -7,12 +7,17 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.fasterxml.jackson.databind.module.SimpleModule
 import es.sfernandez.sqg.deserializer.DeserializationException
 import es.sfernandez.sqg.deserializer.Deserializer
+import es.sfernandez.sqg.deserializer.logs.*
 
-abstract class JsonDeserializer<T> : Deserializer<T> {
+abstract class JsonDeserializer<T> : Deserializer<T>, ProducesDeserializationLogs {
 
     //---- Attributes ----
-    protected val mappedClass : Class<T>
-    private val mapper : ObjectMapper
+    protected val mappedClass: Class<T>
+    private val mapper: ObjectMapper
+
+    protected val log = DeserializationLogsProducer()
+    final override val logs: Array<DeserializationLog>
+        get() = log.logs()
 
     //---- Constructor ----
     protected constructor(mappedClass : Class<T>) {
@@ -31,7 +36,12 @@ abstract class JsonDeserializer<T> : Deserializer<T> {
 
     //---- Methods ----
     final override fun deserialize(text : String) : T {
+        log.logFactory = createLogFactory(text)
         return mapper.readValue(text, mappedClass)
+    }
+
+    private fun createLogFactory(text: String): DeserializationLogFactory {
+        return DeserializationLogFactory(DeserializationContext(text, javaClass))
     }
 
     /**
@@ -44,6 +54,54 @@ abstract class JsonDeserializer<T> : Deserializer<T> {
     protected fun extractJsonNode(parser: JsonParser?) : JsonNode {
         if(parser == null) throw DeserializationException("Error. Can not deserialize $mappedClass because JsonParser is null")
         return parser.codec.readTree(parser)
+    }
+
+    /**
+     * Extracts the string value of field "key" from the "node". If missing, returns defaultValue
+     *
+     * @param node JsonNode where to extract the value from
+     * @param key Field name to extract
+     * @param defaultValue Default string value if missing property
+     * @return the extracted string value
+     */
+    protected fun extractText(node: JsonNode, key: String, defaultValue: String = "") : String {
+        val jsonProperty = node[key]
+
+        if(jsonProperty == null) {
+            log.warningMissingProperty(key, defaultValue)
+            return defaultValue
+        }
+
+        if(!jsonProperty.isTextual) {
+            log.warningIncorrectType(key, defaultValue)
+            return defaultValue
+        }
+
+        return jsonProperty.asText()
+    }
+
+    /**
+     * Extracts the boolean value of field "key" from the "node". If missing, returns defaultValue
+     *
+     * @param node JsonNode where to extract the value from
+     * @param key Field name to extract
+     * @param defaultValue Default boolean value if missing property
+     * @return the extracted boolean value
+     */
+    protected fun extractBool(node: JsonNode, key: String, defaultValue: Boolean = false) : Boolean {
+        val jsonProperty = node[key]
+
+        if(jsonProperty == null) {
+            log.warningMissingProperty(key, defaultValue.toString())
+            return defaultValue
+        }
+
+        if(!jsonProperty.isBoolean) {
+            log.warningIncorrectType(key, defaultValue.toString())
+            return defaultValue
+        }
+
+        return jsonProperty.asBoolean()
     }
 
 }
