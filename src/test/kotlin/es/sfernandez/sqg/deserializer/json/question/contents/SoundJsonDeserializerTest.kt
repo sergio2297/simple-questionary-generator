@@ -69,7 +69,7 @@ class SoundJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Sound.PATH)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Sound.PATH)
     }
 
     @Test
@@ -80,7 +80,7 @@ class SoundJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Sound.PATH)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Sound.PATH)
     }
 
     @Test
@@ -89,7 +89,7 @@ class SoundJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Sound.AUTOPLAY)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Sound.AUTOPLAY)
     }
 
     @Test
@@ -100,6 +100,6 @@ class SoundJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Sound.AUTOPLAY)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Sound.AUTOPLAY)
     }
 }

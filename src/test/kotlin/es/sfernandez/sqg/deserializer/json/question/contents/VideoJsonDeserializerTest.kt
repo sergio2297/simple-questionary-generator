@@ -69,7 +69,7 @@ class VideoJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Video.PATH)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Video.PATH)
     }
 
     @Test
@@ -80,7 +80,7 @@ class VideoJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Video.PATH)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Video.PATH)
     }
 
     @Test
@@ -89,7 +89,7 @@ class VideoJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Video.AUTOPLAY)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Video.AUTOPLAY)
     }
 
     @Test
@@ -100,7 +100,7 @@ class VideoJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Video.AUTOPLAY)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Video.AUTOPLAY)
     }
     
 }

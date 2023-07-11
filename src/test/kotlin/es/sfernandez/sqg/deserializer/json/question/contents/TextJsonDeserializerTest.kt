@@ -70,7 +70,7 @@ class TextJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Text.VALUE)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Text.VALUE)
     }
 
     @Test
@@ -81,7 +81,7 @@ class TextJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Text.VALUE)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Text.VALUE)
     }
 
     @Test
@@ -90,7 +90,7 @@ class TextJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Text.MARKUP)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Text.MARKUP)
     }
 
     @Test
@@ -101,7 +101,7 @@ class TextJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Text.MARKUP)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Text.MARKUP)
     }
 
     @Test
@@ -113,7 +113,7 @@ class TextJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Text.MARKUP)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Text.MARKUP)
     }
     
 }

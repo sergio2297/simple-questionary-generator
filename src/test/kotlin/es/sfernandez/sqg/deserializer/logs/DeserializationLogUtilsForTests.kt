@@ -5,19 +5,20 @@ import org.assertj.core.api.Assertions
 
 object DeserializationLogUtilsForTests {
 
-    fun checkDeserializerLogsContainsWarningWithKey(deserializer: JsonDeserializer<*>, key: String) {
-        checkDeserializerLogsContainLevelWithKey(deserializer, DeserializationLog.Level.WARNING, key)
+    fun checkDeserializerLogsContainsWarningWithWord(deserializer: JsonDeserializer<*>, word: String) {
+        checkDeserializerLogsContainLevelWithWord(deserializer, DeserializationLog.Level.WARNING, word)
     }
 
-    fun checkDeserializerLogsContainsErrorWithKey(deserializer: JsonDeserializer<*>, key: String) {
-        checkDeserializerLogsContainLevelWithKey(deserializer, DeserializationLog.Level.ERROR, key)
+    fun checkDeserializerLogsContainsErrorWithWord(deserializer: JsonDeserializer<*>, word: String) {
+        checkDeserializerLogsContainLevelWithWord(deserializer, DeserializationLog.Level.ERROR, word)
     }
 
-    private fun checkDeserializerLogsContainLevelWithKey(deserializer: JsonDeserializer<*>,
-                                                         level: DeserializationLog.Level, key: String) {
-        Assertions.assertThat(deserializer.logs.asSequence()
+    private fun checkDeserializerLogsContainLevelWithWord(
+        deserializer: JsonDeserializer<*>,
+        level: DeserializationLog.Level, word: String) {
+        Assertions.assertThat(deserializer.logs().asSequence()
             .any { log ->
-                log.level == level && log.msg.contains(key)
+                log.level == level && log.msg.contains(word)
             })
             .isTrue()
     }

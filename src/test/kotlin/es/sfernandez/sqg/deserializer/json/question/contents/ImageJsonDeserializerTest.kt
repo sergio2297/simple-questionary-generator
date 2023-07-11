@@ -69,7 +69,7 @@ class ImageJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Image.PATH)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Image.PATH)
     }
 
     @Test
@@ -80,7 +80,7 @@ class ImageJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Image.PATH)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Image.PATH)
     }
 
     @Test
@@ -89,7 +89,7 @@ class ImageJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Image.CLICK_TO_SEE)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Image.CLICK_TO_SEE)
     }
 
     @Test
@@ -100,7 +100,7 @@ class ImageJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Image.CLICK_TO_SEE)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Image.CLICK_TO_SEE)
     }
 
 }
