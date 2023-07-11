@@ -16,8 +16,6 @@ abstract class JsonDeserializer<T> : Deserializer<T>, ProducesDeserializationLog
     private val mapper: ObjectMapper
 
     protected val log = DeserializationLogsProducer()
-    final override val logs: Array<DeserializationLog>
-        get() = log.logs()
 
     //---- Constructor ----
     protected constructor(mappedClass : Class<T>) {
@@ -42,6 +40,10 @@ abstract class JsonDeserializer<T> : Deserializer<T>, ProducesDeserializationLog
 
     private fun createLogFactory(text: String): DeserializationLogFactory {
         return DeserializationLogFactory(DeserializationContext(text, javaClass))
+    }
+
+    override fun logs(): Array<DeserializationLog> {
+        return log.logs()
     }
 
     /**
@@ -131,6 +133,33 @@ abstract class JsonDeserializer<T> : Deserializer<T>, ProducesDeserializationLog
             log.warningUndefinedEnumConstant(key, defaultValue)
             defaultValue
         }
+    }
+
+//    protected inline fun <reified T> extractArrayOfObjects(node: JsonNode, key: String, deserializer: JsonDeserializer<T>) : Array<T> {
+//        val jsonProperty = node[key]
+//        val defaultValue = emptyArray<T>()
+//
+//        if(jsonProperty == null) {
+//            log.warningMissingProperty(key, defaultValue.toString())
+//            return defaultValue
+//        }
+//
+//        if(!jsonProperty.isArray) {
+//            log.warningIncorrectType(key, defaultValue.toString())
+//            return defaultValue
+//        }
+//
+//        TODO()
+//        return defaultValue
+//    }
+
+    /**
+     * Dump logs from the JsonDeserializer received
+     *
+     * @param deserializer JsonDeserializer to dump
+     */
+    protected fun dumpLogsFrom(deserializer: JsonDeserializer<*>) {
+        log.dump(deserializer)
     }
 
 }

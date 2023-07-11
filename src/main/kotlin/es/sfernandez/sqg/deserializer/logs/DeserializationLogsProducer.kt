@@ -6,7 +6,7 @@ package es.sfernandez.sqg.deserializer.logs
  * It uses a [DeserializationLogFactory] to produce logs
  *
  */
-class DeserializationLogsProducer {
+class DeserializationLogsProducer : ProducesDeserializationLogs {
 
     //---- Attributes ----
     lateinit var logFactory: DeserializationLogFactory
@@ -17,8 +17,17 @@ class DeserializationLogsProducer {
     /**
      * @return an Array with all [DeserializationLog] generated
      */
-    fun logs() : Array<DeserializationLog> {
+    override fun logs() : Array<DeserializationLog> {
         return logs.toTypedArray()
+    }
+
+    /**
+     * Dump all logs created from the producer received in its own log's collection
+     *
+     * @param producer ProducesDeserializationLogs to dump
+     */
+    fun dump(producer: ProducesDeserializationLogs) {
+        logs.addAll(producer.logs())
     }
 
     /**

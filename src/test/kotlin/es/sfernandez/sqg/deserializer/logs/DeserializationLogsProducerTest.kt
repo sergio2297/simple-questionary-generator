@@ -54,6 +54,17 @@ class DeserializationLogsProducerTest {
     }
 
     @Test
+    fun afterDump_producerContainsAllLogsTest() {
+        val someLogs = arrayOf(mockDeserializationLog(), mockDeserializationLog())
+        val anotherProducer = Mockito.mock(ProducesDeserializationLogs::class.java)
+        Mockito.`when`(anotherProducer.logs()).thenReturn(someLogs)
+
+        producer.dump(anotherProducer)
+
+        assertThat(producer.logs()).contains(*someLogs)
+    }
+
+    @Test
     fun debug_storesDeserializationLog_createdFormFactoryTest() {
         val log = mockDeserializationLog()
         Mockito.`when`(factory.debug(anyString())).thenReturn(log)

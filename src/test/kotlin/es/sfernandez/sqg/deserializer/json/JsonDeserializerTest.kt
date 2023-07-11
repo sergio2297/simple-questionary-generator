@@ -49,6 +49,10 @@ class JsonDeserializerTest {
             return super.extractEnum(node, key, defaultValue)
         }
 
+        fun doDumpLogsFrom(deserializer: JsonDeserializer<*>) {
+            super.dumpLogsFrom(deserializer)
+        }
+
     }
 
     //---- Attributes ----
@@ -115,8 +119,12 @@ class JsonDeserializerTest {
         return Mockito.mock(DeserializationLogFactory::class.java)
     }
 
+    private fun mockLog() : DeserializationLog {
+        return Mockito.mock(DeserializationLog::class.java)
+    }
+
     private fun mockLogFactoryWarningMethod() : DeserializationLog {
-        val log = Mockito.mock(DeserializationLog::class.java)
+        val log = mockLog()
         Mockito.`when`(logFactory.warning(anyString())).thenReturn(log)
         return log
     }
@@ -137,8 +145,8 @@ class JsonDeserializerTest {
         deserializer.deserialize(context1)
         deserializer.deserialize(context2)
 
-        assertThat(deserializer.logs[0].context.input).isEqualTo(context1)
-        assertThat(deserializer.logs[1].context.input).isEqualTo(context2)
+        assertThat(deserializer.logs()[0].context.input).isEqualTo(context1)
+        assertThat(deserializer.logs()[1].context.input).isEqualTo(context2)
     }
 
     @Test
@@ -177,7 +185,7 @@ class JsonDeserializerTest {
 
         deserializer.doExtractBoolFromSuper(jsonNode, someKey)
 
-        assertThat(deserializer.logs).contains(expectedLog)
+        assertThat(deserializer.logs()).contains(expectedLog)
     }
 
     @Test
@@ -197,7 +205,7 @@ class JsonDeserializerTest {
 
         deserializer.doExtractBoolFromSuper(jsonNode, someKey)
 
-        assertThat(deserializer.logs).contains(expectedLog)
+        assertThat(deserializer.logs()).contains(expectedLog)
     }
 
     @Test
@@ -236,7 +244,7 @@ class JsonDeserializerTest {
 
         deserializer.doExtractTextFromSuper(jsonNode, someKey)
 
-        assertThat(deserializer.logs).contains(expectedLog)
+        assertThat(deserializer.logs()).contains(expectedLog)
     }
 
     @Test
@@ -256,7 +264,7 @@ class JsonDeserializerTest {
 
         deserializer.doExtractTextFromSuper(jsonNode, someKey)
 
-        assertThat(deserializer.logs).contains(expectedLog)
+        assertThat(deserializer.logs()).contains(expectedLog)
     }
 
 
@@ -289,7 +297,7 @@ class JsonDeserializerTest {
 
         deserializer.doExtractEnumFromSuper(jsonNode, someKey, defaultEnumValue)
 
-        assertThat(deserializer.logs).contains(expectedLog)
+        assertThat(deserializer.logs()).contains(expectedLog)
     }
 
     @Test
@@ -309,7 +317,7 @@ class JsonDeserializerTest {
 
         deserializer.doExtractEnumFromSuper(jsonNode, someKey, defaultEnumValue)
 
-        assertThat(deserializer.logs).contains(expectedLog)
+        assertThat(deserializer.logs()).contains(expectedLog)
     }
 
     @Test
@@ -329,7 +337,18 @@ class JsonDeserializerTest {
 
         deserializer.doExtractEnumFromSuper(jsonNode, someKey, defaultEnumValue)
 
-        assertThat(deserializer.logs).contains(expectedLog)
+        assertThat(deserializer.logs()).contains(expectedLog)
+    }
+
+    @Test
+    fun dumpLogsFrom_worksTest() {
+        val someLogs = arrayOf(mockLog(), mockLog())
+        val anotherDeserializer = Mockito.mock(JsonDeserializer::class.java)
+        Mockito.`when`(anotherDeserializer.logs()).thenReturn(someLogs)
+
+        deserializer.doDumpLogsFrom(anotherDeserializer)
+
+        assertThat(deserializer.logs()).contains(*someLogs)
     }
 
 }

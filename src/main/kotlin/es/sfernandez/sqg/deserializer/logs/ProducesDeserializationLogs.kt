@@ -6,6 +6,6 @@ package es.sfernandez.sqg.deserializer.logs
 interface ProducesDeserializationLogs {
 
     /** Deserialization logs produced */
-    val logs: Array<DeserializationLog>
+    fun logs() : Array<DeserializationLog>
 
 }
