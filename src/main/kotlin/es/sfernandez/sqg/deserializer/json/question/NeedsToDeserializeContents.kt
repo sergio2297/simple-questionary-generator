@@ -1,8 +1,8 @@
 package es.sfernandez.sqg.deserializer.json.question
 
 import com.fasterxml.jackson.databind.JsonNode
-import es.sfernandez.sqg.deserializer.DeserializationException
 import es.sfernandez.sqg.deserializer.json.question.contents.GroupOfContentsJsonDeserializer
+import es.sfernandez.sqg.deserializer.logs.DeserializationLogsProducer
 import es.sfernandez.sqg.model.contents.HasContents
 
 internal interface NeedsToDeserializeContents {
@@ -10,12 +10,20 @@ internal interface NeedsToDeserializeContents {
     val deserializer: GroupOfContentsJsonDeserializer
     val contentsKey: String
 
-    fun deserializeContentsIn(node: JsonNode, hasContents: HasContents) {
-        val jsonContents = node.get(contentsKey) ?: return
+    fun deserializeContentsIn(hasContents: HasContents, node: JsonNode, log: DeserializationLogsProducer) {
+        val jsonProperty = node[contentsKey]
 
-        if(!jsonContents.isArray) throw DeserializationException("Error. Contents must be defined in an array")
+        if (jsonProperty == null) {
+            log.errorMissingProperty(contentsKey)
+            return
+        }
 
-        val deserializedContents = deserializer.deserialize(jsonContents.toString())
+        if(!jsonProperty.isArray) {
+            log.errorIncorrectType(contentsKey)
+            return
+        }
+
+        val deserializedContents = deserializer.deserialize(jsonProperty.toString())
         hasContents.groupOfContents.add(*deserializedContents.contents().toTypedArray())
     }
 

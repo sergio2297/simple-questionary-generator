@@ -1,16 +1,15 @@
 package es.sfernandez.sqg.deserializer.json.question
 
-import es.sfernandez.sqg.deserializer.DeserializationException
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonFixtures
 import es.sfernandez.sqg.deserializer.json.question.contents.GroupOfContentsJsonDeserializer
+import es.sfernandez.sqg.deserializer.logs.DeserializationLogUtilsForTests
 import es.sfernandez.sqg.model.contents.GroupOfContents
 import es.sfernandez.sqg.model.contents.HasContents
 import es.sfernandez.sqg.model.contents.UnknownContent
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 
@@ -49,6 +48,15 @@ interface NeedsToDeserializeContentsTest {
     }
 
     @Test
+    fun afterDeserialize_objectWithoutContents_logsHaveErrorTest() {
+        val json = JsonFixtures.EMPTY_JSON_OBJECT
+
+        deserializer.deserialize(json)
+
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsErrorWithWord(deserializer, contentsKey)
+    }
+
+    @Test
     fun deserialize_objectWithContentsAsArray_returnHasContentsWithContentsTest() {
         deserializer = createMockedDeserializer(groupOfContentsDeserializer)
         Mockito.`when`(groupOfContentsDeserializer.deserialize(ArgumentMatchers.anyString())).thenReturn(contents)
@@ -64,13 +72,27 @@ interface NeedsToDeserializeContentsTest {
     }
 
     @Test
-    fun deserialize_objectWithContentsInvalid_throwsExceptionTest() {
+    fun deserialize_objectWithInvalidContents_returnsHasContentsWithEmptyContentsTest() {
         val json = """
             {
                 "$contentsKey": {}
             }"""
 
-        assertThrows<DeserializationException> { deserializer.deserialize(json) }
+        val hasContents = deserializer.deserialize(json)
+
+        Assertions.assertThat(hasContents.groupOfContents.size()).isZero()
+    }
+
+    @Test
+    fun afterDeserialize_objectWithInvalidContents_logsHaveErrorTest() {
+        val json = """
+            {
+                "$contentsKey": {}
+            }"""
+
+        deserializer.deserialize(json)
+
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsErrorWithWord(deserializer, contentsKey)
     }
 
 }

@@ -42,7 +42,7 @@ class ExplanationJsonDeserializer : JsonDeserializer<Explanation> {
 
             val explanation = Explanation()
 
-            deserializeContentsIn(node, explanation)
+            deserializeContentsIn(explanation, node, log)
 
             return explanation
         }

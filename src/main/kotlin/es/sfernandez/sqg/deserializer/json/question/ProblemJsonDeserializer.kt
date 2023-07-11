@@ -42,7 +42,7 @@ class ProblemJsonDeserializer : JsonDeserializer<Problem> {
 
             val problem = Problem()
 
-            deserializeContentsIn(node, problem)
+            deserializeContentsIn(problem, node, log)
 
             return problem
         }
