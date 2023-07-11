@@ -35,7 +35,7 @@ class ChoiceJsonDeserializer : JsonDeserializer<Choice> {
             val id = deserializeIdFrom(node)
             val content = deserializeContentFrom(node)
 
-            return Choice.create(id, content)
+            return Choice(id, content)
         }
 
         private fun deserializeIdFrom(node: JsonNode): String {

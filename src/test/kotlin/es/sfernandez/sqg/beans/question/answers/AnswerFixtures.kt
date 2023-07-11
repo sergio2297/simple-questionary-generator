@@ -9,11 +9,6 @@ object AnswerFixtures {
     /** An arbitrary type of [Content] */
     class FooContent(override val type: ContentType = ContentType.UNKNOWN) : Content
 
-    /** An arbitrary type of [Choice] */
-    class FooChoice(override val id: String, override val content: Content) : Choice {
-        constructor() : this("", FooContent())
-    }
-
     /**
      * Generate num [FooChoice]
      *
@@ -21,7 +16,7 @@ object AnswerFixtures {
      * @return array of num Choices
      */
     fun generateSomeChoices(num : Int) : Array<Choice> {
-        return generateSequence { FooChoice() }.take(num).toList().toTypedArray()
+        return generateSequence { Choice() }.take(num).toList().toTypedArray()
     }
 
 }

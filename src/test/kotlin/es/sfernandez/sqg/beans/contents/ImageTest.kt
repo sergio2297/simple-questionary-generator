@@ -10,7 +10,7 @@ class ImageTest {
     //---- Attributes ----
     private lateinit var image: Image
 
-    //---- Consfiguration ----
+    //---- Configuration ----
     @BeforeTest
     fun setup() {
         image = Image()

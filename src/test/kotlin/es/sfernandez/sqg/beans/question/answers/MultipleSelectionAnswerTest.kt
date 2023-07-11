@@ -1,6 +1,7 @@
 package es.sfernandez.sqg.beans.question.answers
 
 import es.sfernandez.sqg.beans.question.answers.AnswerFixtures.generateSomeChoices
+import es.sfernandez.sqg.beans.question.answers.choices.Choice
 import es.sfernandez.sqg.beans.question.answers.replies.MultipleReply
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -29,7 +30,7 @@ class MultipleSelectionAnswerTest {
 
     @Test
     fun constructWith_rightAnswerNotContainedByPossibleChoices_throwsAnswerExceptionTest() {
-        assertThrows<AnswerException> { MultipleSelectionAnswer(possibleChoices, arrayOf(AnswerFixtures.FooChoice())) }
+        assertThrows<AnswerException> { MultipleSelectionAnswer(possibleChoices, arrayOf(Choice())) }
     }
 
     @Test

@@ -1,6 +1,7 @@
 package es.sfernandez.sqg.beans.question.answers
 
 import es.sfernandez.sqg.beans.question.answers.AnswerFixtures.generateSomeChoices
+import es.sfernandez.sqg.beans.question.answers.choices.Choice
 import es.sfernandez.sqg.beans.question.answers.replies.SingleReply
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -24,12 +25,12 @@ class SingleSelectionAnswerTest {
 
     @Test
     fun constructWith_noPossibleChoices_throwsAnswerExceptionTest() {
-        assertThrows<AnswerException> { SingleSelectionAnswer(arrayOf(), AnswerFixtures.FooChoice()) }
+        assertThrows<AnswerException> { SingleSelectionAnswer(arrayOf(), Choice()) }
     }
 
     @Test
     fun constructWith_rightAnswerNotContainedByPossibleChoices_throwsAnswerExceptionTest() {
-        assertThrows<AnswerException> { SingleSelectionAnswer(possibleChoices, AnswerFixtures.FooChoice()) }
+        assertThrows<AnswerException> { SingleSelectionAnswer(possibleChoices, Choice()) }
     }
 
     @Test

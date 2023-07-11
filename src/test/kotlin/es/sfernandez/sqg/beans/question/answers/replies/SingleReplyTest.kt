@@ -1,6 +1,5 @@
 package es.sfernandez.sqg.beans.question.answers.replies
 
-import es.sfernandez.sqg.beans.question.answers.AnswerFixtures
 import es.sfernandez.sqg.beans.question.answers.choices.Choice
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -11,7 +10,7 @@ class SingleReplyTest {
     private lateinit var reply : SingleReply
 
     //---- Fixtures ----
-    private val aChoice = AnswerFixtures.FooChoice()
+    private val aChoice = Choice()
 
     //---- Tests ----
     @Test
