@@ -4,7 +4,7 @@ import es.sfernandez.sqg.deserializer.DeserializationException
 import es.sfernandez.sqg.deserializer.json.JsonFixtures
 import es.sfernandez.sqg.deserializer.logs.DeserializationLog
 import es.sfernandez.sqg.deserializer.logs.DeserializationLogUtilsForTests
-import es.sfernandez.sqg.model.contents.*
+import es.sfernandez.sqg.beans.contents.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

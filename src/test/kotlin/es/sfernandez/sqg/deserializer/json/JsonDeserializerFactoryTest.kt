@@ -3,9 +3,9 @@ package es.sfernandez.sqg.deserializer.json
 import es.sfernandez.sqg.deserializer.DeserializationException
 import es.sfernandez.sqg.deserializer.json.question.*
 import es.sfernandez.sqg.deserializer.json.question.contents.*
-import es.sfernandez.sqg.model.contents.*
-import es.sfernandez.sqg.model.question.explanations.Explanation
-import es.sfernandez.sqg.model.question.problems.Problem
+import es.sfernandez.sqg.beans.contents.*
+import es.sfernandez.sqg.beans.question.explanations.Explanation
+import es.sfernandez.sqg.beans.question.problems.Problem
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test

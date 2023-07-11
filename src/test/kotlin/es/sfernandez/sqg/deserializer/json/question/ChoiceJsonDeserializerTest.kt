@@ -3,7 +3,7 @@ package es.sfernandez.sqg.deserializer.json.question
 import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.deserializer.json.JsonFixtures
 import es.sfernandez.sqg.deserializer.json.JsonKeys
-import es.sfernandez.sqg.model.contents.UnknownContent
+import es.sfernandez.sqg.beans.contents.UnknownContent
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

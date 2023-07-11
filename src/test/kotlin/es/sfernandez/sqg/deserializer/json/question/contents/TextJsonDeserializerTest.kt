@@ -5,7 +5,7 @@ import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonFixtures
 import es.sfernandez.sqg.deserializer.json.JsonKeys
 import es.sfernandez.sqg.deserializer.logs.DeserializationLogUtilsForTests
-import es.sfernandez.sqg.model.contents.Text
+import es.sfernandez.sqg.beans.contents.Text
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest

@@ -7,9 +7,9 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.fasterxml.jackson.databind.node.ArrayNode
 import es.sfernandez.sqg.deserializer.DeserializationException
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
-import es.sfernandez.sqg.model.contents.Content
-import es.sfernandez.sqg.model.contents.GroupOfContents
-import es.sfernandez.sqg.model.contents.ContentType
+import es.sfernandez.sqg.beans.contents.Content
+import es.sfernandez.sqg.beans.contents.GroupOfContents
+import es.sfernandez.sqg.beans.contents.ContentType
 
 class GroupOfContentsJsonDeserializer : JsonDeserializer<GroupOfContents> {
 

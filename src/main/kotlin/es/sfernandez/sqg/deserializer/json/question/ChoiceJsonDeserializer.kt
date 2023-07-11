@@ -6,9 +6,9 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonKeys
-import es.sfernandez.sqg.model.contents.Content
-import es.sfernandez.sqg.model.contents.UnknownContent
-import es.sfernandez.sqg.model.question.answers.choices.Choice
+import es.sfernandez.sqg.beans.contents.Content
+import es.sfernandez.sqg.beans.contents.UnknownContent
+import es.sfernandez.sqg.beans.question.answers.choices.Choice
 
 
 class ChoiceJsonDeserializer : JsonDeserializer<Choice> {

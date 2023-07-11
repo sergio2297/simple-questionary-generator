@@ -5,8 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonKeys
-import es.sfernandez.sqg.model.contents.Sound
-import es.sfernandez.sqg.model.contents.Video
+import es.sfernandez.sqg.beans.contents.Video
 
 class VideoJsonDeserializer : JsonDeserializer<Video>(Video::class.java) {
 

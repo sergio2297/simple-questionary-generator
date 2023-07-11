@@ -5,12 +5,12 @@ import es.sfernandez.sqg.deserializer.DeserializerFactory
 import es.sfernandez.sqg.deserializer.json.question.ExplanationJsonDeserializer
 import es.sfernandez.sqg.deserializer.json.question.ProblemJsonDeserializer
 import es.sfernandez.sqg.deserializer.json.question.contents.*
-import es.sfernandez.sqg.model.contents.*
-import es.sfernandez.sqg.model.question.Question
-import es.sfernandez.sqg.model.question.answers.Answer
-import es.sfernandez.sqg.model.question.answers.choices.Choice
-import es.sfernandez.sqg.model.question.explanations.Explanation
-import es.sfernandez.sqg.model.question.problems.Problem
+import es.sfernandez.sqg.beans.contents.*
+import es.sfernandez.sqg.beans.question.Question
+import es.sfernandez.sqg.beans.question.answers.Answer
+import es.sfernandez.sqg.beans.question.answers.choices.Choice
+import es.sfernandez.sqg.beans.question.explanations.Explanation
+import es.sfernandez.sqg.beans.question.problems.Problem
 
 class JsonDeserializerFactory : DeserializerFactory {
 

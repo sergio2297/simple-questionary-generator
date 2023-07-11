@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonKeys
 import es.sfernandez.sqg.deserializer.json.question.contents.GroupOfContentsJsonDeserializer
-import es.sfernandez.sqg.model.question.problems.Problem
+import es.sfernandez.sqg.beans.question.problems.Problem
 
 
 class ProblemJsonDeserializer : JsonDeserializer<Problem> {

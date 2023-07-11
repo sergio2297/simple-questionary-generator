@@ -3,8 +3,8 @@ package es.sfernandez.sqg.deserializer.json.question
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonKeys
 import es.sfernandez.sqg.deserializer.json.question.contents.GroupOfContentsJsonDeserializer
-import es.sfernandez.sqg.model.contents.GroupOfContents
-import es.sfernandez.sqg.model.contents.HasContents
+import es.sfernandez.sqg.beans.contents.GroupOfContents
+import es.sfernandez.sqg.beans.contents.HasContents
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

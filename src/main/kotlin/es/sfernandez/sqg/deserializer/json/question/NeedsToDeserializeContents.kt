@@ -3,7 +3,7 @@ package es.sfernandez.sqg.deserializer.json.question
 import com.fasterxml.jackson.databind.JsonNode
 import es.sfernandez.sqg.deserializer.json.question.contents.GroupOfContentsJsonDeserializer
 import es.sfernandez.sqg.deserializer.logs.DeserializationLogsProducer
-import es.sfernandez.sqg.model.contents.HasContents
+import es.sfernandez.sqg.beans.contents.HasContents
 
 internal interface NeedsToDeserializeContents {
 

@@ -4,11 +4,9 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
-import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Basic
 import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.deserializer.logs.DeserializationLog
 import es.sfernandez.sqg.deserializer.logs.DeserializationLogFactory
-import es.sfernandez.sqg.model.contents.Text
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.anyString
