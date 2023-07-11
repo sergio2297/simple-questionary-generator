@@ -4,7 +4,7 @@ import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonFixtures
 import es.sfernandez.sqg.deserializer.json.JsonKeys
-import es.sfernandez.sqg.deserializer.logs.DeserializationLog
+import es.sfernandez.sqg.deserializer.logs.DeserializationLogUtilsForTests
 import es.sfernandez.sqg.model.contents.Text
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -16,14 +16,6 @@ class TextJsonDeserializerTest {
     //---- Attributes ----
     private val deserializer = TextJsonDeserializer()
 
-    //---- Methods ----
-    private fun checkDeserializerLogsContainsWarningWithKey(key: String) {
-        assertThat(deserializer.logs.asSequence()
-            .any { log -> log.level == DeserializationLog.Level.WARNING
-                    && log.msg.contains(key)})
-            .isTrue()
-    }
-    
     //---- Tests ----
     @Test
     fun textJsonDeserializer_isInstanceOf_JsonDeserializerTest() {
@@ -78,7 +70,7 @@ class TextJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        checkDeserializerLogsContainsWarningWithKey(JsonKeys.Text.VALUE)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Text.VALUE)
     }
 
     @Test
@@ -89,7 +81,7 @@ class TextJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        checkDeserializerLogsContainsWarningWithKey(JsonKeys.Text.VALUE)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Text.VALUE)
     }
 
     @Test
@@ -98,7 +90,7 @@ class TextJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        checkDeserializerLogsContainsWarningWithKey(JsonKeys.Text.MARKUP)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Text.MARKUP)
     }
 
     @Test
@@ -109,7 +101,7 @@ class TextJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        checkDeserializerLogsContainsWarningWithKey(JsonKeys.Text.MARKUP)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Text.MARKUP)
     }
 
     @Test
@@ -121,7 +113,7 @@ class TextJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        checkDeserializerLogsContainsWarningWithKey(JsonKeys.Text.MARKUP)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Text.MARKUP)
     }
     
 }

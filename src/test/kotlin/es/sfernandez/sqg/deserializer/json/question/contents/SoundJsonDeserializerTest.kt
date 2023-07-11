@@ -4,7 +4,7 @@ import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonFixtures
 import es.sfernandez.sqg.deserializer.json.JsonKeys
-import es.sfernandez.sqg.deserializer.logs.DeserializationLog
+import es.sfernandez.sqg.deserializer.logs.DeserializationLogUtilsForTests
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -14,16 +14,6 @@ class SoundJsonDeserializerTest {
     
     //---- Attributes ----
     private val deserializer = SoundJsonDeserializer()
-
-    //---- Methods ----
-    private fun checkDeserializerLogsContainsWarningWithKey(key: String) {
-        Assertions.assertThat(deserializer.logs.asSequence()
-            .any { log ->
-                log.level == DeserializationLog.Level.WARNING
-                        && log.msg.contains(key)
-            })
-            .isTrue()
-    }
 
     //---- Tests ----
     @Test
@@ -79,7 +69,7 @@ class SoundJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        checkDeserializerLogsContainsWarningWithKey(JsonKeys.Sound.PATH)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Sound.PATH)
     }
 
     @Test
@@ -90,7 +80,7 @@ class SoundJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        checkDeserializerLogsContainsWarningWithKey(JsonKeys.Sound.PATH)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Sound.PATH)
     }
 
     @Test
@@ -99,7 +89,7 @@ class SoundJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        checkDeserializerLogsContainsWarningWithKey(JsonKeys.Sound.AUTOPLAY)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Sound.AUTOPLAY)
     }
 
     @Test
@@ -110,6 +100,6 @@ class SoundJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        checkDeserializerLogsContainsWarningWithKey(JsonKeys.Sound.AUTOPLAY)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Sound.AUTOPLAY)
     }
 }

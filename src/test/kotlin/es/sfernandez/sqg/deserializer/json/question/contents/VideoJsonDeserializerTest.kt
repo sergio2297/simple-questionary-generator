@@ -4,7 +4,7 @@ import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonFixtures
 import es.sfernandez.sqg.deserializer.json.JsonKeys
-import es.sfernandez.sqg.deserializer.logs.DeserializationLog
+import es.sfernandez.sqg.deserializer.logs.DeserializationLogUtilsForTests
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -14,16 +14,6 @@ class VideoJsonDeserializerTest {
 
     //---- Attributes ----
     private val deserializer = VideoJsonDeserializer()
-
-    //---- Methods ----
-    private fun checkDeserializerLogsContainsWarningWithKey(key: String) {
-        Assertions.assertThat(deserializer.logs.asSequence()
-            .any { log ->
-                log.level == DeserializationLog.Level.WARNING
-                        && log.msg.contains(key)
-            })
-            .isTrue()
-    }
 
     //---- Tests ----
     @Test
@@ -79,7 +69,7 @@ class VideoJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        checkDeserializerLogsContainsWarningWithKey(JsonKeys.Video.PATH)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Video.PATH)
     }
 
     @Test
@@ -90,7 +80,7 @@ class VideoJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        checkDeserializerLogsContainsWarningWithKey(JsonKeys.Video.PATH)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Video.PATH)
     }
 
     @Test
@@ -99,7 +89,7 @@ class VideoJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        checkDeserializerLogsContainsWarningWithKey(JsonKeys.Video.AUTOPLAY)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Video.AUTOPLAY)
     }
 
     @Test
@@ -110,7 +100,7 @@ class VideoJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        checkDeserializerLogsContainsWarningWithKey(JsonKeys.Video.AUTOPLAY)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithKey(deserializer, JsonKeys.Video.AUTOPLAY)
     }
     
 }
