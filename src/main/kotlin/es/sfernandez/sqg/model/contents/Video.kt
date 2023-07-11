@@ -4,9 +4,10 @@ class Video
 private constructor(
     override val type: ContentType,
     override var path: String,
-    val autoplay: Boolean,
+    var autoplay: Boolean,
 ) : IsResource, Content {
 
     //---- Constructor ----
-    constructor() : this(ContentType.VIDEO, "", true)
+    constructor(path : String = "", autoplay: Boolean = true) : this(ContentType.VIDEO, path, autoplay)
+
 }
