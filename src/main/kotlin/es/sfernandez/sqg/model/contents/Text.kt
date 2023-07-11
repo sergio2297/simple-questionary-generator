@@ -1,5 +1,10 @@
 package es.sfernandez.sqg.model.contents
 
+/**
+ * A Text is a [Content] of type [ContentType.TEXT] that represents a text
+ *
+ * @property markup type of markup of its value
+ */
 class Text
 private constructor(
     override val type: ContentType = ContentType.TEXT,

@@ -1,5 +1,10 @@
 package es.sfernandez.sqg.model.contents
 
+/**
+ * A Sound is a [Content] of type [ContentType.SOUND] that represents a sound media
+ *
+ * @property autoplay true if it wouldn't be necessary to click "someplace" to play the sound
+ */
 class Sound
 private constructor(
     override val type: ContentType,
