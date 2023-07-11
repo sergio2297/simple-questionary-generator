@@ -2,6 +2,8 @@ package es.sfernandez.sqg.deserializer.json.question.contents
 
 import es.sfernandez.sqg.deserializer.DeserializationException
 import es.sfernandez.sqg.deserializer.json.JsonFixtures
+import es.sfernandez.sqg.deserializer.logs.DeserializationLog
+import es.sfernandez.sqg.deserializer.logs.DeserializationLogUtilsForTests
 import es.sfernandez.sqg.model.contents.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -45,11 +47,17 @@ class GroupOfContentsJsonDeserializerTest {
             videoJsonDeserializer, imageJsonDeserializer)
     }
 
+    private fun mockDeserializerToReturnEmptyLogs() {
+        Mockito.lenient().`when`(textJsonDeserializer.logs()).thenReturn(arrayOf())
+        Mockito.lenient().`when`(soundJsonDeserializer.logs()).thenReturn(arrayOf())
+        Mockito.lenient().`when`(videoJsonDeserializer.logs()).thenReturn(arrayOf())
+        Mockito.lenient().`when`(imageJsonDeserializer.logs()).thenReturn(arrayOf())
+    }
+
     //---- Tests ----
     @Test
-    fun deserialize_JsonObject_throwsExceptionTest() {
+    fun deserialize_jsonObject_throwsExceptionTest() {
         val json = JsonFixtures.EMPTY_JSON_OBJECT
-
         deserializer = createNormalDeserializer()
 
         assertThrows<DeserializationException> { deserializer.deserialize(json) }
@@ -79,6 +87,20 @@ class GroupOfContentsJsonDeserializerTest {
     }
 
     @Test
+    fun afterDeserialize_objectWithNotValidName_logsContainWarningTest() {
+        val ignoredElements = 1
+        val json = """
+             [
+                 {"not_content_type": {}}
+             ]"""
+        deserializer = createNormalDeserializer()
+
+        deserializer.deserialize(json)
+
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, ignoredElements.toString())
+    }
+
+    @Test
     fun deserialize_objectWithUnknownContentType_isIgnoredTest() {
         val json = """
              [
@@ -92,7 +114,59 @@ class GroupOfContentsJsonDeserializerTest {
     }
 
     @Test
+    fun afterDeserialize_objectWithUnknownContentType_logsContainWarningTest() {
+        val ignoredElements = 1
+        val json = """
+             [
+                 {"${ContentType.UNKNOWN.jsonName}": {}}
+             ]"""
+        deserializer = createNormalDeserializer()
+
+        deserializer.deserialize(json)
+
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, ignoredElements.toString())
+    }
+
+    @Test
+    fun deserialize_objectWithElementsWithMoreThanOneField_isIgnoredTest() {
+        val json = """
+             [
+                 {
+                    "${ContentType.TEXT.jsonName}": {},
+                    "${ContentType.IMAGE.jsonName}": {}
+                 }
+             ]"""
+        deserializer = createNormalDeserializer()
+
+        val content = deserializer.deserialize(json)
+
+        assertThat(content.size()).isZero()
+    }
+
+    @Test
+    fun afterDeserialize_objectWithElementsWithMoreThanOneField_logsContainWarningTest() {
+        val ignoredElements = 2
+        val json = """
+             [
+                 {
+                    "${ContentType.TEXT.jsonName}": {},
+                    "${ContentType.IMAGE.jsonName}": {}
+                 },
+                 {
+                    "${ContentType.IMAGE.jsonName}": {},
+                    "${ContentType.TEXT.jsonName}": {}
+                 }
+             ]"""
+        deserializer = createNormalDeserializer()
+
+        deserializer.deserialize(json)
+
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, ignoredElements.toString())
+    }
+
+    @Test
     fun deserialize_objectWithTextContent_contentManagerContainsTextTest() {
+        mockDeserializerToReturnEmptyLogs()
         Mockito.`when`(textJsonDeserializer.deserialize(Mockito.anyString())).thenReturn(deserializedText)
         val json = """
             [
@@ -107,6 +181,7 @@ class GroupOfContentsJsonDeserializerTest {
 
     @Test
     fun deserialize_objectWithSoundContent_contentManagerContainsTextTest() {
+        mockDeserializerToReturnEmptyLogs()
         Mockito.`when`(soundJsonDeserializer.deserialize(Mockito.anyString())).thenReturn(deserializedSound)
         val json = """
             [
@@ -121,6 +196,7 @@ class GroupOfContentsJsonDeserializerTest {
 
     @Test
     fun deserialize_objectWithVideoContent_contentManagerContainsTextTest() {
+        mockDeserializerToReturnEmptyLogs()
         Mockito.`when`(videoJsonDeserializer.deserialize(Mockito.anyString())).thenReturn(deserializedVideo)
         val json = """
             [
@@ -135,6 +211,7 @@ class GroupOfContentsJsonDeserializerTest {
 
     @Test
     fun deserialize_objectWithImageContent_contentManagerContainsTextTest() {
+        mockDeserializerToReturnEmptyLogs()
         Mockito.`when`(imageJsonDeserializer.deserialize(Mockito.anyString())).thenReturn(deserializedImage)
         val json = """
             [
@@ -149,6 +226,7 @@ class GroupOfContentsJsonDeserializerTest {
 
     @Test
     fun deserialize_objectWithMoreThanOneContent_worksTest() {
+        mockDeserializerToReturnEmptyLogs()
         Mockito.`when`(textJsonDeserializer.deserialize(Mockito.anyString())).thenReturn(deserializedText)
         Mockito.`when`(soundJsonDeserializer.deserialize(Mockito.anyString())).thenReturn(deserializedSound)
         Mockito.`when`(videoJsonDeserializer.deserialize(Mockito.anyString())).thenReturn(deserializedVideo)
@@ -173,6 +251,7 @@ class GroupOfContentsJsonDeserializerTest {
 
     @Test
     fun deserialize_objectWithMoreThanOneContentOfTheSameType_worksTest() {
+        mockDeserializerToReturnEmptyLogs()
         val deserializedText1 = Text()
         val deserializedText2 = Text()
         Mockito.`when`(textJsonDeserializer.deserialize(Mockito.anyString()))
@@ -189,6 +268,40 @@ class GroupOfContentsJsonDeserializerTest {
         assertThat(content.size()).isEqualTo(2)
         assertThat(content.get(0)).isSameAs(deserializedText1)
         assertThat(content.get(1)).isSameAs(deserializedText2)
+    }
+
+    private fun mockSomeDeserializationLog() : Array<DeserializationLog> {
+        return generateSequence { Mockito.mock(DeserializationLog::class.java) }
+            .take(3).toList().toTypedArray()
+    }
+
+    @Test
+    fun afterDeserialize_deserializerContainsLogsProducedBy_usedDeserializersTest() {
+        val textLogs = mockSomeDeserializationLog()
+        val imageLogs = mockSomeDeserializationLog()
+        val soundLogs = mockSomeDeserializationLog()
+        Mockito.`when`(textJsonDeserializer.logs()).thenReturn(textLogs)
+        Mockito.`when`(imageJsonDeserializer.logs()).thenReturn(imageLogs)
+        Mockito.`when`(soundJsonDeserializer.logs()).thenReturn(soundLogs)
+
+//        val deserializedText = Text()
+//        val deserializedImage = Image()
+//        Mockito.`when`(textJsonDeserializer.deserialize(Mockito.anyString()))
+//            .thenReturn(deserializedText)
+//        Mockito.`when`(imageJsonDeserializer.deserialize(Mockito.anyString()))
+//            .thenReturn(deserializedImage)
+
+        val json = """
+            [
+                {"${ContentType.TEXT.jsonName}": {}},
+                {"${ContentType.IMAGE.jsonName}": {}}
+            ]"""
+
+        deserializer.deserialize(json)
+
+        assertThat(deserializer.logs()).contains(*textLogs)
+        assertThat(deserializer.logs()).contains(*imageLogs)
+        assertThat(deserializer.logs()).doesNotContain(*soundLogs)
     }
 
 }

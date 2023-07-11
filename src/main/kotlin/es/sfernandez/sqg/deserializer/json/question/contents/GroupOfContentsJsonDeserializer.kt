@@ -52,11 +52,14 @@ class GroupOfContentsJsonDeserializer : JsonDeserializer<GroupOfContents> {
                 .filter { node -> node.isObject && nodeIsValidContentType(node)}
                 .toList()
 
+            logsWarningOfIgnoredValuesIfNecessary(validNodes, jsonArray)
+
             val manager = GroupOfContents()
             for(node in validNodes) {
                 val deserializer = deserializerFor(contentTypeByName(firstFieldName(node)))
                 val content = deserializer.deserialize(node[firstFieldName(node)].toString())
                 manager.add(content)
+                dumpLogsFrom(deserializer)
             }
 
             return manager
@@ -84,6 +87,14 @@ class GroupOfContentsJsonDeserializer : JsonDeserializer<GroupOfContents> {
 
         private fun firstFieldName(jsonNode : JsonNode) : String {
             return jsonNode.fieldNames().asSequence().first()
+        }
+
+        private fun logsWarningOfIgnoredValuesIfNecessary(validNodes: List<JsonNode>, jsonArray: ArrayNode) {
+            val ignoredElements = jsonArray.size() - validNodes.size
+            if(ignoredElements > 0)
+                log.warning("There are $ignoredElements ignored elements while tying to deserialize " +
+                        "a group of contents. This may be due to an incorrect content key or a json object with more " +
+                        "than one content json object.")
         }
 
         private fun contentTypeByName(name: String): ContentType {
