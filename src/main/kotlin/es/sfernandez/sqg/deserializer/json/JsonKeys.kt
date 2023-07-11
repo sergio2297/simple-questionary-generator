@@ -23,6 +23,11 @@ object JsonKeys {
         const val CLICK_TO_SEE = "clickToSee"
     }
 
+    object Video {
+        const val PATH = "path"
+        const val AUTOPLAY = "autoplay"
+    }
+
     object Problem {
         const val CONTENTS = "contents"
     }
