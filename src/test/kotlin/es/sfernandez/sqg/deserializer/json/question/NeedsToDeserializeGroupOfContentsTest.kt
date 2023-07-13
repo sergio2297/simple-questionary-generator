@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 
-interface NeedsToDeserializeContentsTest {
+interface NeedsToDeserializeGroupOfContentsTest {
 
     //---- Attributes ----
     var deserializer: JsonDeserializer<out HasContents>

@@ -5,7 +5,7 @@ import es.sfernandez.sqg.deserializer.json.question.contents.GroupOfContentsJson
 import es.sfernandez.sqg.deserializer.logs.DeserializationLogsProducer
 import es.sfernandez.sqg.beans.contents.HasContents
 
-internal interface NeedsToDeserializeContents {
+internal interface NeedsToDeserializeGroupOfContents {
 
     val deserializer: GroupOfContentsJsonDeserializer
     val contentsKey: String

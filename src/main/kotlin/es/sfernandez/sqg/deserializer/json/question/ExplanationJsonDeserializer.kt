@@ -30,7 +30,7 @@ class ExplanationJsonDeserializer : JsonDeserializer<Explanation> {
 
     private inner class CustomDeserializer :
         StdDeserializer<Explanation>(mappedClass),
-        NeedsToDeserializeContents {
+        NeedsToDeserializeGroupOfContents {
 
         override val deserializer: GroupOfContentsJsonDeserializer
             get() = groupOfContentsDeserializer

@@ -9,7 +9,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class ExplanationJsonDeserializerTest : NeedsToDeserializeContentsTest {
+class ExplanationJsonDeserializerTest : NeedsToDeserializeGroupOfContentsTest {
 
     //---- Attributes ----
     override var deserializer: JsonDeserializer<out HasContents> = createNormalDeserializer()
