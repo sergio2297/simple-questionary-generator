@@ -135,6 +135,35 @@ abstract class JsonDeserializer<T> : Deserializer<T>, ProducesDeserializationLog
         }
     }
 
+    /**
+     * Extracts the object of field "key" from the "node". If missing, returns defaultValue
+     *
+     * @param node JsonNode where to extract the object from
+     * @param key Field name to extract
+     * @param deserializer Deserializer to use
+     * @param defaultValue Default object value if missing property
+     * @return the extracted object value
+     */
+    protected fun <T> extractObject(node: JsonNode, key: String,
+                                deserializer: JsonDeserializer<T>, defaultValue: T) : T {
+        val jsonProperty = node[key]
+
+        if(jsonProperty == null) {
+            log.warningMissingProperty(key, defaultValue.toString())
+            return defaultValue
+        }
+
+        if(!jsonProperty.isObject) {
+            log.warningIncorrectType(key, defaultValue.toString())
+            return defaultValue
+        }
+
+        val deserializedObj = deserializer.deserialize(jsonProperty.toString())
+        dumpLogsFrom(deserializer)
+
+        return deserializedObj
+    }
+
 //    protected inline fun <reified T> extractArrayOfObjects(node: JsonNode, key: String, deserializer: JsonDeserializer<T>) : Array<T> {
 //        val jsonProperty = node[key]
 //        val defaultValue = emptyArray<T>()

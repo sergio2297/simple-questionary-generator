@@ -11,6 +11,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
+import org.mockito.kotlin.any
+import java.lang.RuntimeException
 import kotlin.test.BeforeTest
 
 class JsonDeserializerTest {
@@ -43,6 +45,10 @@ class JsonDeserializerTest {
             return super.extractBool(node, key, defaultValue)
         }
 
+        fun <T> doExtractObjectFromSuper(node: JsonNode, key: String, deserializer: JsonDeserializer<T>, defaultValue: T) : T {
+            return super.extractObject(node, key, deserializer, defaultValue)
+        }
+
         inline fun <reified T : Enum<T>> doExtractEnumFromSuper(node: JsonNode, key: String, defaultValue: T) : T {
             return super.extractEnum(node, key, defaultValue)
         }
@@ -53,6 +59,13 @@ class JsonDeserializerTest {
 
     }
 
+    private class Object {}
+    private class ObjectJsonDeserializer : JsonDeserializer<Object>(Object::class.java) {
+        override fun createDeserializer(): StdDeserializer<Object> {
+            throw RuntimeException()
+        }
+    }
+
     //---- Attributes ----
     private lateinit var deserializer : FooJsonDeserializer
     private lateinit var logFactory: DeserializationLogFactory
@@ -60,6 +73,8 @@ class JsonDeserializerTest {
     //---- Fixtures ----
     private val someKey = BasicFixtures.SOME_TEXT_1
     private val defaultEnumValue = BasicFixtures.FooEnum.FOO_4
+    private val objectJsonDeserializer = Mockito.mock(ObjectJsonDeserializer::class.java)
+    private val defaultObjectValue = Object()
 
     //---- Configuration ----
     @BeforeTest
@@ -110,6 +125,19 @@ class JsonDeserializerTest {
         val node = mockJsonNode()
         Mockito.`when`(node.isTextual).thenReturn(true)
         Mockito.`when`(node.asText()).thenReturn(value)
+        return node
+    }
+
+    private fun mockNotObjectJsonNode() : JsonNode {
+        val node = mockJsonNode()
+        Mockito.`when`(node.isObject).thenReturn(false)
+        return node
+    }
+
+    private fun mockObjectJsonNode(value: Object) : JsonNode {
+        val node = mockJsonNode()
+        Mockito.`when`(node.isObject).thenReturn(true)
+        Mockito.`when`(objectJsonDeserializer.deserialize(any())).thenReturn(value)
         return node
     }
 
@@ -265,8 +293,67 @@ class JsonDeserializerTest {
         assertThat(deserializer.logs()).contains(expectedLog)
     }
 
+    @Test
+    fun extractObject_fromObjectNode_returnsCorrectObjectValueTest() {
+        val expectedValue = Object()
+        val jsonNode = mockJsonNodeWithKey(someKey, mockObjectJsonNode(expectedValue))
+        Mockito.`when`(objectJsonDeserializer.logs()).thenReturn(arrayOf(mockLog()))
 
+        val returnedValue = deserializer.doExtractObjectFromSuper(jsonNode, someKey, objectJsonDeserializer, defaultObjectValue)
 
+        assertThat(returnedValue).isEqualTo(expectedValue)
+    }
+
+    @Test
+    fun extractObject_fromNode_withoutSearchedKey_returnsDefaultValueTest() {
+        val defaultValue = defaultObjectValue
+        val jsonNode = mockJsonNodeWithoutKey(someKey)
+
+        val returnedValue = deserializer.doExtractObjectFromSuper(jsonNode, someKey, objectJsonDeserializer, defaultValue)
+
+        assertThat(returnedValue).isEqualTo(defaultValue)
+    }
+
+    @Test
+    fun extractObject_fromNode_withoutSearchedKey_addsWarningLogTest() {
+        val jsonNode = mockJsonNodeWithoutKey(someKey)
+        val expectedLog = mockLogFactoryWarningMethod()
+
+        deserializer.doExtractObjectFromSuper(jsonNode, someKey, objectJsonDeserializer, defaultObjectValue)
+
+        assertThat(deserializer.logs()).contains(expectedLog)
+    }
+
+    @Test
+    fun extractObject_fromNotObjectNode_returnsDefaultObjectValueTest() {
+        val defaultValue = defaultObjectValue
+        val jsonNode = mockJsonNodeWithKey(someKey, mockNotObjectJsonNode())
+
+        val returnedValue = deserializer.doExtractObjectFromSuper(jsonNode, someKey, objectJsonDeserializer, defaultValue)
+
+        assertThat(returnedValue).isEqualTo(defaultValue)
+    }
+
+    @Test
+    fun extractObject_fromNotObjectNode_addsWarningLogTest() {
+        val jsonNode = mockJsonNodeWithKey(someKey, mockNotObjectJsonNode())
+        val expectedLog = mockLogFactoryWarningMethod()
+
+        deserializer.doExtractObjectFromSuper(jsonNode, someKey, objectJsonDeserializer, defaultObjectValue)
+
+        assertThat(deserializer.logs()).contains(expectedLog)
+    }
+
+    @Test
+    fun extractObject_dumpLogsFromDeserializerTest() {
+        val jsonNode = mockJsonNodeWithKey(someKey, mockObjectJsonNode(Object()))
+        val expectedLog = mockLog()
+        Mockito.`when`(objectJsonDeserializer.logs()).thenReturn(arrayOf(expectedLog))
+
+        deserializer.doExtractObjectFromSuper(jsonNode, someKey, objectJsonDeserializer, defaultObjectValue)
+
+        assertThat(deserializer.logs()).contains(expectedLog)
+    }
 
     @Test
     fun extractEnum_fromTextualNode_returnsCorrectEnumValueTest() {
