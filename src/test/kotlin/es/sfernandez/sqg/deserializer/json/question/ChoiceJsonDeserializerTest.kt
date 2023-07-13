@@ -1,21 +1,28 @@
 package es.sfernandez.sqg.deserializer.json.question
 
 import es.sfernandez.sqg.BasicFixtures
+import es.sfernandez.sqg.beans.contents.ContentType
+import es.sfernandez.sqg.beans.contents.UnknownContent
+import es.sfernandez.sqg.beans.question.answers.AnswerFixtures.SOME_IMAGE
+import es.sfernandez.sqg.beans.question.answers.AnswerFixtures.SOME_SOUND
+import es.sfernandez.sqg.beans.question.answers.AnswerFixtures.SOME_TEXT
+import es.sfernandez.sqg.beans.question.answers.AnswerFixtures.SOME_VIDEO
 import es.sfernandez.sqg.deserializer.json.JsonFixtures
 import es.sfernandez.sqg.deserializer.json.JsonKeys
-import es.sfernandez.sqg.beans.contents.UnknownContent
+import es.sfernandez.sqg.deserializer.json.question.contents.ContentJsonDeserializer
+import es.sfernandez.sqg.deserializer.logs.DeserializationLog
+import es.sfernandez.sqg.deserializer.logs.DeserializationLogUtilsForTests
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.ArgumentMatchers.anyString
+import org.mockito.Mockito
 
 class ChoiceJsonDeserializerTest {
 
-    //---- Constants and Definitions ----
-
     //---- Attributes ----
     private lateinit var deserializer : ChoiceJsonDeserializer
-
-    //---- Fixtures ----
+    private lateinit var contentDeserializer: ContentJsonDeserializer
 
     //---- Configuration ----
     @BeforeEach
@@ -23,20 +30,35 @@ class ChoiceJsonDeserializerTest {
         deserializer = createDefaultDeserializer()
     }
 
+    //---- Methods ----
     private fun createDefaultDeserializer(): ChoiceJsonDeserializer {
         return ChoiceJsonDeserializer()
     }
 
-    //---- Methods ----
+    private fun createMockedDeserializer() : ChoiceJsonDeserializer {
+        contentDeserializer = Mockito.mock(ContentJsonDeserializer::class.java)
+        Mockito.lenient().`when`(contentDeserializer.logs())
+            .thenReturn(arrayOf(Mockito.mock(DeserializationLog::class.java)))
+        return ChoiceJsonDeserializer(contentDeserializer)
+    }
 
     //---- Tests ----
     @Test
-    fun deserialize_objectWithoutId_returnsChoiceWithoutIdTest() {
+    fun deserialize_objectWithoutId_returnsChoiceWithEmptyIdTest() {
         val json = JsonFixtures.EMPTY_JSON_OBJECT
 
         val choice = deserializer.deserialize(json)
 
         assertThat(choice.id).isEmpty()
+    }
+
+    @Test
+    fun afterDeserialize_objectWithoutId_logsHaveWarningTest() {
+        val json = JsonFixtures.EMPTY_JSON_OBJECT
+
+        deserializer.deserialize(json)
+
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Choice.ID)
     }
 
     @Test
@@ -53,6 +75,18 @@ class ChoiceJsonDeserializerTest {
     }
 
     @Test
+    fun afterDeserialize_objectWithNotValidId_logsHaveWarningTest() {
+        val json = """
+            {
+                "${JsonKeys.Choice.ID}": 5
+            }"""
+
+        deserializer.deserialize(json)
+
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Choice.ID)
+    }
+
+    @Test
     fun deserialize_objectWithoutContent_returnsChoiceWithUnknownContentTest() {
         val json = JsonFixtures.EMPTY_JSON_OBJECT
 
@@ -62,23 +96,106 @@ class ChoiceJsonDeserializerTest {
     }
 
     @Test
-    fun deserialize_objectWithTextContent_returnsChoiceWithTextTest() {
+    fun afterDeserialize_objectWithoutContent_logsHaveWarningTest() {
+        val json = JsonFixtures.EMPTY_JSON_OBJECT
 
+        deserializer.deserialize(json)
+
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Choice.CONTENT)
+    }
+
+    @Test
+    fun deserialize_objectWithNotValidContent_returnsChoiceWithUnknownContentTest() {
+        val json = """
+            {
+                "content": {}
+            }
+        """.trimIndent()
+
+        val choice = deserializer.deserialize(json)
+
+        assertThat(choice.content).isInstanceOf(UnknownContent::class.java)
+    }
+
+    @Test
+    fun afterDeserialize_objectWithNotValidContent_logsHaveWarningTest() {
+        val json = """
+            {
+                "content": {}
+            }
+        """.trimIndent()
+
+        deserializer.deserialize(json)
+
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Choice.CONTENT)
+    }
+
+    @Test
+    fun deserialize_objectWithTextContent_returnsChoiceWithTextTest() {
+        deserializer = createMockedDeserializer()
+        Mockito.`when`(contentDeserializer.deserialize(anyString())).thenReturn(SOME_TEXT)
+        val json = """
+            {
+                "content": {
+                    "${ContentType.TEXT.jsonName}": {}
+                }
+            }
+        """.trimIndent()
+
+        val choice = deserializer.deserialize(json)
+
+        assertThat(choice.content).isEqualTo(SOME_TEXT)
     }
 
     @Test
     fun deserialize_soundWithTextContent_returnsChoiceWithTextTest() {
+        deserializer = createMockedDeserializer()
+        Mockito.`when`(contentDeserializer.deserialize(anyString())).thenReturn(SOME_SOUND)
+        val json = """
+            {
+                "content": {
+                    "${ContentType.SOUND.jsonName}": {}
+                }
+            }
+        """.trimIndent()
 
+        val choice = deserializer.deserialize(json)
+
+        assertThat(choice.content).isEqualTo(SOME_SOUND)
     }
 
     @Test
     fun deserialize_imageWithTextContent_returnsChoiceWithTextTest() {
+        deserializer = createMockedDeserializer()
+        Mockito.`when`(contentDeserializer.deserialize(anyString())).thenReturn(SOME_IMAGE)
+        val json = """
+            {
+                "content": {
+                    "${ContentType.IMAGE.jsonName}": {}
+                }
+            }
+        """.trimIndent()
 
+        val choice = deserializer.deserialize(json)
+
+        assertThat(choice.content).isEqualTo(SOME_IMAGE)
     }
 
     @Test
     fun deserialize_videoWithTextContent_returnsChoiceWithTextTest() {
+        deserializer = createMockedDeserializer()
+        Mockito.`when`(contentDeserializer.deserialize(anyString())).thenReturn(SOME_VIDEO)
+        val json = """
+            {
+                "content": {
+                    "${ContentType.VIDEO.jsonName}": {}
+                }
+            }
+        """.trimIndent()
 
+        val choice = deserializer.deserialize(json)
+
+        assertThat(choice.content).isEqualTo(SOME_VIDEO)
     }
 
 }

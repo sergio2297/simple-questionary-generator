@@ -2,26 +2,25 @@ package es.sfernandez.sqg.deserializer.json.question
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
-import es.sfernandez.sqg.deserializer.json.JsonDeserializer
-import es.sfernandez.sqg.deserializer.json.JsonKeys
-import es.sfernandez.sqg.beans.contents.Content
 import es.sfernandez.sqg.beans.contents.UnknownContent
 import es.sfernandez.sqg.beans.question.answers.choices.Choice
+import es.sfernandez.sqg.deserializer.json.JsonDeserializer
+import es.sfernandez.sqg.deserializer.json.JsonKeys
+import es.sfernandez.sqg.deserializer.json.question.contents.ContentJsonDeserializer
 
 
 class ChoiceJsonDeserializer : JsonDeserializer<Choice> {
 
+    //---- Attributes ----
+    private val contentDeserializer: ContentJsonDeserializer
+
     //---- Constructor ----
-    constructor() : super(Choice::class.java) {
+    constructor() : this(ContentJsonDeserializer())
 
+    internal constructor(contentDeserializer: ContentJsonDeserializer) : super(Choice::class.java) {
+        this.contentDeserializer = contentDeserializer
     }
-
-//    internal constructor(groupOfContentsDeserializer: GroupOfContentsJsonDeserializer) : super(Choice::class.java) {
-
-//    }
-//
 
     //---- Methods ----
     override fun createDeserializer(): StdDeserializer<Choice> {
@@ -32,19 +31,10 @@ class ChoiceJsonDeserializer : JsonDeserializer<Choice> {
         override fun deserialize(parser: JsonParser?, ctxt: DeserializationContext?): Choice {
             val node = extractJsonNode(parser)
 
-            val id = deserializeIdFrom(node)
-            val content = deserializeContentFrom(node)
+            val id = extractText(node, JsonKeys.Choice.ID)
+            val content = extractObject(node, JsonKeys.Choice.CONTENT, contentDeserializer, UnknownContent())
 
             return Choice(id, content)
-        }
-
-        private fun deserializeIdFrom(node: JsonNode): String {
-            val id = node.get(JsonKeys.Choice.ID)
-            return if (id != null) id.asText() else ""
-        }
-
-        private fun deserializeContentFrom(node: JsonNode): Content {
-            return UnknownContent()
         }
 
     }

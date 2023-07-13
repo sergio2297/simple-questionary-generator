@@ -1,6 +1,10 @@
 package es.sfernandez.sqg.deserializer.json.question.contents
 
 import es.sfernandez.sqg.beans.contents.*
+import es.sfernandez.sqg.beans.question.answers.AnswerFixtures.SOME_IMAGE
+import es.sfernandez.sqg.beans.question.answers.AnswerFixtures.SOME_SOUND
+import es.sfernandez.sqg.beans.question.answers.AnswerFixtures.SOME_TEXT
+import es.sfernandez.sqg.beans.question.answers.AnswerFixtures.SOME_VIDEO
 import es.sfernandez.sqg.deserializer.json.JsonFixtures
 import es.sfernandez.sqg.deserializer.logs.DeserializationLog
 import es.sfernandez.sqg.deserializer.logs.DeserializationLogUtilsForTests
@@ -18,12 +22,6 @@ class ContentJsonDeserializerTest {
     private lateinit var soundJsonDeserializer: SoundJsonDeserializer
     private lateinit var videoJsonDeserializer: VideoJsonDeserializer
     private lateinit var imageJsonDeserializer: ImageJsonDeserializer
-
-    //---- Fixtures ----
-    private val deserializedText = Text()
-    private val deserializedSound = Sound()
-    private val deserializedVideo = Video()
-    private val deserializedImage = Image()
 
     //---- Configuration ----
     @BeforeEach
@@ -164,7 +162,7 @@ class ContentJsonDeserializerTest {
     @Test
     fun deserialize_objectWithTextContent_returnTextTest() {
         mockDeserializersToReturnEmptyLogs()
-        Mockito.`when`(textJsonDeserializer.deserialize(Mockito.anyString())).thenReturn(deserializedText)
+        Mockito.`when`(textJsonDeserializer.deserialize(Mockito.anyString())).thenReturn(SOME_TEXT)
         val json = """
             {
                 "${ContentType.TEXT.jsonName}": {}
@@ -173,13 +171,13 @@ class ContentJsonDeserializerTest {
 
         val content = deserializer.deserialize(json)
 
-        assertThat(content).isEqualTo(deserializedText)
+        assertThat(content).isEqualTo(SOME_TEXT)
     }
 
     @Test
     fun deserialize_objectWithSoundContent_returnSoundTest() {
         mockDeserializersToReturnEmptyLogs()
-        Mockito.`when`(soundJsonDeserializer.deserialize(Mockito.anyString())).thenReturn(deserializedSound)
+        Mockito.`when`(soundJsonDeserializer.deserialize(Mockito.anyString())).thenReturn(SOME_SOUND)
         val json = """
             {
                 "${ContentType.SOUND.jsonName}": {}
@@ -188,13 +186,13 @@ class ContentJsonDeserializerTest {
 
         val content = deserializer.deserialize(json)
 
-        assertThat(content).isEqualTo(deserializedSound)
+        assertThat(content).isEqualTo(SOME_SOUND)
     }
 
     @Test
     fun deserialize_objectWithVideoContent_returnVideoTest() {
         mockDeserializersToReturnEmptyLogs()
-        Mockito.`when`(videoJsonDeserializer.deserialize(Mockito.anyString())).thenReturn(deserializedVideo)
+        Mockito.`when`(videoJsonDeserializer.deserialize(Mockito.anyString())).thenReturn(SOME_VIDEO)
         val json = """
             {
                 "${ContentType.VIDEO.jsonName}": {}
@@ -203,13 +201,13 @@ class ContentJsonDeserializerTest {
 
         val content = deserializer.deserialize(json)
 
-        assertThat(content).isEqualTo(deserializedVideo)
+        assertThat(content).isEqualTo(SOME_VIDEO)
     }
 
     @Test
     fun deserialize_objectWithImageContent_returnImageTest() {
         mockDeserializersToReturnEmptyLogs()
-        Mockito.`when`(imageJsonDeserializer.deserialize(Mockito.anyString())).thenReturn(deserializedImage)
+        Mockito.`when`(imageJsonDeserializer.deserialize(Mockito.anyString())).thenReturn(SOME_IMAGE)
         val json = """
             {
                 "${ContentType.IMAGE.jsonName}": {}
@@ -218,7 +216,7 @@ class ContentJsonDeserializerTest {
 
         val content = deserializer.deserialize(json)
 
-        assertThat(content).isEqualTo(deserializedImage)
+        assertThat(content).isEqualTo(SOME_IMAGE)
     }
 
     private fun mockSomeDeserializationLog() : Array<DeserializationLog> {
