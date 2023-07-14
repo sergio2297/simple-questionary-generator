@@ -1,10 +1,8 @@
 package es.sfernandez.sqg.beans.question.answers
 
 import es.sfernandez.sqg.BasicFixtures
-import es.sfernandez.sqg.beans.question.answers.replies.TextReply
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class TextAnswerTest {
 
@@ -12,65 +10,69 @@ class TextAnswerTest {
     private lateinit var answer : TextAnswer
 
     //---- Fixtures ----
-    private val upperCaseWordPattern = "[A-Z]+"
+    private val aRegex = Regex("[A-Z]+")
 
     //---- Tests ----
     @Test
     fun textAnswer_areTextInputAnswerTypeTest() {
-        answer = TextAnswer(upperCaseWordPattern)
+        answer = TextAnswer()
 
         assertThat(answer.type).isEqualTo(AnswerTypes.TEXT_INPUT)
     }
 
     @Test
-    fun construct_withNoPossibleReplies_throwsAnswerExceptionTest() {
-        assertThrows<AnswerException> { TextAnswer() }
+    fun construct_withNoPossibleReplies_worksTest() {
+        answer = TextAnswer()
+
+        assertThat(answer.possibleReplies).isEmpty()
     }
 
     @Test
-    fun replyNotContained_byPossibleReplies_isNotRightTest() {
-        val reply = BasicFixtures.SOME_TEXT_1
-        answer = TextAnswer(BasicFixtures.SOME_TEXT_2, BasicFixtures.SOME_TEXT_3)
+    fun construct_withSomePossibleReplies_worksTest() {
+        val somePossibleReplies = arrayOf(
+            BasicFixtures.SOME_TEXT_1,
+            BasicFixtures.SOME_TEXT_2,
+            BasicFixtures.SOME_TEXT_3
+        )
 
-        val isRight = answer.isRight(TextReply(reply))
+        answer = TextAnswer(*somePossibleReplies)
 
-        assertThat(isRight).isFalse()
+        assertThat(answer.possibleReplies).contains(*somePossibleReplies)
     }
 
     @Test
-    fun replyContained_byPossibleReplies_isRightTest() {
-        val reply = BasicFixtures.SOME_TEXT_1
-        answer = TextAnswer(reply, BasicFixtures.SOME_TEXT_2, BasicFixtures.SOME_TEXT_3)
+    fun construct_withPossibleReplies_createsRegexWithEmptyPatternTest() {
+        answer = TextAnswer()
 
-        val isRight = answer.isRight(TextReply(reply))
-
-        assertThat(isRight).isTrue()
+        assertThat(answer.replyRegex.pattern).isEmpty()
     }
 
     @Test
-    fun construct_withEmptyRegex_throwsAnswerExceptionTest() {
-        val regex = Regex(BasicFixtures.EMPTY_TEXT)
+    fun construct_withPossibleReplies_doNotCheckWithRegexTest() {
+        answer = TextAnswer()
 
-        assertThrows<AnswerException> { TextAnswer(regex) }
+        assertThat(answer.checkWithRegex).isFalse()
     }
 
     @Test
-    fun replyNotMatched_byRegex_isNotRightTest() {
-        val reply = "abcd"
-        answer = TextAnswer(Regex(upperCaseWordPattern))
+    fun construct_withRegex_worksTest() {
+        answer = TextAnswer(aRegex)
 
-        val isRight = answer.isRight(TextReply(reply))
-
-        assertThat(isRight).isFalse()
+        assertThat(answer.replyRegex).isSameAs(aRegex)
     }
 
     @Test
-    fun replyMatched_byRegex_isRightTest() {
-        val reply = "ABCD"
-        answer = TextAnswer(Regex(upperCaseWordPattern))
+    fun construct_withRegex_createsEmptyPossibleRepliesTest() {
+        answer = TextAnswer(aRegex)
 
-        val isRight = answer.isRight(TextReply(reply))
-
-        assertThat(isRight).isTrue()
+        assertThat(answer.possibleReplies).isEmpty()
     }
+
+    @Test
+    fun construct_withRegex_doCheckWithRegexTest() {
+        answer = TextAnswer(aRegex)
+
+        assertThat(answer.checkWithRegex).isTrue()
+    }
+
 }
