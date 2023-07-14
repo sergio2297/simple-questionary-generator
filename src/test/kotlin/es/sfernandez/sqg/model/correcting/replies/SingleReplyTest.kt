@@ -1,6 +1,7 @@
-package es.sfernandez.sqg.beans.question.answers.replies
+package es.sfernandez.sqg.model.correcting.replies
 
 import es.sfernandez.sqg.beans.question.answers.choices.Choice
+import es.sfernandez.sqg.model.correcting.replies.SingleReply
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
