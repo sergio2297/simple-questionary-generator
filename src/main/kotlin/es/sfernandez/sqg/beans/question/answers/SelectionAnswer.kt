@@ -1,7 +1,7 @@
 package es.sfernandez.sqg.beans.question.answers
 
 import es.sfernandez.sqg.beans.question.answers.choices.Choice
-import es.sfernandez.sqg.beans.question.answers.replies.Reply
+import es.sfernandez.sqg.model.correcting.replies.Reply
 import java.util.*
 
 /**
@@ -11,20 +11,7 @@ import java.util.*
  * @see SingleSelectionAnswer
  * @see MultipleSelectionAnswer
  */
-sealed class SelectionAnswer<REPLY : Reply<*>>(
-    type: AnswerTypes,
-    private val possibleChoices: Array<Choice>
-) : Answer<REPLY>(type) {
-
-    init {
-        if(possibleChoices.isEmpty())
-            throw AnswerException("Error. Possible choices of a ${SelectionAnswer::class.simpleName} can't be empty")
-    }
-
-    //---- Methods ----
-    protected fun validateRightChoicesInPossibleChoices(vararg choices : Choice) {
-        if(!Arrays.stream(choices).allMatch(possibleChoices::contains)) {
-            throw AnswerException("Error. One of the given choices aren't contained in possible choices.")
-        }
-    }
-}
+sealed class SelectionAnswer(
+    override val type: AnswerTypes,
+    var possibleChoices: Array<Choice>
+) : Answer
