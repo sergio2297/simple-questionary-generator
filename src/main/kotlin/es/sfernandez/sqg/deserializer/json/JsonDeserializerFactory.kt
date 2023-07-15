@@ -38,7 +38,7 @@ class JsonDeserializerFactory : DeserializerFactory {
         return ProblemJsonDeserializer()
     }
 
-    override fun createAnswerDeserializer(): Deserializer<Answer<*>> {
+    override fun createAnswerDeserializer(): Deserializer<Answer> {
         TODO("Not yet implemented")
     }
 

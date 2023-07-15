@@ -57,7 +57,7 @@ interface DeserializerFactory {
 
     fun createProblemDeserializer() : Deserializer<Problem>
 
-    fun createAnswerDeserializer(): Deserializer<Answer<*>>
+    fun createAnswerDeserializer(): Deserializer<Answer>
 
     fun createChoiceDeserializer(): Deserializer<Choice>
 
