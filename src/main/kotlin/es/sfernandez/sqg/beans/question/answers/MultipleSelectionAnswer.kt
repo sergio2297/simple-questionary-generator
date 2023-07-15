@@ -10,5 +10,5 @@ import es.sfernandez.sqg.beans.question.answers.choices.Choice
  */
 class MultipleSelectionAnswer(
     possibleChoices : Array<Choice>,
-    var rightChoicesId : Array<String>,
+    var rightChoicesIds : Array<String>,
 ) : SelectionAnswer(AnswerTypes.MULTIPLE_SELECTION, possibleChoices) {}

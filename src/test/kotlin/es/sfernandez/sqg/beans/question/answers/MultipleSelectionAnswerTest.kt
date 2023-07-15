@@ -39,14 +39,14 @@ class MultipleSelectionAnswerTest {
     fun construct_withNoRightChoicesId_worksTest() {
         answer = MultipleSelectionAnswer(possibleChoices, arrayOf())
 
-        assertThat(answer.rightChoicesId).isEmpty()
+        assertThat(answer.rightChoicesIds).isEmpty()
     }
 
     @Test
     fun construct_withRightChoicesId_worksTest() {
         answer = MultipleSelectionAnswer(possibleChoices, someIds)
 
-        assertThat(answer.rightChoicesId).containsExactly(*someIds)
+        assertThat(answer.rightChoicesIds).containsExactly(*someIds)
     }
 
 }
