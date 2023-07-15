@@ -1,11 +1,9 @@
 package es.sfernandez.sqg.beans.question.answers
 
+import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.beans.question.answers.AnswerFixtures.generateSomeChoices
-import es.sfernandez.sqg.beans.question.answers.choices.Choice
-import es.sfernandez.sqg.beans.question.answers.replies.SingleReply
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class SingleSelectionAnswerTest {
 
@@ -14,44 +12,35 @@ class SingleSelectionAnswerTest {
 
     //---- Fixtures ----
     private val possibleChoices = generateSomeChoices(5)
+    private val choiceId = BasicFixtures.SOME_TEXT_1
 
     //---- Tests ----
     @Test
     fun singleSelectionAnswer_areSingleSelectionAnswerTypeTest() {
-        answer = SingleSelectionAnswer(possibleChoices, possibleChoices[0])
+        answer = SingleSelectionAnswer(possibleChoices, choiceId)
 
         assertThat(answer.type).isEqualTo(AnswerTypes.SINGLE_SELECTION)
     }
 
     @Test
-    fun constructWith_noPossibleChoices_throwsAnswerExceptionTest() {
-        assertThrows<AnswerException> { SingleSelectionAnswer(arrayOf(), Choice()) }
+    fun construct_withNoPossibleChoices_worksTest() {
+        answer = SingleSelectionAnswer(arrayOf(), choiceId)
+
+        assertThat(answer.possibleChoices).isEmpty()
     }
 
     @Test
-    fun constructWith_rightAnswerNotContainedByPossibleChoices_throwsAnswerExceptionTest() {
-        assertThrows<AnswerException> { SingleSelectionAnswer(possibleChoices, Choice()) }
+    fun construct_withPossibleChoices_worksTest() {
+        answer = SingleSelectionAnswer(possibleChoices, choiceId)
+
+        assertThat(answer.possibleChoices).containsExactly(*possibleChoices)
     }
 
     @Test
-    fun replyWithRightChoice_isRightTest() {
-        val rightChoice = possibleChoices[0]
-        answer = SingleSelectionAnswer(possibleChoices, rightChoice)
+    fun construct_withRightChoice_worksTest() {
+        answer = SingleSelectionAnswer(arrayOf(), choiceId)
 
-        val isRight = answer.isRight(SingleReply(rightChoice))
-
-        assertThat(isRight).isTrue()
-    }
-
-    @Test
-    fun replyWithNoRightChoice_isNotRightTest() {
-        val rightChoice = possibleChoices[0]
-        val notRightChoice = possibleChoices[1]
-        answer = SingleSelectionAnswer(possibleChoices, rightChoice)
-
-        val isRight = answer.isRight(SingleReply(notRightChoice))
-
-        assertThat(isRight).isFalse()
+        assertThat(answer.rightChoiceId).isEqualTo(choiceId)
     }
 
 }
