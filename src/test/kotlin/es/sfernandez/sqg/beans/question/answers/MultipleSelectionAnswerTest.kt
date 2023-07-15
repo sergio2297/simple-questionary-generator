@@ -1,11 +1,8 @@
 package es.sfernandez.sqg.beans.question.answers
 
 import es.sfernandez.sqg.beans.question.answers.AnswerFixtures.generateSomeChoices
-import es.sfernandez.sqg.beans.question.answers.choices.Choice
-import es.sfernandez.sqg.beans.question.answers.replies.MultipleReply
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class MultipleSelectionAnswerTest {
 
@@ -14,56 +11,42 @@ class MultipleSelectionAnswerTest {
 
     //---- Fixtures ----
     private val possibleChoices = generateSomeChoices(5)
+    private val someIds = arrayOf("1", "2", "3")
 
     //---- Tests ----
     @Test
     fun multipleSelectionAnswers_areMultipleSelectionAnswerTypeTest() {
-        answer = MultipleSelectionAnswer(possibleChoices, possibleChoices)
+        answer = MultipleSelectionAnswer(possibleChoices, someIds)
 
         assertThat(answer.type).isEqualTo(AnswerTypes.MULTIPLE_SELECTION)
     }
 
     @Test
-    fun constructWith_noPossibleChoices_throwsAnswerExceptionTest() {
-        assertThrows<AnswerException> { MultipleSelectionAnswer(arrayOf(), possibleChoices) }
+    fun construct_withNoPossibleChoices_worksTest() {
+        answer = MultipleSelectionAnswer(arrayOf(), someIds)
+
+        assertThat(answer.possibleChoices).isEmpty()
     }
 
     @Test
-    fun constructWith_rightAnswerNotContainedByPossibleChoices_throwsAnswerExceptionTest() {
-        assertThrows<AnswerException> { MultipleSelectionAnswer(possibleChoices, arrayOf(Choice())) }
+    fun construct_withPossibleChoices_worksTest() {
+        answer = MultipleSelectionAnswer(possibleChoices, someIds)
+
+        assertThat(answer.possibleChoices).containsExactly(*possibleChoices)
     }
 
     @Test
-    fun replyWithNoRightChoices_isNotRightTest() {
-        val rightChoices = arrayOf(*possibleChoices)
-        answer = MultipleSelectionAnswer(possibleChoices, rightChoices)
-        val reply = MultipleReply(arrayOf())
+    fun construct_withNoRightChoicesId_worksTest() {
+        answer = MultipleSelectionAnswer(possibleChoices, arrayOf())
 
-        val isRight = answer.isRight(reply)
-
-        assertThat(isRight).isFalse()
+        assertThat(answer.rightChoicesId).isEmpty()
     }
 
     @Test
-    fun replyWithSomeRightChoices_isNotRightTest() {
-        val rightChoices = arrayOf(*possibleChoices)
-        answer = MultipleSelectionAnswer(possibleChoices, rightChoices)
-        val reply = MultipleReply(arrayOf(rightChoices[0]))
+    fun construct_withRightChoicesId_worksTest() {
+        answer = MultipleSelectionAnswer(possibleChoices, someIds)
 
-        val isRight = answer.isRight(reply)
-
-        assertThat(isRight).isFalse()
-    }
-
-    @Test
-    fun replyWithAllRightChoices_isRightTest() {
-        val rightChoices = arrayOf(*possibleChoices)
-        answer = MultipleSelectionAnswer(possibleChoices, rightChoices)
-        val reply = MultipleReply(arrayOf(*rightChoices))
-
-        val isRight = answer.isRight(reply)
-
-        assertThat(isRight).isTrue()
+        assertThat(answer.rightChoicesId).containsExactly(*someIds)
     }
 
 }
