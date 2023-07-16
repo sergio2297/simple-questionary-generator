@@ -108,7 +108,7 @@ class ChoiceJsonDeserializerTest {
     fun deserialize_objectWithNotValidContent_returnsChoiceWithUnknownContentTest() {
         val json = """
             {
-                "content": {}
+                "${JsonKeys.Choice.CONTENT}": {}
             }
         """.trimIndent()
 
@@ -121,7 +121,7 @@ class ChoiceJsonDeserializerTest {
     fun afterDeserialize_objectWithNotValidContent_logsHaveWarningTest() {
         val json = """
             {
-                "content": {}
+                "${JsonKeys.Choice.CONTENT}": {}
             }
         """.trimIndent()
 
@@ -136,7 +136,7 @@ class ChoiceJsonDeserializerTest {
         Mockito.`when`(contentDeserializer.deserialize(anyString())).thenReturn(SOME_TEXT)
         val json = """
             {
-                "content": {
+                "${JsonKeys.Choice.CONTENT}": {
                     "${ContentType.TEXT.jsonName}": {}
                 }
             }
@@ -153,7 +153,7 @@ class ChoiceJsonDeserializerTest {
         Mockito.`when`(contentDeserializer.deserialize(anyString())).thenReturn(SOME_SOUND)
         val json = """
             {
-                "content": {
+                "${JsonKeys.Choice.CONTENT}": {
                     "${ContentType.SOUND.jsonName}": {}
                 }
             }
@@ -170,7 +170,7 @@ class ChoiceJsonDeserializerTest {
         Mockito.`when`(contentDeserializer.deserialize(anyString())).thenReturn(SOME_IMAGE)
         val json = """
             {
-                "content": {
+                "${JsonKeys.Choice.CONTENT}": {
                     "${ContentType.IMAGE.jsonName}": {}
                 }
             }
@@ -187,7 +187,7 @@ class ChoiceJsonDeserializerTest {
         Mockito.`when`(contentDeserializer.deserialize(anyString())).thenReturn(SOME_VIDEO)
         val json = """
             {
-                "content": {
+                "${JsonKeys.Choice.CONTENT}": {
                     "${ContentType.VIDEO.jsonName}": {}
                 }
             }
