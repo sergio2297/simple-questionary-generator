@@ -8,33 +8,58 @@ package es.sfernandez.sqg.deserializer.json
  */
 object JsonKeys {
 
-    object Text {
-        const val VALUE = "value"
-        const val MARKUP = "markup"
-    }
+    object Contents {
 
-    object Sound {
-        const val PATH = "path"
-        const val AUTOPLAY = "autoplay"
-    }
+        object Text {
+            const val VALUE = "value"
+            const val MARKUP = "markup"
+        }
 
-    object Image {
-        const val PATH = "path"
-        const val CLICK_TO_SEE = "clickToSee"
-    }
+        object Sound {
+            const val PATH = "path"
+            const val AUTOPLAY = "autoplay"
+        }
 
-    object Video {
-        const val PATH = "path"
-        const val AUTOPLAY = "autoplay"
-    }
+        object Image {
+            const val PATH = "path"
+            const val CLICK_TO_SEE = "clickToSee"
+        }
 
-    object Problem {
-        const val CONTENTS = "contents"
+        object Video {
+            const val PATH = "path"
+            const val AUTOPLAY = "autoplay"
+        }
+
     }
 
     object Choice {
         const val ID = "id"
         const val CONTENT = "content"
+    }
+
+    object Answer {
+
+        const val TYPE = "type"
+
+        object Text {
+            const val POSSIBLE_REPLIES = "possibleReplies"
+            const val REPLY_REGEX = "replyRegex"
+        }
+
+        object SingleSelection {
+            const val POSSIBLE_CHOICES = "possibleChoices"
+            const val RIGHT_CHOICE_ID = "rightChoice"
+        }
+
+        object MultipleSelection {
+            const val POSSIBLE_CHOICES = "possibleChoices"
+            const val RIGHT_CHOICES = "rightChoices"
+        }
+
+    }
+
+    object Problem {
+        const val CONTENTS = "contents"
     }
 
     object Explanation {
