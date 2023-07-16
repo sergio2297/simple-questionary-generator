@@ -1,4 +1,4 @@
-package es.sfernandez.sqg.deserializer.json.question.contents
+package es.sfernandez.sqg.deserializer.json.questionary.contents
 
 import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
@@ -35,7 +35,7 @@ class TextJsonDeserializerTest {
     fun deserialize_jsonWithValue_returnValueTest() {
         val value = BasicFixtures.SOME_TEXT_1
         val json = """
-            { "${JsonKeys.Text.VALUE}": "$value"}
+            { "${JsonKeys.Contents.Text.VALUE}": "$value"}
         """.trimIndent()
 
         val text = deserializer.deserialize(json)
@@ -56,7 +56,7 @@ class TextJsonDeserializerTest {
     @EnumSource(Text.Markup::class)
     fun deserialize_jsonWithMarkup_workTest(markup : Text.Markup) {
         val json = """
-            { "${JsonKeys.Text.MARKUP}": "${markup.name}"}
+            { "${JsonKeys.Contents.Text.MARKUP}": "${markup.name}"}
         """.trimIndent()
 
         val text = deserializer.deserialize(json)
@@ -70,18 +70,18 @@ class TextJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Text.VALUE)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Contents.Text.VALUE)
     }
 
     @Test
     fun logs_afterDeserializeJson_withIncorrectTypeValue_containsWarningMsgTest() {
         val json = """
-            { "${JsonKeys.Text.VALUE}": {}}
+            { "${JsonKeys.Contents.Text.VALUE}": {}}
         """.trimIndent()
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Text.VALUE)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Contents.Text.VALUE)
     }
 
     @Test
@@ -90,30 +90,30 @@ class TextJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Text.MARKUP)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Contents.Text.MARKUP)
     }
 
     @Test
     fun logs_afterDeserializeJson_withIncorrectTypeMarkup_containsWarningMsgTest() {
         val json = """
-            { "${JsonKeys.Text.MARKUP}": {}}
+            { "${JsonKeys.Contents.Text.MARKUP}": {}}
         """.trimIndent()
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Text.MARKUP)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Contents.Text.MARKUP)
     }
 
     @Test
     fun logs_afterDeserializeJson_withUndefinedMarkupConstant_containsWarningMsgTest() {
         val undefinedConstant = BasicFixtures.SOME_TEXT_1
         val json = """
-            { "${JsonKeys.Text.MARKUP}": "$undefinedConstant"}
+            { "${JsonKeys.Contents.Text.MARKUP}": "$undefinedConstant"}
         """.trimIndent()
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Text.MARKUP)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Contents.Text.MARKUP)
     }
     
 }

@@ -1,4 +1,4 @@
-package es.sfernandez.sqg.deserializer.json.question.contents
+package es.sfernandez.sqg.deserializer.json.questionary.contents
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext

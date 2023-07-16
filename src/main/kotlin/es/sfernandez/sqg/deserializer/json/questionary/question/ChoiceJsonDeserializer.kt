@@ -1,4 +1,4 @@
-package es.sfernandez.sqg.deserializer.json.question
+package es.sfernandez.sqg.deserializer.json.questionary.question
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
@@ -7,7 +7,7 @@ import es.sfernandez.sqg.beans.contents.UnknownContent
 import es.sfernandez.sqg.beans.question.answers.choices.Choice
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonKeys
-import es.sfernandez.sqg.deserializer.json.question.contents.ContentJsonDeserializer
+import es.sfernandez.sqg.deserializer.json.questionary.contents.ContentJsonDeserializer
 
 
 class ChoiceJsonDeserializer : JsonDeserializer<Choice> {

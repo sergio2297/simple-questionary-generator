@@ -1,4 +1,4 @@
-package es.sfernandez.sqg.deserializer.json.question.contents
+package es.sfernandez.sqg.deserializer.json.questionary.contents
 
 import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
@@ -34,7 +34,7 @@ class ImageJsonDeserializerTest {
     fun deserialize_jsonWithPath_returnPathTest() {
         val path = BasicFixtures.SOME_TEXT_1
         val json = """
-            { "${JsonKeys.Image.PATH}": "$path"}
+            { "${JsonKeys.Contents.Image.PATH}": "$path"}
         """.trimIndent()
 
         val image = deserializer.deserialize(json)
@@ -55,7 +55,7 @@ class ImageJsonDeserializerTest {
     @ValueSource(booleans = [true, false])
     fun deserialize_jsonWithClickToSee_worksTest(clickToSee : Boolean) {
         val json = """
-            { "${JsonKeys.Image.CLICK_TO_SEE}": ${clickToSee}}
+            { "${JsonKeys.Contents.Image.CLICK_TO_SEE}": ${clickToSee}}
         """.trimIndent()
 
         val image = deserializer.deserialize(json)
@@ -69,18 +69,18 @@ class ImageJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Image.PATH)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Contents.Image.PATH)
     }
 
     @Test
     fun logs_afterDeserializeJson_withIncorrectTypePath_containsWarningMsgTest() {
         val json = """
-            { "${JsonKeys.Image.PATH}": {}}
+            { "${JsonKeys.Contents.Image.PATH}": {}}
         """.trimIndent()
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Image.PATH)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Contents.Image.PATH)
     }
 
     @Test
@@ -89,18 +89,18 @@ class ImageJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Image.CLICK_TO_SEE)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Contents.Image.CLICK_TO_SEE)
     }
 
     @Test
     fun logs_afterDeserializeJson_withIncorrectTypeClickToSee_containsWarningMsgTest() {
         val json = """
-            { "${JsonKeys.Image.CLICK_TO_SEE}": "true"}
+            { "${JsonKeys.Contents.Image.CLICK_TO_SEE}": "true"}
         """.trimIndent()
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Image.CLICK_TO_SEE)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Contents.Image.CLICK_TO_SEE)
     }
 
 }

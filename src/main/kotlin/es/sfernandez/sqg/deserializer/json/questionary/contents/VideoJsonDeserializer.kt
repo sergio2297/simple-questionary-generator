@@ -1,4 +1,4 @@
-package es.sfernandez.sqg.deserializer.json.question.contents
+package es.sfernandez.sqg.deserializer.json.questionary.contents
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
@@ -17,8 +17,8 @@ class VideoJsonDeserializer : JsonDeserializer<Video>(Video::class.java) {
         override fun deserialize(parser: JsonParser?, ctxt: DeserializationContext?): Video {
             val node = extractJsonNode(parser)
 
-            val path = extractText(node, JsonKeys.Video.PATH)
-            val autoplay = extractBool(node, JsonKeys.Video.AUTOPLAY, true)
+            val path = extractText(node, JsonKeys.Contents.Video.PATH)
+            val autoplay = extractBool(node, JsonKeys.Contents.Video.AUTOPLAY, true)
 
             return Video(path, autoplay)
         }

@@ -1,4 +1,4 @@
-package es.sfernandez.sqg.deserializer.json.question
+package es.sfernandez.sqg.deserializer.json.questionary.question
 
 import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.beans.contents.ContentType
@@ -9,7 +9,7 @@ import es.sfernandez.sqg.beans.question.answers.AnswerFixtures.SOME_TEXT
 import es.sfernandez.sqg.beans.question.answers.AnswerFixtures.SOME_VIDEO
 import es.sfernandez.sqg.deserializer.json.JsonFixtures
 import es.sfernandez.sqg.deserializer.json.JsonKeys
-import es.sfernandez.sqg.deserializer.json.question.contents.ContentJsonDeserializer
+import es.sfernandez.sqg.deserializer.json.questionary.contents.ContentJsonDeserializer
 import es.sfernandez.sqg.deserializer.logs.DeserializationLog
 import es.sfernandez.sqg.deserializer.logs.DeserializationLogUtilsForTests
 import org.assertj.core.api.Assertions.assertThat

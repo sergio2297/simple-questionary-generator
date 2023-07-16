@@ -1,7 +1,7 @@
-package es.sfernandez.sqg.deserializer.json.question
+package es.sfernandez.sqg.deserializer.json.questionary.question
 
 import com.fasterxml.jackson.databind.JsonNode
-import es.sfernandez.sqg.deserializer.json.question.contents.GroupOfContentsJsonDeserializer
+import es.sfernandez.sqg.deserializer.json.questionary.contents.GroupOfContentsJsonDeserializer
 import es.sfernandez.sqg.deserializer.logs.DeserializationLogsProducer
 import es.sfernandez.sqg.beans.contents.HasContents
 

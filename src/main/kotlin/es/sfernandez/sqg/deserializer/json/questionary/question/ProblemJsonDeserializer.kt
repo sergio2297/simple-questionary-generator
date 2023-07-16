@@ -1,11 +1,11 @@
-package es.sfernandez.sqg.deserializer.json.question
+package es.sfernandez.sqg.deserializer.json.questionary.question
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonKeys
-import es.sfernandez.sqg.deserializer.json.question.contents.GroupOfContentsJsonDeserializer
+import es.sfernandez.sqg.deserializer.json.questionary.contents.GroupOfContentsJsonDeserializer
 import es.sfernandez.sqg.beans.question.problems.Problem
 
 

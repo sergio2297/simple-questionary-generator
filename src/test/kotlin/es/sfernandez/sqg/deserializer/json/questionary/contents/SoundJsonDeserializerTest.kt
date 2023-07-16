@@ -1,4 +1,4 @@
-package es.sfernandez.sqg.deserializer.json.question.contents
+package es.sfernandez.sqg.deserializer.json.questionary.contents
 
 import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
@@ -10,57 +10,57 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
-class VideoJsonDeserializerTest {
-
+class SoundJsonDeserializerTest {
+    
     //---- Attributes ----
-    private val deserializer = VideoJsonDeserializer()
+    private val deserializer = SoundJsonDeserializer()
 
     //---- Tests ----
     @Test
-    fun videoJsonDeserializer_isInstanceOf_JsonDeserializerTest() {
-        Assertions.assertThat(VideoJsonDeserializer()).isInstanceOf(JsonDeserializer::class.java)
+    fun soundJsonDeserializer_isInstanceOf_JsonDeserializerTest() {
+        Assertions.assertThat(SoundJsonDeserializer()).isInstanceOf(JsonDeserializer::class.java)
     }
 
     @Test
     fun deserialize_jsonWithoutPath_assignEmptyPathTest() {
         val json = JsonFixtures.EMPTY_JSON_OBJECT
 
-        val video = deserializer.deserialize(json)
+        val sound = deserializer.deserialize(json)
 
-        Assertions.assertThat(video.path).isEmpty()
+        Assertions.assertThat(sound.path).isEmpty()
     }
 
     @Test
     fun deserialize_jsonWithPath_returnPathTest() {
         val path = BasicFixtures.SOME_TEXT_1
         val json = """
-            { "${JsonKeys.Video.PATH}": "$path"}
+            { "${JsonKeys.Contents.Sound.PATH}": "$path"}
         """.trimIndent()
 
-        val video = deserializer.deserialize(json)
+        val sound = deserializer.deserialize(json)
 
-        Assertions.assertThat(video.path).isEqualTo(path)
+        Assertions.assertThat(sound.path).isEqualTo(path)
     }
 
     @Test
     fun deserialize_jsonWithoutAutoplay_assignTrueTest() {
         val json = JsonFixtures.EMPTY_JSON_OBJECT
 
-        val video = deserializer.deserialize(json)
+        val sound = deserializer.deserialize(json)
 
-        Assertions.assertThat(video.autoplay).isTrue()
+        Assertions.assertThat(sound.autoplay).isTrue()
     }
 
     @ParameterizedTest
     @ValueSource(booleans = [true, false])
     fun deserialize_jsonWithAutoplay_worksTest(autoplay : Boolean) {
         val json = """
-            { "${JsonKeys.Video.AUTOPLAY}": ${autoplay}}
+            { "${JsonKeys.Contents.Sound.AUTOPLAY}": ${autoplay}}
         """.trimIndent()
 
-        val video = deserializer.deserialize(json)
+        val sound = deserializer.deserialize(json)
 
-        Assertions.assertThat(video.autoplay).isEqualTo(autoplay)
+        Assertions.assertThat(sound.autoplay).isEqualTo(autoplay)
     }
 
     @Test
@@ -69,18 +69,18 @@ class VideoJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Video.PATH)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Contents.Sound.PATH)
     }
 
     @Test
     fun logs_afterDeserializeJson_withIncorrectTypePath_containsWarningMsgTest() {
         val json = """
-            { "${JsonKeys.Video.PATH}": {}}
+            { "${JsonKeys.Contents.Sound.PATH}": {}}
         """.trimIndent()
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Video.PATH)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Contents.Sound.PATH)
     }
 
     @Test
@@ -89,18 +89,17 @@ class VideoJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Video.AUTOPLAY)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Contents.Sound.AUTOPLAY)
     }
 
     @Test
     fun logs_afterDeserializeJson_withIncorrectTypeAutoplay_containsWarningMsgTest() {
         val json = """
-            { "${JsonKeys.Video.AUTOPLAY}": "true"}
+            { "${JsonKeys.Contents.Sound.AUTOPLAY}": "true"}
         """.trimIndent()
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Video.AUTOPLAY)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Contents.Sound.AUTOPLAY)
     }
-    
 }

@@ -1,8 +1,8 @@
-package es.sfernandez.sqg.deserializer.json.question
+package es.sfernandez.sqg.deserializer.json.questionary.question
 
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonFixtures
-import es.sfernandez.sqg.deserializer.json.question.contents.GroupOfContentsJsonDeserializer
+import es.sfernandez.sqg.deserializer.json.questionary.contents.GroupOfContentsJsonDeserializer
 import es.sfernandez.sqg.deserializer.logs.DeserializationLogUtilsForTests
 import es.sfernandez.sqg.beans.contents.GroupOfContents
 import es.sfernandez.sqg.beans.contents.HasContents

@@ -1,4 +1,4 @@
-package es.sfernandez.sqg.deserializer.json.question.contents
+package es.sfernandez.sqg.deserializer.json.questionary.contents
 
 import es.sfernandez.sqg.beans.contents.*
 import es.sfernandez.sqg.beans.question.answers.AnswerFixtures.SOME_IMAGE
