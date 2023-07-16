@@ -66,4 +66,11 @@ object JsonKeys {
         const val CONTENTS = "contents"
     }
 
+    object Question {
+        const val TITLE = "title"
+        const val PROBLEM = "problem"
+        const val ANSWER = "answer"
+        const val EXPLANATION = "explanation"
+    }
+
 }
