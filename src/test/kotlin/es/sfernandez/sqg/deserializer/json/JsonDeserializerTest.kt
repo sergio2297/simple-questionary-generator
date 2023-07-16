@@ -4,15 +4,20 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
+import com.fasterxml.jackson.databind.node.ArrayNode
+import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import es.sfernandez.sqg.BasicFixtures
+import es.sfernandez.sqg.deserializer.DeserializationException
 import es.sfernandez.sqg.deserializer.logs.DeserializationLog
 import es.sfernandez.sqg.deserializer.logs.DeserializationLogFactory
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
 import org.mockito.kotlin.any
-import java.lang.RuntimeException
+import java.util.function.Function
 import kotlin.test.BeforeTest
 
 class JsonDeserializerTest {
@@ -37,6 +42,10 @@ class JsonDeserializerTest {
             log.logFactory = logFactory
         }
 
+        fun doToJsonArray(node: JsonNode) : ArrayNode {
+            return super.toJsonArray(node)
+        }
+
         fun doExtractTextFromSuper(node: JsonNode, key: String, defaultValue: String = "") : String {
             return super.extractText(node, key, defaultValue)
         }
@@ -53,6 +62,14 @@ class JsonDeserializerTest {
             return super.extractEnum(node, key, defaultValue)
         }
 
+        inline fun <reified T> doExtractArrayFromSuper(node: JsonNode, key: String, casting: Function<JsonNode, T>) : Array<T> {
+            return super.extractArray(node, key, casting)
+        }
+
+        inline fun <reified T> doExtractArrayOfObjectFromSuper(node: JsonNode, key: String, deserializer: JsonDeserializer<T>) : Array<T> {
+            return super.extractArrayOfObjects(node, key, deserializer)
+        }
+
         fun doDumpLogsFrom(deserializer: JsonDeserializer<*>) {
             super.dumpLogsFrom(deserializer)
         }
@@ -61,6 +78,11 @@ class JsonDeserializerTest {
 
     private class Object {}
     private class ObjectJsonDeserializer : JsonDeserializer<Object>(Object::class.java) {
+
+        init {
+            log
+        }
+
         override fun createDeserializer(): StdDeserializer<Object> {
             throw RuntimeException()
         }
@@ -141,6 +163,24 @@ class JsonDeserializerTest {
         return node
     }
 
+    private fun mockNotArrayJsonNode() : JsonNode {
+        val node = mockJsonNode()
+        Mockito.`when`(node.isArray).thenReturn(false)
+        return node
+    }
+
+    private fun mockArrayJsonNode(vararg elements: String) : JsonNode {
+        val node = ArrayNode(JsonNodeFactory.instance)
+        elements.forEach(node::add)
+        return node
+    }
+
+    private fun mockArrayOfObjectsJsonNode(vararg elements: Object) : JsonNode {
+        val node = ArrayNode(JsonNodeFactory.instance)
+        elements.forEach { _ -> node.add(JsonNodeFactory.instance.objectNode()) }
+        return node
+    }
+
     private fun mockLogFactory() : DeserializationLogFactory {
         return Mockito.mock(DeserializationLogFactory::class.java)
     }
@@ -173,6 +213,20 @@ class JsonDeserializerTest {
 
         assertThat(deserializer.logs()[0].context.input).isEqualTo(context1)
         assertThat(deserializer.logs()[1].context.input).isEqualTo(context2)
+    }
+
+    @Test
+    fun toArrayJson_notArrayNode_throwsExceptionTest() {
+        val node = mockNotArrayJsonNode()
+
+        assertThrows<DeserializationException> { deserializer.doToJsonArray(node) }
+    }
+
+    @Test
+    fun toArrayJson_arrayNode_worksTest() {
+        val node = mockArrayJsonNode("")
+
+        assertDoesNotThrow { deserializer.doToJsonArray(node) }
     }
 
     @Test
@@ -421,6 +475,121 @@ class JsonDeserializerTest {
         val expectedLog = mockLogFactoryWarningMethod()
 
         deserializer.doExtractEnumFromSuper(jsonNode, someKey, defaultEnumValue)
+
+        assertThat(deserializer.logs()).contains(expectedLog)
+    }
+
+    @Test
+    fun extractArray_fromArrayNode_returnsCorrectArrayTest() {
+        val expectedTexts = arrayOf(BasicFixtures.SOME_TEXT_1, BasicFixtures.SOME_TEXT_2)
+        val jsonArray = mockJsonNodeWithKey(someKey,
+            mockArrayJsonNode(*expectedTexts))
+
+        val texts = deserializer.doExtractArrayFromSuper(jsonArray, someKey, JsonNode::asText)
+
+        assertThat(texts).containsExactly(*expectedTexts)
+    }
+
+    @Test
+    fun extractArray_fromNode_withoutSearchedKey_returnsEmptyArrayTest() {
+        val jsonArray = mockJsonNodeWithoutKey(someKey)
+
+        val array = deserializer.doExtractArrayFromSuper(jsonArray, someKey, JsonNode::asText)
+
+        assertThat(array).isEmpty()
+    }
+
+    @Test
+    fun extractArray_fromNode_withoutSearchedKey_addsWarningLogTest() {
+        val jsonArray = mockJsonNodeWithoutKey(someKey)
+        val expectedLog = mockLogFactoryWarningMethod()
+
+        deserializer.doExtractArrayFromSuper(jsonArray, someKey, JsonNode::asText)
+
+        assertThat(deserializer.logs()).contains(expectedLog)
+    }
+
+    @Test
+    fun extractArray_fromNotArrayNode_returnsEmptyArrayTest() {
+        val jsonArray = mockJsonNodeWithKey(someKey, mockNotArrayJsonNode())
+
+        val array = deserializer.doExtractArrayFromSuper(jsonArray, someKey, JsonNode::asText)
+
+        assertThat(array).isEmpty()
+    }
+
+    @Test
+    fun extractArray_fromNotArrayNode_addsWarningLogTest() {
+        val jsonArray = mockJsonNodeWithKey(someKey, mockNotArrayJsonNode())
+        val expectedLog = mockLogFactoryWarningMethod()
+
+        deserializer.doExtractArrayFromSuper(jsonArray, someKey, JsonNode::asText)
+
+        assertThat(deserializer.logs()).contains(expectedLog)
+    }
+
+    @Test
+    fun extractArrayOfObjects_fromArrayNode_returnsCorrectArrayTest() {
+        val expectedObjects = arrayOf(Object(), Object())
+        Mockito.`when`(objectJsonDeserializer.deserialize(any()))
+            .thenReturn(expectedObjects[0], expectedObjects[1])
+        Mockito.`when`(objectJsonDeserializer.logs()).thenReturn(emptyArray())
+        val jsonArray = mockJsonNodeWithKey(someKey, mockArrayOfObjectsJsonNode(*expectedObjects))
+
+        val array = deserializer.doExtractArrayOfObjectFromSuper(jsonArray, someKey, objectJsonDeserializer)
+
+        assertThat(array).containsExactly(*expectedObjects)
+    }
+
+    @Test
+    fun extractArrayOfObjects_fromArrayNode_dumpsLogsFromDeserializerTest() {
+        val someLogs = arrayOf(mockLog(), mockLog())
+        Mockito.`when`(objectJsonDeserializer.logs()).thenReturn(someLogs)
+        val jsonArray = mockJsonNodeWithKey(someKey, mockArrayOfObjectsJsonNode())
+
+        deserializer.doExtractArrayOfObjectFromSuper(jsonArray, someKey, objectJsonDeserializer)
+
+        assertThat(deserializer.logs()).contains(*someLogs)
+    }
+
+    @Test
+    fun extractArrayOfObjects_fromNode_withoutSearchedKey_returnsEmptyArrayTest() {
+        val jsonArray = mockJsonNodeWithoutKey(someKey)
+        Mockito.`when`(objectJsonDeserializer.logs()).thenReturn(emptyArray())
+
+        val array = deserializer.doExtractArrayOfObjectFromSuper(jsonArray, someKey, objectJsonDeserializer)
+
+        assertThat(array).isEmpty()
+    }
+
+    @Test
+    fun extractArrayOfObjects_fromNode_withoutSearchedKey_addsWarningLogTest() {
+        val jsonArray = mockJsonNodeWithoutKey(someKey)
+        val expectedLog = mockLogFactoryWarningMethod()
+        Mockito.`when`(objectJsonDeserializer.logs()).thenReturn(emptyArray())
+
+        deserializer.doExtractArrayOfObjectFromSuper(jsonArray, someKey, objectJsonDeserializer)
+
+        assertThat(deserializer.logs()).contains(expectedLog)
+    }
+
+    @Test
+    fun extractArrayOfObjects_fromNotArrayNode_returnsEmptyArrayTest() {
+        val jsonArray = mockJsonNodeWithKey(someKey, mockNotArrayJsonNode())
+        Mockito.`when`(objectJsonDeserializer.logs()).thenReturn(emptyArray())
+
+        val array = deserializer.doExtractArrayOfObjectFromSuper(jsonArray, someKey, objectJsonDeserializer)
+
+        assertThat(array).isEmpty()
+    }
+
+    @Test
+    fun extractArrayOfObjects_fromNotArrayNode_addsWarningLogTest() {
+        val jsonArray = mockJsonNodeWithKey(someKey, mockNotArrayJsonNode())
+        val expectedLog = mockLogFactoryWarningMethod()
+        Mockito.`when`(objectJsonDeserializer.logs()).thenReturn(emptyArray())
+
+        deserializer.doExtractArrayOfObjectFromSuper(jsonArray, someKey, objectJsonDeserializer)
 
         assertThat(deserializer.logs()).contains(expectedLog)
     }

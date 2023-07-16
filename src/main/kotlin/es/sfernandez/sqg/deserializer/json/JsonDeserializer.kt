@@ -5,9 +5,12 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.databind.node.ArrayNode
 import es.sfernandez.sqg.deserializer.DeserializationException
 import es.sfernandez.sqg.deserializer.Deserializer
+import es.sfernandez.sqg.deserializer.json.questionary.contents.GroupOfContentsJsonDeserializer
 import es.sfernandez.sqg.deserializer.logs.*
+import java.util.function.Function
 
 abstract class JsonDeserializer<T> : Deserializer<T>, ProducesDeserializationLogs {
 
@@ -56,6 +59,19 @@ abstract class JsonDeserializer<T> : Deserializer<T>, ProducesDeserializationLog
     protected fun extractJsonNode(parser: JsonParser?) : JsonNode {
         if(parser == null) throw DeserializationException("Error. Can not deserialize $mappedClass because JsonParser is null")
         return parser.codec.readTree(parser)
+    }
+
+    /**
+     * Casts the given JsonNode to an ArrayNode iff the node is an Array
+     *
+     * @param jsonNode Node to cast
+     * @return the node as an ArrayNode
+     * @throws DeserializationException if node is not an Array
+     */
+    protected fun toJsonArray(jsonNode: JsonNode) : ArrayNode {
+        if(!jsonNode.isArray) throw DeserializationException("Error. ${GroupOfContentsJsonDeserializer::class.simpleName}" +
+                " expects a JSON Array not: '${jsonNode}'")
+        return jsonNode as ArrayNode
     }
 
     /**
@@ -164,23 +180,52 @@ abstract class JsonDeserializer<T> : Deserializer<T>, ProducesDeserializationLog
         return deserializedObj
     }
 
-//    protected inline fun <reified T> extractArrayOfObjects(node: JsonNode, key: String, deserializer: JsonDeserializer<T>) : Array<T> {
-//        val jsonProperty = node[key]
-//        val defaultValue = emptyArray<T>()
-//
-//        if(jsonProperty == null) {
-//            log.warningMissingProperty(key, defaultValue.toString())
-//            return defaultValue
-//        }
-//
-//        if(!jsonProperty.isArray) {
-//            log.warningIncorrectType(key, defaultValue.toString())
-//            return defaultValue
-//        }
-//
-//        TODO()
-//        return defaultValue
-//    }
+    /**
+     * Extracts the array of field "key" from the "node". If missing, returns emptyArray
+     *
+     * Using this method when the array contains simple types. If it has objects, then use [extractArrayOfObjects]
+     *
+     * @param node JsonNode where to extract the array from
+     * @param key Field name to extract
+     * @param casting Function to cast array values
+     * @return the extracted array
+     */
+    protected inline fun <reified T> extractArray(node: JsonNode, key: String, casting: Function<JsonNode, T>) : Array<T> {
+        val jsonProperty = node[key]
+        val defaultValue = emptyArray<T>()
+
+        if(jsonProperty == null) {
+            log.warningMissingProperty(key, defaultValue.toString())
+            return defaultValue
+        }
+
+        if(!jsonProperty.isArray) {
+            log.warningIncorrectType(key, defaultValue.toString())
+            return defaultValue
+        }
+
+        return toJsonArray(jsonProperty)
+            .asSequence()
+            .map(casting::apply)
+            .toList()
+            .toTypedArray()
+    }
+
+    /**
+     * Extracts the array of field "key" from the "node". If missing, returns emptyArray
+     *
+     * Using this method when the array contains objects. If it has simple types, then use [extractArray]
+     *
+     * @param node JsonNode where to extract the array from
+     * @param key Field name to extract
+     * @param deserializer JsonDeserializer used to deserialize each array's element
+     * @return the extracted array
+     */
+    protected inline fun <reified T> extractArrayOfObjects(node: JsonNode, key: String, deserializer: JsonDeserializer<T>) : Array<T> {
+        return extractArray(node, key)
+            { jsonNode -> deserializer.deserialize(jsonNode.toString()) }
+            .also { dumpLogsFrom(deserializer) }
+    }
 
     /**
      * Dump logs from the JsonDeserializer received
