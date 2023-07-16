@@ -7,16 +7,16 @@ import es.sfernandez.sqg.deserializer.json.JsonKeys
 import es.sfernandez.sqg.deserializer.json.questionary.question.ChoiceJsonDeserializer
 import es.sfernandez.sqg.deserializer.logs.DeserializationLog
 import es.sfernandez.sqg.deserializer.logs.DeserializationLogUtilsForTests
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
+import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.any
 import kotlin.test.BeforeTest
-import kotlin.test.Test
 
-class SingleSelectionAnswerJsonDeserializerTest {
+class MultipleSelectionAnswerJsonDeserializerTest {
 
     //---- Attributes ----
-    private lateinit var deserializer: SingleSelectionAnswerJsonDeserializer
+    private lateinit var deserializer: MultipleSelectionAnswerJsonDeserializer
     private lateinit var choiceDeserializer: ChoiceJsonDeserializer
 
     //---- Fixtures ----
@@ -29,15 +29,15 @@ class SingleSelectionAnswerJsonDeserializerTest {
     }
 
     //---- Methods ----
-    private fun createDefaultDeserializer(): SingleSelectionAnswerJsonDeserializer {
-        return SingleSelectionAnswerJsonDeserializer()
+    private fun createDefaultDeserializer(): MultipleSelectionAnswerJsonDeserializer {
+        return MultipleSelectionAnswerJsonDeserializer()
     }
 
-    private fun createMockedDeserializer() : SingleSelectionAnswerJsonDeserializer {
+    private fun createMockedDeserializer() : MultipleSelectionAnswerJsonDeserializer {
         choiceDeserializer = Mockito.mock(ChoiceJsonDeserializer::class.java)
         Mockito.lenient().`when`(choiceDeserializer.logs())
             .thenReturn(arrayOf(Mockito.mock(DeserializationLog::class.java)))
-        return SingleSelectionAnswerJsonDeserializer(choiceDeserializer)
+        return MultipleSelectionAnswerJsonDeserializer(choiceDeserializer)
     }
 
     private fun mockChoice() : Choice {
@@ -51,7 +51,7 @@ class SingleSelectionAnswerJsonDeserializerTest {
 
         val answer = deserializer.deserialize(json)
 
-        assertThat(answer.possibleChoices).isEmpty()
+        Assertions.assertThat(answer.possibleChoices).isEmpty()
     }
 
     @Test
@@ -60,7 +60,7 @@ class SingleSelectionAnswerJsonDeserializerTest {
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Answer.SingleSelection.POSSIBLE_CHOICES)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Answer.MultipleSelection.POSSIBLE_CHOICES)
     }
 
     @Test
@@ -70,71 +70,71 @@ class SingleSelectionAnswerJsonDeserializerTest {
         Mockito.`when`(choiceDeserializer.deserialize(any())).thenReturn(expectedArray[0], expectedArray[1])
         val json = """
             {
-                "${JsonKeys.Answer.SingleSelection.POSSIBLE_CHOICES}": ["", ""]
+                "${JsonKeys.Answer.MultipleSelection.POSSIBLE_CHOICES}": ["", ""]
             }
         """.trimIndent()
 
         val answer = deserializer.deserialize(json)
 
-        assertThat(answer.possibleChoices).containsExactly(*someChoices)
+        Assertions.assertThat(answer.possibleChoices).containsExactly(*someChoices)
     }
 
     @Test
     fun afterDeserialize_objectWithNotValidPossibleChoices_logsHaveWarningTest() {
         val json = """
             {
-                "${JsonKeys.Answer.SingleSelection.POSSIBLE_CHOICES}": {}
+                "${JsonKeys.Answer.MultipleSelection.POSSIBLE_CHOICES}": {}
             }
         """.trimIndent()
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Answer.SingleSelection.POSSIBLE_CHOICES)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Answer.MultipleSelection.POSSIBLE_CHOICES)
     }
 
     @Test
-    fun deserialize_objectWithoutRightChoiceId_returnsAnswerWithEmptyRightChoiceIdTest() {
+    fun deserialize_objectWithoutRightChoicesIds_returnsAnswerWithEmptyRightChoicesIdsTest() {
         val json = JsonFixtures.EMPTY_JSON_OBJECT
 
         val answer = deserializer.deserialize(json)
 
-        assertThat(answer.possibleChoices).isEmpty()
+        Assertions.assertThat(answer.possibleChoices).isEmpty()
     }
 
     @Test
-    fun afterDeserialize_objectWithoutRightChoiceId_logsHaveWarningTest() {
+    fun afterDeserialize_objectWithoutRightChoicesIds_logsHaveWarningTest() {
         val json = JsonFixtures.EMPTY_JSON_OBJECT
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Answer.SingleSelection.RIGHT_CHOICE_ID)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Answer.MultipleSelection.RIGHT_CHOICES_IDS)
     }
 
     @Test
-    fun deserialize_objectWithRightChoiceId_returnsAnswerWithRightChoiceIdTest() {
-        val id = BasicFixtures.SOME_TEXT_1
+    fun deserialize_objectWithRightChoicesIds_returnsAnswerWithRightChoicesIdsTest() {
+        val ids = arrayOf(BasicFixtures.SOME_TEXT_1, BasicFixtures.SOME_TEXT_2)
         val json = """
             {
-                "${JsonKeys.Answer.SingleSelection.RIGHT_CHOICE_ID}": "$id"
+                "${JsonKeys.Answer.MultipleSelection.RIGHT_CHOICES_IDS}": ["${ids[0]}", "${ids[1]}"]
             }
         """.trimIndent()
 
         val answer = deserializer.deserialize(json)
 
-        assertThat(answer.rightChoiceId).isEqualTo(id)
+        Assertions.assertThat(answer.rightChoicesIds).containsExactly(*ids)
     }
 
     @Test
-    fun afterDeserialize_objectWithNotValidRightChoiceId_logsHaveWarningTest() {
+    fun afterDeserialize_objectWithNotValidRightChoicesIds_logsHaveWarningTest() {
         val json = """
             {
-                "${JsonKeys.Answer.SingleSelection.RIGHT_CHOICE_ID}": 7
+                "${JsonKeys.Answer.MultipleSelection.RIGHT_CHOICES_IDS}": 7
             }
         """.trimIndent()
 
         deserializer.deserialize(json)
 
-        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Answer.SingleSelection.RIGHT_CHOICE_ID)
+        DeserializationLogUtilsForTests.checkDeserializerLogsContainsWarningWithWord(deserializer, JsonKeys.Answer.MultipleSelection.RIGHT_CHOICES_IDS)
     }
-
+    
 }
