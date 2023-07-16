@@ -53,7 +53,7 @@ object JsonKeys {
 
         object MultipleSelection {
             const val POSSIBLE_CHOICES = "possibleChoices"
-            const val RIGHT_CHOICES = "rightChoices"
+            const val RIGHT_CHOICES_IDS = "rightChoices"
         }
 
     }
