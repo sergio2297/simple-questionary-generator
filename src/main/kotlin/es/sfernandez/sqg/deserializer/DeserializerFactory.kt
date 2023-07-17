@@ -1,5 +1,6 @@
 package es.sfernandez.sqg.deserializer
 
+import es.sfernandez.sqg.beans.Questionary
 import es.sfernandez.sqg.beans.contents.*
 import es.sfernandez.sqg.beans.question.Question
 import es.sfernandez.sqg.beans.question.answers.Answer
@@ -41,6 +42,8 @@ interface DeserializerFactory {
 
         if(clazz == Question::class)
             return createQuestionDeserializer()
+        if(clazz == Questionary::class)
+            return createQuestionaryDeserializer()
 
         throw DeserializationException("Error. Given class ${clazz.simpleName} isn't deserializable.")
     }
@@ -64,5 +67,6 @@ interface DeserializerFactory {
     fun createExplanationDeserializer(): Deserializer<Explanation>
 
     fun createQuestionDeserializer(): Deserializer<Question>
+    fun createQuestionaryDeserializer(): Deserializer<Questionary>
 
 }

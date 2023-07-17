@@ -1,9 +1,11 @@
 package es.sfernandez.sqg.deserializer.json
 
+import es.sfernandez.sqg.beans.Questionary
 import es.sfernandez.sqg.deserializer.DeserializationException
 import es.sfernandez.sqg.deserializer.json.questionary.*
 import es.sfernandez.sqg.deserializer.json.questionary.contents.*
 import es.sfernandez.sqg.beans.contents.*
+import es.sfernandez.sqg.beans.question.Question
 import es.sfernandez.sqg.beans.question.answers.Answer
 import es.sfernandez.sqg.beans.question.answers.choices.Choice
 import es.sfernandez.sqg.beans.question.explanations.Explanation
@@ -11,6 +13,7 @@ import es.sfernandez.sqg.beans.question.problems.Problem
 import es.sfernandez.sqg.deserializer.json.questionary.question.ChoiceJsonDeserializer
 import es.sfernandez.sqg.deserializer.json.questionary.question.ExplanationJsonDeserializer
 import es.sfernandez.sqg.deserializer.json.questionary.question.ProblemJsonDeserializer
+import es.sfernandez.sqg.deserializer.json.questionary.question.QuestionJsonDeserializer
 import es.sfernandez.sqg.deserializer.json.questionary.question.answer.AnswerJsonDeserializer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
@@ -47,7 +50,8 @@ class JsonDeserializerFactoryTest {
                 KClassWithJsonDeserializer(Choice::class, ChoiceJsonDeserializer::class),
                 KClassWithJsonDeserializer(Explanation::class, ExplanationJsonDeserializer::class),
 
-//                KClassWithJsonDeserializer(Question::class, QuestionJsonDeserializer::class),
+                KClassWithJsonDeserializer(Question::class, QuestionJsonDeserializer::class),
+                KClassWithJsonDeserializer(Questionary::class, QuestionaryJsonDeserializer::class),
             )
         }
     }

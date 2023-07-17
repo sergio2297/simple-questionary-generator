@@ -1,5 +1,6 @@
 package es.sfernandez.sqg.deserializer.json
 
+import es.sfernandez.sqg.beans.Questionary
 import es.sfernandez.sqg.deserializer.Deserializer
 import es.sfernandez.sqg.deserializer.DeserializerFactory
 import es.sfernandez.sqg.deserializer.json.questionary.question.ExplanationJsonDeserializer
@@ -11,7 +12,9 @@ import es.sfernandez.sqg.beans.question.answers.Answer
 import es.sfernandez.sqg.beans.question.answers.choices.Choice
 import es.sfernandez.sqg.beans.question.explanations.Explanation
 import es.sfernandez.sqg.beans.question.problems.Problem
+import es.sfernandez.sqg.deserializer.json.questionary.QuestionaryJsonDeserializer
 import es.sfernandez.sqg.deserializer.json.questionary.question.ChoiceJsonDeserializer
+import es.sfernandez.sqg.deserializer.json.questionary.question.QuestionJsonDeserializer
 import es.sfernandez.sqg.deserializer.json.questionary.question.answer.AnswerJsonDeserializer
 
 class JsonDeserializerFactory : DeserializerFactory {
@@ -53,7 +56,11 @@ class JsonDeserializerFactory : DeserializerFactory {
     }
 
     override fun createQuestionDeserializer(): Deserializer<Question> {
-        TODO("Not yet implemented")
+        return QuestionJsonDeserializer()
+    }
+
+    override fun createQuestionaryDeserializer(): Deserializer<Questionary> {
+        return QuestionaryJsonDeserializer()
     }
 
 }
