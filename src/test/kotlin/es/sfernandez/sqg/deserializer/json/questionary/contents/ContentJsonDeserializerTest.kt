@@ -50,6 +50,11 @@ class ContentJsonDeserializerTest {
         Mockito.lenient().`when`(imageJsonDeserializer.logs()).thenReturn(arrayOf())
     }
 
+    private fun mockSomeDeserializationLog() : Array<DeserializationLog> {
+        return generateSequence { Mockito.mock(DeserializationLog::class.java) }
+            .take(3).toList().toTypedArray()
+    }
+
     //---- Tests ----
     @Test
     fun deserialize_notJsonObject_returnUnknownContentTest() {
@@ -217,11 +222,6 @@ class ContentJsonDeserializerTest {
         val content = deserializer.deserialize(json)
 
         assertThat(content).isEqualTo(SOME_IMAGE)
-    }
-
-    private fun mockSomeDeserializationLog() : Array<DeserializationLog> {
-        return generateSequence { Mockito.mock(DeserializationLog::class.java) }
-            .take(3).toList().toTypedArray()
     }
 
     @Test
