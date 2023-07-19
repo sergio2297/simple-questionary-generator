@@ -24,6 +24,13 @@ private constructor(
         ERROR,
     }
 
+    /**
+     * @return true iff type is equal to [ValidationResultType.OK]
+     */
+    fun isOk() : Boolean {
+        return type == ValidationResultType.OK
+    }
+
     companion object {
 
         /**

@@ -39,6 +39,13 @@ class ValidationResultTest {
     }
 
     @Test
+    fun validationResult_createdWithOk_isOkTest() {
+        result = ValidationResult.ok()
+
+        assertThat(result.isOk()).isTrue()
+    }
+
+    @Test
     fun validationResult_createdWithWarning_isWarningTypeTest() {
         result = ValidationResult.warning(msg)
 
@@ -67,6 +74,13 @@ class ValidationResultTest {
     }
 
     @Test
+    fun validationResult_createdWithWarning_isNotOkTest() {
+        result = ValidationResult.warning(msg)
+
+        assertThat(result.isOk()).isFalse()
+    }
+
+    @Test
     fun validationResult_createdWithError_isErrorTypeTest() {
         result = ValidationResult.error(msg)
 
@@ -92,6 +106,13 @@ class ValidationResultTest {
         result = ValidationResult.error(msg, fooValue)
 
         assertThat(result.context).isEqualTo(fooValue)
+    }
+
+    @Test
+    fun validationResult_createdWithError_isNotOkTest() {
+        result = ValidationResult.error(msg)
+
+        assertThat(result.isOk()).isFalse()
     }
 
 }
