@@ -74,6 +74,8 @@ object JsonKeys {
     }
 
     object Questionary {
+        const val TITLE = "title"
+        const val PORTRAIT = "portrait"
         const val QUESTIONS = "questions"
     }
 
