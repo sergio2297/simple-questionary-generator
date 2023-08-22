@@ -4,7 +4,7 @@ import es.sfernandez.sqg.beans.Questionary
 import es.sfernandez.sqg.beans.contents.*
 import es.sfernandez.sqg.beans.question.Question
 import es.sfernandez.sqg.beans.question.answers.Answer
-import es.sfernandez.sqg.beans.question.answers.choices.Choice
+import es.sfernandez.sqg.beans.question.answers.Choice
 import es.sfernandez.sqg.beans.question.explanations.Explanation
 import es.sfernandez.sqg.beans.question.problems.Problem
 import kotlin.reflect.KClass
@@ -67,6 +67,7 @@ interface DeserializerFactory {
     fun createExplanationDeserializer(): Deserializer<Explanation>
 
     fun createQuestionDeserializer(): Deserializer<Question>
+
     fun createQuestionaryDeserializer(): Deserializer<Questionary>
 
 }

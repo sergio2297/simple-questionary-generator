@@ -1,4 +1,4 @@
-package es.sfernandez.sqg.beans.question.answers.choices
+package es.sfernandez.sqg.beans.question.answers
 
 import es.sfernandez.sqg.beans.contents.Content
 import es.sfernandez.sqg.beans.contents.UnknownContent

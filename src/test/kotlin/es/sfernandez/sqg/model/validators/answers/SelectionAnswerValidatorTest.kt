@@ -4,7 +4,7 @@ import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.beans.question.answers.AnswerFixtures
 import es.sfernandez.sqg.beans.question.answers.MultipleSelectionAnswer
 import es.sfernandez.sqg.beans.question.answers.SingleSelectionAnswer
-import es.sfernandez.sqg.beans.question.answers.choices.Choice
+import es.sfernandez.sqg.beans.question.answers.Choice
 import es.sfernandez.sqg.model.validators.ValidationResult
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

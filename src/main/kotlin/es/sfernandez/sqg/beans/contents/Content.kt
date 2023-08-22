@@ -1,7 +1,7 @@
 package es.sfernandez.sqg.beans.contents
 
 import es.sfernandez.sqg.beans.question.problems.Problem
-import es.sfernandez.sqg.beans.question.answers.choices.Choice
+import es.sfernandez.sqg.beans.question.answers.Choice
 import es.sfernandez.sqg.beans.question.explanations.Explanation
 
 /**

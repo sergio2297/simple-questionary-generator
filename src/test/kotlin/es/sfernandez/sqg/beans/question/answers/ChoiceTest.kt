@@ -1,8 +1,7 @@
-package es.sfernandez.sqg.beans.question.answers.choices
+package es.sfernandez.sqg.beans.question.answers
 
 import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.beans.contents.UnknownContent
-import es.sfernandez.sqg.beans.question.answers.AnswerFixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import kotlin.test.BeforeTest
