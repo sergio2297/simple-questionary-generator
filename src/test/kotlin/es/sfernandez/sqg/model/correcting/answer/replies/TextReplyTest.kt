@@ -1,7 +1,6 @@
-package es.sfernandez.sqg.model.correcting.replies
+package es.sfernandez.sqg.model.correcting.answer.replies
 
 import es.sfernandez.sqg.BasicFixtures
-import es.sfernandez.sqg.model.correcting.replies.TextReply
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
