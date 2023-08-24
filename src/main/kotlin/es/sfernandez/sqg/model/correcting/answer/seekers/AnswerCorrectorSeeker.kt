@@ -2,6 +2,7 @@ package es.sfernandez.sqg.model.correcting.answer.seekers
 
 import es.sfernandez.sqg.beans.question.answers.Answer
 import es.sfernandez.sqg.beans.question.answers.correction.AnswerCorrection
+import es.sfernandez.sqg.model.correcting.answer.AnswerCorrectingException
 import es.sfernandez.sqg.model.correcting.answer.correctors.AnswerCorrector
 
 /**
@@ -14,11 +15,11 @@ interface AnswerCorrectorSeeker<out RESULT> {
     /**
      * Seek the apropiate AnswerCorrector for the given answer based on its [AnswerCorrection]
      *
-     * It may throw an [AnswerCorrectorException]
+     * It may throw an [AnswerCorrectingException]
      *
      * @param answer Answer used to search the AnswerCorrector
      * @return the apropiate AnswerCorrector for the given answer
      */
-    fun correctorFor(answer: Answer) : AnswerCorrector<RESUL
+    fun correctorFor(answer: Answer) : AnswerCorrector<RESULT>
 
 }
