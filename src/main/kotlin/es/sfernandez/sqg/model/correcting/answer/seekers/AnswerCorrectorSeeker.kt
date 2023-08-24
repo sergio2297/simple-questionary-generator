@@ -1,6 +1,7 @@
 package es.sfernandez.sqg.model.correcting.answer.seekers
 
 import es.sfernandez.sqg.beans.question.answers.Answer
+import es.sfernandez.sqg.beans.question.answers.correction.AnswerCorrection
 import es.sfernandez.sqg.model.correcting.answer.correctors.AnswerCorrector
 
 /**
