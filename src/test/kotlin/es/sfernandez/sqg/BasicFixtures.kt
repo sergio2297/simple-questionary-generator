@@ -21,4 +21,6 @@ object BasicFixtures {
         FOO_1, FOO_2, FOO_3, FOO_4,
     }
 
+    class Foo
+
 }
