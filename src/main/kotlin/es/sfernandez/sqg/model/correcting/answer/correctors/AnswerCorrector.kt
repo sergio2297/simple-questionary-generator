@@ -1,6 +1,7 @@
 package es.sfernandez.sqg.model.correcting.answer.correctors
 
 import es.sfernandez.sqg.beans.question.answers.correction.AnswerCorrection
+import es.sfernandez.sqg.model.correcting.answer.AnswerCorrectingException
 import es.sfernandez.sqg.model.correcting.answer.replies.Reply
 
 /**
@@ -8,7 +9,7 @@ import es.sfernandez.sqg.model.correcting.answer.replies.Reply
  * a result. For example: right or not, score, grade...
  *
  * Each AnswerCorrector can accept only some types of AnswerCorrection and Replies, so if you try to execute [correct]
- * with values that aren't accepted by the corrector, an [AnswerCorrectorException] will be thrown.
+ * with values that aren't accepted by the corrector, an [AnswerCorrectingException] will be thrown.
  *
  * @param RESULT type of value returned after the evaluation
  */
@@ -41,7 +42,7 @@ abstract class AnswerCorrector<out RESULT> {
      * @param correction AnswerCorrection use to check the reply
      * @param reply Reply to evaluate
      * @return the result of evaluate the reply with the correction
-     * @throws AnswerCorrectorException iff the given correction or reply isn't accepted
+     * @throws AnswerCorrectingException iff the given correction or reply isn't accepted
      * @see accept
      * @see accept
      */
@@ -53,7 +54,7 @@ abstract class AnswerCorrector<out RESULT> {
     }
 
     private fun throwNotAcceptedValueException(value: Any) {
-        throw AnswerCorrectorException("Error. ${value.javaClass.canonicalName} isn't accepted by ${javaClass.canonicalName}")
+        throw AnswerCorrectingException("Error. ${value.javaClass.canonicalName} isn't accepted by ${javaClass.canonicalName}")
     }
 
     protected abstract fun safeCorrect(correction: AnswerCorrection, reply: Reply<*>) : RESULT

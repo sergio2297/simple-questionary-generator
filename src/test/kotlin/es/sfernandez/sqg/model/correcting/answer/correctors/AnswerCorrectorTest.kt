@@ -2,6 +2,7 @@ package es.sfernandez.sqg.model.correcting.answer.correctors
 
 import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.beans.question.answers.correction.AnswerCorrection
+import es.sfernandez.sqg.model.correcting.answer.AnswerCorrectingException
 import es.sfernandez.sqg.model.correcting.answer.replies.Reply
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -78,7 +79,7 @@ class AnswerCorrectorTest {
     fun correct_withNotAcceptedCorrection_throwsExceptionTest() {
         corrector = correctorThatDoNotAcceptCorrections()
 
-        assertThrows<AnswerCorrectorException> { corrector.correct(aCorrection, aReply) }
+        assertThrows<AnswerCorrectingException> { corrector.correct(aCorrection, aReply) }
     }
 
     @Test
@@ -88,7 +89,7 @@ class AnswerCorrectorTest {
         try {
             corrector.correct(aCorrection, aReply)
             fail("No exception was thrown.")
-        } catch (ex: AnswerCorrectorException) {
+        } catch (ex: AnswerCorrectingException) {
             assertThat(ex.message)
                 .contains(corrector.javaClass.canonicalName)
                 .contains(aCorrection.javaClass.canonicalName)
@@ -99,7 +100,7 @@ class AnswerCorrectorTest {
     fun correct_withNotAcceptedReply_throwsExceptionTest() {
         corrector = correctorThatDoNotAcceptReplies()
 
-        assertThrows<AnswerCorrectorException> { corrector.correct(aCorrection, aReply) }
+        assertThrows<AnswerCorrectingException> { corrector.correct(aCorrection, aReply) }
     }
 
     @Test
@@ -109,7 +110,7 @@ class AnswerCorrectorTest {
         try {
             corrector.correct(aCorrection, aReply)
             fail("No exception was thrown.")
-        } catch (ex: AnswerCorrectorException) {
+        } catch (ex: AnswerCorrectingException) {
             assertThat(ex.message)
                 .contains(corrector.javaClass.canonicalName)
                 .contains(aReply.javaClass.canonicalName)
