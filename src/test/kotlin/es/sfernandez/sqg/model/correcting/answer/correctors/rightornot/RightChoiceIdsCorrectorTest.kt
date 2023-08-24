@@ -47,7 +47,7 @@ class RightChoiceIdsCorrectorTest {
     }
 
     @Test
-    fun acceptReply_returnsTrueIf_replyInstanceOfSelectedChoicesIdTest() {
+    fun acceptReply_returnsTrueIf_replyInstanceOfSelectedChoicesReplyTest() {
         AnswerCorrectorTest.checkIfCorrectorAcceptReply(corrector, SelectedChoicesReply::class.java)
     }
 
