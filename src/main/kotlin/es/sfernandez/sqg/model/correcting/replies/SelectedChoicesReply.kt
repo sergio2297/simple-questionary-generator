@@ -1,4 +1,4 @@
-package es.sfernandez.sqg.model.correcting.answer.replies
+package es.sfernandez.sqg.model.correcting.replies
 
 import es.sfernandez.sqg.beans.question.answers.Answer
 import es.sfernandez.sqg.beans.question.answers.Choice

@@ -2,7 +2,7 @@ package es.sfernandez.sqg.model.correcting.answer.correctors.rightornot
 
 import es.sfernandez.sqg.beans.question.answers.correction.rightornot.CorrectValuesRegex
 import es.sfernandez.sqg.model.correcting.answer.correctors.AnswerCorrectorTest
-import es.sfernandez.sqg.model.correcting.answer.replies.TextReply
+import es.sfernandez.sqg.model.correcting.replies.TextReply
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

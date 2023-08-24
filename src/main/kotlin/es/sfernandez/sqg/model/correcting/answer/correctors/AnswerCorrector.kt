@@ -2,7 +2,7 @@ package es.sfernandez.sqg.model.correcting.answer.correctors
 
 import es.sfernandez.sqg.beans.question.answers.correction.AnswerCorrection
 import es.sfernandez.sqg.model.correcting.answer.AnswerCorrectingException
-import es.sfernandez.sqg.model.correcting.answer.replies.Reply
+import es.sfernandez.sqg.model.correcting.replies.Reply
 
 /**
  * An AnswerCorrector can evaluate a given reply [Reply] to an answer's correction [AnswerCorrection] and return

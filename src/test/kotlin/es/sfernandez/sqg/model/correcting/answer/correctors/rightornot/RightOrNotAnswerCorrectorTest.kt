@@ -3,7 +3,7 @@ package es.sfernandez.sqg.model.correcting.answer.correctors.rightornot
 import es.sfernandez.sqg.beans.question.answers.correction.AnswerCorrection
 import es.sfernandez.sqg.beans.question.answers.correction.rightornot.RightOrNotCorrection
 import es.sfernandez.sqg.model.correcting.answer.correctors.AnswerCorrectorTest
-import es.sfernandez.sqg.model.correcting.answer.replies.Reply
+import es.sfernandez.sqg.model.correcting.replies.Reply
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import org.mockito.Mockito

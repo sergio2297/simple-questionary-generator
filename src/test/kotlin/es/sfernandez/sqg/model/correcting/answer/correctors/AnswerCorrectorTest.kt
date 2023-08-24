@@ -3,7 +3,7 @@ package es.sfernandez.sqg.model.correcting.answer.correctors
 import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.beans.question.answers.correction.AnswerCorrection
 import es.sfernandez.sqg.model.correcting.answer.AnswerCorrectingException
-import es.sfernandez.sqg.model.correcting.answer.replies.Reply
+import es.sfernandez.sqg.model.correcting.replies.Reply
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

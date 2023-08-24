@@ -3,8 +3,8 @@ package es.sfernandez.sqg.model.correcting.answer.correctors.rightornot
 import es.sfernandez.sqg.beans.question.answers.Choice
 import es.sfernandez.sqg.beans.question.answers.correction.AnswerCorrection
 import es.sfernandez.sqg.beans.question.answers.correction.rightornot.RightChoiceIds
-import es.sfernandez.sqg.model.correcting.answer.replies.Reply
-import es.sfernandez.sqg.model.correcting.answer.replies.SelectedChoicesReply
+import es.sfernandez.sqg.model.correcting.replies.Reply
+import es.sfernandez.sqg.model.correcting.replies.SelectedChoicesReply
 
 /**
  * A RightOrNotAnswerCorrector can evaluate if a given [SelectedChoicesReply] to a [RightChoiceIds] answer's correction

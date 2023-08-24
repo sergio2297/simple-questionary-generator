@@ -1,9 +1,9 @@
-package es.sfernandez.sqg.model.correcting.answer.replies
+package es.sfernandez.sqg.model.correcting.replies
 
-import es.sfernandez.sqg.beans.question.answers.Answer
+import es.sfernandez.sqg.beans.question.Question
 
 /**
- * Represents a reply given to an [Answer].
+ * Represents a reply given to a [Question].
  *
  * It only provides a getter to the value stored by the reply. For example, a String typed by someone.
  *
