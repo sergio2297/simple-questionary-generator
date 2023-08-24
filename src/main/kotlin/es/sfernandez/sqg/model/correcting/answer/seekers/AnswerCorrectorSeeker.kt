@@ -19,6 +19,6 @@ interface AnswerCorrectorSeeker<out RESULT> {
      * @param answer Answer used to search the AnswerCorrector
      * @return the apropiate AnswerCorrector for the given answer
      */
-    fun correctorFor(answer: Answer) : AnswerCorrector<RESULT>
+    fun correctorFor(answer: Answer) : AnswerCorrector<RESULT
 
 }
