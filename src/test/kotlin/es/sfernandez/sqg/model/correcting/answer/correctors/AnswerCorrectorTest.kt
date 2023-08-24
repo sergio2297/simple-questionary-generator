@@ -51,6 +51,28 @@ class AnswerCorrectorTest {
         return FooAnswerCorrector(acceptAllCorrections = true, acceptAllReplies = false)
     }
 
+    companion object {
+        fun <REPLY: Reply<*>> checkIfCorrectorAcceptReply(
+            corrector: AnswerCorrector<*>, replyType: Class<REPLY>
+        ) {
+            val reply: Reply<*> = Mockito.mock(replyType)
+
+            val accepted = corrector.accept(reply)
+
+            assertThat(accepted).isTrue()
+        }
+
+        fun <CORRECTION: AnswerCorrection> checkIfCorrectorAcceptCorrection(
+            corrector: AnswerCorrector<*>, correctionType: Class<CORRECTION>
+        ) {
+            val correction: AnswerCorrection = Mockito.mock(correctionType)
+
+            val accepted = corrector.accept(correction)
+
+            assertThat(accepted).isTrue()
+        }
+    }
+
     //---- Tests ----
     @Test
     fun correct_withNotAcceptedCorrection_throwsExceptionTest() {

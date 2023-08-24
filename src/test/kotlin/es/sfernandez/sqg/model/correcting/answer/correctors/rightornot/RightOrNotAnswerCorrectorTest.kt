@@ -2,8 +2,8 @@ package es.sfernandez.sqg.model.correcting.answer.correctors.rightornot
 
 import es.sfernandez.sqg.beans.question.answers.correction.AnswerCorrection
 import es.sfernandez.sqg.beans.question.answers.correction.rightornot.RightOrNotCorrection
+import es.sfernandez.sqg.model.correcting.answer.correctors.AnswerCorrectorTest
 import es.sfernandez.sqg.model.correcting.answer.replies.Reply
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import org.mockito.Mockito
@@ -48,20 +48,7 @@ class RightOrNotAnswerCorrectorTest {
     //---- Tests ----
     @Test
     fun acceptCorrection_returnsTrueIfCorrection_isInstanceOfRightOrNotCorrectionTest() {
-        val correction = rightOrNotCorrection()
-
-        val accepted = corrector.accept(correction)
-
-        assertThat(accepted).isTrue()
-    }
-
-    @Test
-    fun acceptCorrection_returnsFalseIfCorrection_isNotInstanceOfRightOrNotCorrectionTest() {
-        val correction = notRightOrNotCorrection()
-
-        val accepted = corrector.accept(correction)
-
-        assertThat(accepted).isFalse()
+        AnswerCorrectorTest.checkIfCorrectorAcceptCorrection(corrector, RightOrNotCorrection::class.java)
     }
 
     @ParameterizedTest
