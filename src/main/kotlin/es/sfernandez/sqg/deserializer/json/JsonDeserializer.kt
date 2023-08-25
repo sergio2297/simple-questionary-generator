@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.databind.node.ArrayNode
 import es.sfernandez.sqg.deserializer.DeserializationException
 import es.sfernandez.sqg.deserializer.Deserializer
-import es.sfernandez.sqg.deserializer.json.questionary.contents.GroupOfContentsJsonDeserializer
+import es.sfernandez.sqg.deserializer.json.questionnaire.contents.GroupOfContentsJsonDeserializer
 import es.sfernandez.sqg.deserializer.logs.*
 import java.util.function.Function
 

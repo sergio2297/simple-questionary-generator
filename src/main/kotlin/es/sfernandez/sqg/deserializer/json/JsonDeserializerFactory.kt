@@ -1,21 +1,21 @@
 package es.sfernandez.sqg.deserializer.json
 
-import es.sfernandez.sqg.beans.Questionary
-import es.sfernandez.sqg.deserializer.Deserializer
-import es.sfernandez.sqg.deserializer.DeserializerFactory
-import es.sfernandez.sqg.deserializer.json.questionary.question.ExplanationJsonDeserializer
-import es.sfernandez.sqg.deserializer.json.questionary.question.ProblemJsonDeserializer
-import es.sfernandez.sqg.deserializer.json.questionary.contents.*
+import es.sfernandez.sqg.beans.Questionnaire
 import es.sfernandez.sqg.beans.contents.*
 import es.sfernandez.sqg.beans.question.Question
 import es.sfernandez.sqg.beans.question.answers.Answer
 import es.sfernandez.sqg.beans.question.answers.Choice
 import es.sfernandez.sqg.beans.question.explanations.Explanation
 import es.sfernandez.sqg.beans.question.problems.Problem
-import es.sfernandez.sqg.deserializer.json.questionary.QuestionaryJsonDeserializer
-import es.sfernandez.sqg.deserializer.json.questionary.question.ChoiceJsonDeserializer
-import es.sfernandez.sqg.deserializer.json.questionary.question.QuestionJsonDeserializer
-import es.sfernandez.sqg.deserializer.json.questionary.question.answer.AnswerJsonDeserializer
+import es.sfernandez.sqg.deserializer.Deserializer
+import es.sfernandez.sqg.deserializer.DeserializerFactory
+import es.sfernandez.sqg.deserializer.json.questionnaire.QuestionnaireJsonDeserializer
+import es.sfernandez.sqg.deserializer.json.questionnaire.contents.*
+import es.sfernandez.sqg.deserializer.json.questionnaire.question.ChoiceJsonDeserializer
+import es.sfernandez.sqg.deserializer.json.questionnaire.question.ExplanationJsonDeserializer
+import es.sfernandez.sqg.deserializer.json.questionnaire.question.ProblemJsonDeserializer
+import es.sfernandez.sqg.deserializer.json.questionnaire.question.QuestionJsonDeserializer
+import es.sfernandez.sqg.deserializer.json.questionnaire.question.answer.AnswerJsonDeserializer
 
 class JsonDeserializerFactory : DeserializerFactory {
 
@@ -59,8 +59,8 @@ class JsonDeserializerFactory : DeserializerFactory {
         return QuestionJsonDeserializer()
     }
 
-    override fun createQuestionaryDeserializer(): Deserializer<Questionary> {
-        return QuestionaryJsonDeserializer()
+    override fun createQuestionnaireDeserializer(): Deserializer<Questionnaire> {
+        return QuestionnaireJsonDeserializer()
     }
 
 }

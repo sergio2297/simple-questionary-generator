@@ -1,0 +1,58 @@
+package es.sfernandez.sqg.deserializer.json.questionnaire.question.answer
+
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer
+import es.sfernandez.sqg.beans.question.answers.Answer
+import es.sfernandez.sqg.deserializer.json.JsonDeserializer
+
+class AnswerJsonDeserializer : JsonDeserializer<Answer>(Answer::class.java) {
+
+    //    //---- Attributes ----
+//    private val textAnswerDeserializer: TextAnswerJsonDeserializer
+//    private val singleSelectionAnswerDeserializer: SingleSelectionAnswerJsonDeserializer
+//    private val multipleSelectionAnswerDeserializer: MultipleSelectionAnswerJsonDeserializer
+//
+//    //---- Constructor ----
+//    constructor() : super(Answer::class.java) {
+//        textAnswerDeserializer = TextAnswerJsonDeserializer()
+//        singleSelectionAnswerDeserializer = SingleSelectionAnswerJsonDeserializer()
+//        multipleSelectionAnswerDeserializer = MultipleSelectionAnswerJsonDeserializer()
+//    }
+//
+//    internal constructor(textAnswerDeserializer: TextAnswerJsonDeserializer,
+//                         singleSelectionAnswerDeserializer: SingleSelectionAnswerJsonDeserializer,
+//                         multipleSelectionAnswerDeserializer: MultipleSelectionAnswerJsonDeserializer) : super(Answer::class.java) {
+//        this.textAnswerDeserializer = textAnswerDeserializer
+//        this.singleSelectionAnswerDeserializer = singleSelectionAnswerDeserializer
+//        this.multipleSelectionAnswerDeserializer = multipleSelectionAnswerDeserializer
+//    }
+//
+//    //---- Methods ----
+//    override fun createDeserializer(): StdDeserializer<Answer> {
+//        return CustomDeserializer()
+//    }
+//
+//    private inner class CustomDeserializer : StdDeserializer<Answer>(mappedClass) {
+//
+//        override fun deserialize(parser: JsonParser?, ctxt: DeserializationContext?): Answer {
+//            val node = extractJsonNode(parser)
+//
+//            return when(extractEnum(node, JsonKeys.Answer.TYPE, AnswerInputTypes.UNSPECIFIED)) {
+//                AnswerInputTypes.TEXT -> textAnswerDeserializer.deserialize(node.toString())
+//                    .also { dumpLogsFrom(textAnswerDeserializer) }
+//
+//                AnswerInputTypes.SINGLE_SELECTION -> singleSelectionAnswerDeserializer.deserialize(node.toString())
+//                    .also { dumpLogsFrom(singleSelectionAnswerDeserializer) }
+//
+//                AnswerInputTypes.MULTIPLE_SELECTION -> multipleSelectionAnswerDeserializer.deserialize(node.toString())
+//                    .also { dumpLogsFrom(multipleSelectionAnswerDeserializer) }
+//
+//                else -> Answer().also { log.warning("Error. ${AnswerJsonDeserializer::class.simpleName} can't deserialize json received." +
+//                        " This may be due to an incorrect content key or an incorrect type value. Unknown content returned instead.")}
+//            }
+//        }
+//
+//    }
+    override fun createDeserializer(): StdDeserializer<Answer> {
+        TODO("Not yet implemented")
+    }
+}
