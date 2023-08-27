@@ -1,12 +1,20 @@
 package es.sfernandez.sqg.beans.question.answers
 
-/**
- * An Answer represents all the information necessary to represent the answer of a question.
- *
- * @see AnswerTypes
- */
-interface Answer {
+import es.sfernandez.sqg.beans.question.answers.correction.AnswerCorrection
+import es.sfernandez.sqg.beans.question.answers.correction.UnspecifiedAnswerCorrection
+import es.sfernandez.sqg.beans.question.answers.input.AnswerInput
+import es.sfernandez.sqg.beans.question.answers.input.UnspecifiedAnswerInput
 
-    /** The type of the answer */
-    val type : AnswerTypes
+/**
+ * An Answer represents all the information necessary to represent the answer of a question: its input and its correction.
+ *
+ * @see AnswerInput.Type
+ */
+class Answer(
+    var input: AnswerInput,
+    var correction: AnswerCorrection,
+) {
+
+    constructor() : this(UnspecifiedAnswerInput(), UnspecifiedAnswerCorrection())
+
 }

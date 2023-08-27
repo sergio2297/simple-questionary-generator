@@ -1,10 +1,11 @@
 package es.sfernandez.sqg.beans.question
 
-import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.beans.question.answers.Answer
-import es.sfernandez.sqg.beans.question.answers.UnknownAnswer
+import es.sfernandez.sqg.beans.question.answers.correction.AnswerCorrection
+import es.sfernandez.sqg.beans.question.answers.input.AnswerInput
 import es.sfernandez.sqg.beans.question.explanations.Explanation
 import es.sfernandez.sqg.beans.question.problems.Problem
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -47,7 +48,7 @@ class QuestionTest {
     
     @Test
     fun setTitle_worksTest() {
-        val title = BasicFixtures.SOME_TEXT_1
+        val title = Fixtures.SOME_TEXT_1
         
         question.title = title
         
@@ -67,8 +68,9 @@ class QuestionTest {
     }
 
     @Test
-    fun constructor_initializeAnswer_asUnknownTest() {
-        assertThat(question.answer).isInstanceOf(UnknownAnswer::class.java)
+    fun constructor_initializeAnswer_asUnspecifiedTest() {
+        assertThat(question.answer.input.type).isEqualTo(AnswerInput.Type.UNSPECIFIED)
+        assertThat(question.answer.correction.type).isEqualTo(AnswerCorrection.Type.UNSPECIFIED)
     }
 
     @Test
