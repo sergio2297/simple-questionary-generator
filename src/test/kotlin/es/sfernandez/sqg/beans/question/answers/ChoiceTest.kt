@@ -1,7 +1,7 @@
 package es.sfernandez.sqg.beans.question.answers
 
-import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.beans.contents.UnknownContent
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import kotlin.test.BeforeTest
@@ -30,7 +30,7 @@ class ChoiceTest {
 
     @Test
     fun construct_withId_worksTest() {
-        val id = BasicFixtures.SOME_TEXT_1
+        val id = Fixtures.SOME_TEXT_1
 
         choice = Choice(id)
 

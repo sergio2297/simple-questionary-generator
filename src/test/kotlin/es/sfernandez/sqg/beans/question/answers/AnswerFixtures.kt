@@ -1,7 +1,6 @@
 package es.sfernandez.sqg.beans.question.answers
 
 import es.sfernandez.sqg.beans.contents.*
-import es.sfernandez.sqg.beans.question.answers.choices.Choice
 
 object AnswerFixtures {
 
