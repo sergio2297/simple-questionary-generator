@@ -1,6 +1,6 @@
 package es.sfernandez.sqg.deserializer.logs
 
-import es.sfernandez.sqg.BasicFixtures
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.anyString
@@ -14,9 +14,9 @@ class DeserializationLogsProducerTest {
 
     //---- Fixtures ----
     private lateinit var factory : DeserializationLogFactory
-    private val someMsg = BasicFixtures.SOME_TEXT_1
-    private val someProperty = BasicFixtures.SOME_TEXT_2
-    private val someReplacement = BasicFixtures.SOME_TEXT_3
+    private val someMsg = Fixtures.SOME_TEXT_1
+    private val someProperty = Fixtures.SOME_TEXT_2
+    private val someReplacement = Fixtures.SOME_TEXT_3
 
     //---- Configuration ----
     @BeforeTest
@@ -159,14 +159,14 @@ class DeserializationLogsProducerTest {
         val log = mockDeserializationLog()
         Mockito.`when`(factory.warning(anyString())).thenReturn(log)
 
-        producer.warningUndefinedEnumConstant(someProperty, BasicFixtures.FooEnum.FOO_1)
+        producer.warningUndefinedEnumConstant(someProperty, Fixtures.FooEnum.FOO_1)
 
         assertThat(producer.logs()).contains(log)
     }
 
     @Test
     fun warningUndefinedEnumConstant_requestFromFactory_warningLogTest() {
-        val replacement = BasicFixtures.FooEnum.FOO_1
+        val replacement = Fixtures.FooEnum.FOO_1
         producer.warningUndefinedEnumConstant(someProperty, replacement)
 
         val msg = "Undefined enum constant used for property \"$someProperty\". " +

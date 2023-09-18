@@ -1,6 +1,5 @@
 package es.sfernandez.sqg.deserializer.json.questionnaire.question
 
-import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.beans.contents.ContentType
 import es.sfernandez.sqg.beans.contents.UnknownContent
 import es.sfernandez.sqg.beans.question.answers.AnswerFixtures.SOME_IMAGE
@@ -12,6 +11,7 @@ import es.sfernandez.sqg.deserializer.json.JsonKeys
 import es.sfernandez.sqg.deserializer.json.questionnaire.contents.ContentJsonDeserializer
 import es.sfernandez.sqg.deserializer.logs.DeserializationLog
 import es.sfernandez.sqg.deserializer.logs.DeserializationLogUtilsForTests
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -63,7 +63,7 @@ class ChoiceJsonDeserializerTest {
 
     @Test
     fun deserialize_objectWithId_returnsChoiceWithIdTest() {
-        val id = BasicFixtures.SOME_TEXT_1
+        val id = Fixtures.SOME_TEXT_1
         val json = """
             {
                 "${JsonKeys.Choice.ID}": "$id"

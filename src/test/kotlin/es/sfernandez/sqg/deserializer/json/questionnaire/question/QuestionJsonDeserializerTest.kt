@@ -1,6 +1,5 @@
 package es.sfernandez.sqg.deserializer.json.questionnaire.question
 
-import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.beans.question.answers.Answer
 import es.sfernandez.sqg.beans.question.answers.correction.UnspecifiedAnswerCorrection
 import es.sfernandez.sqg.beans.question.answers.input.UnspecifiedAnswerInput
@@ -11,6 +10,7 @@ import es.sfernandez.sqg.deserializer.json.JsonKeys
 import es.sfernandez.sqg.deserializer.json.questionnaire.question.answer.AnswerJsonDeserializer
 import es.sfernandez.sqg.deserializer.logs.DeserializationLog
 import es.sfernandez.sqg.deserializer.logs.DeserializationLogUtilsForTests
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -114,7 +114,7 @@ class QuestionJsonDeserializerTest {
 
     @Test
     fun deserialize_objectWithTitle_worksTest() {
-        val title = BasicFixtures.SOME_TEXT_1
+        val title = Fixtures.SOME_TEXT_1
         val json = """
             {
                 "${JsonKeys.Question.TITLE}": "$title"

@@ -1,7 +1,7 @@
 package es.sfernandez.sqg.deserializer.logs
 
-import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.deserializer.Deserializer
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test
@@ -20,7 +20,7 @@ class DeserializationContextTest {
 
     //---- Methods ----
     private fun createArbitraryDeserializationContext() : DeserializationContext {
-        return DeserializationContext(BasicFixtures.SOME_TEXT_1, FooDeserializer::class.java)
+        return DeserializationContext(Fixtures.SOME_TEXT_1, FooDeserializer::class.java)
     }
 
     //---- Tests ----

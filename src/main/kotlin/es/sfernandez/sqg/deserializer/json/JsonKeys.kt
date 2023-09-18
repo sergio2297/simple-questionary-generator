@@ -8,6 +8,54 @@ package es.sfernandez.sqg.deserializer.json
  */
 object JsonKeys {
 
+    object Questionnaire {
+        const val TITLE = "title"
+        const val PORTRAIT = "portrait"
+        const val QUESTIONS = "questions"
+    }
+
+    object Question {
+        const val TITLE = "title"
+        const val PROBLEM = "problem"
+        const val ANSWER = "answer"
+        const val EXPLANATION = "explanation"
+    }
+
+    object Problem {
+        const val CONTENTS = "contents"
+    }
+
+    object Explanation {
+        const val CONTENTS = "contents"
+    }
+
+    object Answer {
+
+        const val INPUT = "input"
+        const val CORRECTION = "correction"
+
+        object Text {
+            const val POSSIBLE_REPLIES = "possibleReplies"
+            const val REPLY_REGEX = "replyRegex"
+        }
+
+        object SingleSelection {
+            const val POSSIBLE_CHOICES = "possibleChoices"
+            const val RIGHT_CHOICE_ID = "rightChoice"
+        }
+
+        object MultipleSelection {
+            const val POSSIBLE_CHOICES = "possibleChoices"
+            const val RIGHT_CHOICES_IDS = "rightChoices"
+        }
+
+    }
+
+    object Choice {
+        const val ID = "id"
+        const val CONTENT = "content"
+    }
+
     object Contents {
 
         object Text {
@@ -30,53 +78,6 @@ object JsonKeys {
             const val AUTOPLAY = "autoplay"
         }
 
-    }
-
-    object Choice {
-        const val ID = "id"
-        const val CONTENT = "content"
-    }
-
-    object Answer {
-
-        const val TYPE = "type"
-
-        object Text {
-            const val POSSIBLE_REPLIES = "possibleReplies"
-            const val REPLY_REGEX = "replyRegex"
-        }
-
-        object SingleSelection {
-            const val POSSIBLE_CHOICES = "possibleChoices"
-            const val RIGHT_CHOICE_ID = "rightChoice"
-        }
-
-        object MultipleSelection {
-            const val POSSIBLE_CHOICES = "possibleChoices"
-            const val RIGHT_CHOICES_IDS = "rightChoices"
-        }
-
-    }
-
-    object Problem {
-        const val CONTENTS = "contents"
-    }
-
-    object Explanation {
-        const val CONTENTS = "contents"
-    }
-
-    object Question {
-        const val TITLE = "title"
-        const val PROBLEM = "problem"
-        const val ANSWER = "answer"
-        const val EXPLANATION = "explanation"
-    }
-
-    object Questionary {
-        const val TITLE = "title"
-        const val PORTRAIT = "portrait"
-        const val QUESTIONS = "questions"
     }
 
 }

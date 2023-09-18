@@ -1,6 +1,6 @@
 package es.sfernandez.sqg.deserializer.logs
 
-import es.sfernandez.sqg.BasicFixtures
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.mockito.Mockito
 import kotlin.test.Test
@@ -12,7 +12,7 @@ class DeserializationLogFactoryTest {
     private val factory = DeserializationLogFactory(factoryContext)
 
     //---- Fixtures ----
-    private val someMsg = BasicFixtures.SOME_TEXT_1
+    private val someMsg = Fixtures.SOME_TEXT_1
 
     //---- Methods ----
     private fun mockContext() : DeserializationContext {

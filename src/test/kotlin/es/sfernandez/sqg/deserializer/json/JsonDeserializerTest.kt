@@ -6,10 +6,10 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
-import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.deserializer.DeserializationException
 import es.sfernandez.sqg.deserializer.logs.DeserializationLog
 import es.sfernandez.sqg.deserializer.logs.DeserializationLogFactory
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -93,8 +93,8 @@ class JsonDeserializerTest {
     private lateinit var logFactory: DeserializationLogFactory
 
     //---- Fixtures ----
-    private val someKey = BasicFixtures.SOME_TEXT_1
-    private val defaultEnumValue = BasicFixtures.FooEnum.FOO_4
+    private val someKey = Fixtures.SOME_TEXT_1
+    private val defaultEnumValue = Fixtures.FooEnum.FOO_4
     private val objectJsonDeserializer = Mockito.mock(ObjectJsonDeserializer::class.java)
     private val defaultObjectValue = Object()
 
@@ -290,7 +290,7 @@ class JsonDeserializerTest {
 
     @Test
     fun extractText_fromTextualNode_returnsCorrectTextValueTest() {
-        val expectedValue = BasicFixtures.SOME_TEXT_1
+        val expectedValue = Fixtures.SOME_TEXT_1
         val jsonNode = mockJsonNodeWithKey(someKey, mockTextJsonNode(expectedValue))
 
         val returnedValue = deserializer.doExtractTextFromSuper(jsonNode, someKey)
@@ -309,7 +309,7 @@ class JsonDeserializerTest {
 
     @Test
     fun extractText_fromNode_withoutSearchedKey_returnsDefaultValueTest() {
-        val defaultValue = BasicFixtures.SOME_TEXT_1
+        val defaultValue = Fixtures.SOME_TEXT_1
         val jsonNode = mockJsonNodeWithoutKey(someKey)
 
         val returnedValue = deserializer.doExtractTextFromSuper(jsonNode, someKey, defaultValue)
@@ -329,7 +329,7 @@ class JsonDeserializerTest {
 
     @Test
     fun extractText_fromNotTextualNode_returnsDefaultTextValueTest() {
-        val defaultValue = BasicFixtures.SOME_TEXT_1
+        val defaultValue = Fixtures.SOME_TEXT_1
         val jsonNode = mockJsonNodeWithKey(someKey, mockNotTextJsonNode())
 
         val returnedValue = deserializer.doExtractTextFromSuper(jsonNode, someKey, defaultValue)
@@ -411,7 +411,7 @@ class JsonDeserializerTest {
 
     @Test
     fun extractEnum_fromTextualNode_returnsCorrectEnumValueTest() {
-        val expectedValue = BasicFixtures.FooEnum.FOO_1
+        val expectedValue = Fixtures.FooEnum.FOO_1
         val jsonNode = mockJsonNodeWithKey(someKey, mockTextJsonNode(expectedValue.name))
 
         val returnedValue = deserializer.doExtractEnumFromSuper(jsonNode, someKey, defaultEnumValue)
@@ -421,7 +421,7 @@ class JsonDeserializerTest {
 
     @Test
     fun extractEnum_fromNode_withoutSearchedKey_returnsDefaultValueTest() {
-        val defaultValue = BasicFixtures.FooEnum.FOO_1
+        val defaultValue = Fixtures.FooEnum.FOO_1
         val jsonNode = mockJsonNodeWithoutKey(someKey)
 
         val returnedValue = deserializer.doExtractEnumFromSuper(jsonNode, someKey, defaultValue)
@@ -441,7 +441,7 @@ class JsonDeserializerTest {
 
     @Test
     fun extractEnum_fromNotTextualNode_returnsDefaultEnumValueTest() {
-        val defaultValue = BasicFixtures.FooEnum.FOO_1
+        val defaultValue = Fixtures.FooEnum.FOO_1
         val jsonNode = mockJsonNodeWithKey(someKey, mockNotTextJsonNode())
 
         val returnedValue = deserializer.doExtractEnumFromSuper(jsonNode, someKey, defaultValue)
@@ -461,8 +461,8 @@ class JsonDeserializerTest {
 
     @Test
     fun extractEnum_fromTextualNode_withUndefinedEnumConstant_returnsDefaultEnumValueTest() {
-        val defaultValue = BasicFixtures.FooEnum.FOO_1
-        val jsonNode = mockJsonNodeWithKey(someKey, mockTextJsonNode(BasicFixtures.SOME_TEXT_1))
+        val defaultValue = Fixtures.FooEnum.FOO_1
+        val jsonNode = mockJsonNodeWithKey(someKey, mockTextJsonNode(Fixtures.SOME_TEXT_1))
 
         val returnedValue = deserializer.doExtractEnumFromSuper(jsonNode, someKey, defaultValue)
 
@@ -471,7 +471,7 @@ class JsonDeserializerTest {
 
     @Test
     fun extractEnum_fromTextualNode_withUndefinedEnumConstant_addsWarningLogTest() {
-        val jsonNode = mockJsonNodeWithKey(someKey, mockTextJsonNode(BasicFixtures.SOME_TEXT_1))
+        val jsonNode = mockJsonNodeWithKey(someKey, mockTextJsonNode(Fixtures.SOME_TEXT_1))
         val expectedLog = mockLogFactoryWarningMethod()
 
         deserializer.doExtractEnumFromSuper(jsonNode, someKey, defaultEnumValue)
@@ -481,7 +481,7 @@ class JsonDeserializerTest {
 
     @Test
     fun extractArray_fromArrayNode_returnsCorrectArrayTest() {
-        val expectedTexts = arrayOf(BasicFixtures.SOME_TEXT_1, BasicFixtures.SOME_TEXT_2)
+        val expectedTexts = arrayOf(Fixtures.SOME_TEXT_1, Fixtures.SOME_TEXT_2)
         val jsonArray = mockJsonNodeWithKey(someKey,
             mockArrayJsonNode(*expectedTexts))
 

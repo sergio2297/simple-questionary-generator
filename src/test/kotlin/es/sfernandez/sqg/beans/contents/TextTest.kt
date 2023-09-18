@@ -1,6 +1,6 @@
 package es.sfernandez.sqg.beans.contents
 
-import es.sfernandez.sqg.BasicFixtures
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -42,7 +42,7 @@ class TextTest {
 
     @Test
     fun constructText_withValue_worksTest() {
-        val value = BasicFixtures.SOME_TEXT_1
+        val value = Fixtures.SOME_TEXT_1
 
         text = Text(value)
 

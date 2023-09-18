@@ -1,7 +1,6 @@
 package es.sfernandez.sqg.model.correcting.replies
 
-import es.sfernandez.sqg.BasicFixtures
-import es.sfernandez.sqg.model.correcting.replies.TextReply
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -13,7 +12,7 @@ class TextReplyTest {
     //---- Tests ----
     @Test
     fun get_returnsTextGivenInConstructionTest() {
-        val text = BasicFixtures.SOME_TEXT_1
+        val text = Fixtures.SOME_TEXT_1
 
         reply = TextReply(text)
 

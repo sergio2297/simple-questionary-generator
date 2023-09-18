@@ -1,9 +1,9 @@
 package es.sfernandez.sqg.model.correcting.answer.correctors.rightornot
 
-import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.beans.question.answers.correction.rightornot.PossibleValues
 import es.sfernandez.sqg.model.correcting.answer.correctors.AnswerCorrectorTest
 import es.sfernandez.sqg.model.correcting.replies.TextReply
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -36,16 +36,16 @@ class PossibleValuesCorrectorTest {
     @Test
     fun correct_returnsTrueIf_replyTextIsInCorrectionPossibleValuesTest() {
         checkCorrectFunctionWith(
-            arrayOf(BasicFixtures.SOME_TEXT_1, BasicFixtures.SOME_TEXT_2),
-            BasicFixtures.SOME_TEXT_2,
+            arrayOf(Fixtures.SOME_TEXT_1, Fixtures.SOME_TEXT_2),
+            Fixtures.SOME_TEXT_2,
             true)
     }
 
     @Test
     fun correct_returnsFalseIf_replyTextIsNotInCorrectionPossibleValuesTest() {
         checkCorrectFunctionWith(
-            arrayOf(BasicFixtures.SOME_TEXT_1, BasicFixtures.SOME_TEXT_2),
-            BasicFixtures.SOME_TEXT_3,
+            arrayOf(Fixtures.SOME_TEXT_1, Fixtures.SOME_TEXT_2),
+            Fixtures.SOME_TEXT_3,
             false)
     }
 
@@ -53,7 +53,7 @@ class PossibleValuesCorrectorTest {
     fun correct_returnsFalseIf_correctionPossibleValuesIsEmptyTest() {
         checkCorrectFunctionWith(
             arrayOf(),
-            BasicFixtures.EMPTY_TEXT,
+            Fixtures.EMPTY_TEXT,
             false
         )
     }

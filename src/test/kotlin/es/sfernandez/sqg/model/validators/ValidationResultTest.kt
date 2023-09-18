@@ -1,6 +1,6 @@
 package es.sfernandez.sqg.model.validators
 
-import es.sfernandez.sqg.BasicFixtures
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -13,7 +13,7 @@ class ValidationResultTest {
     private lateinit var result: ValidationResult<Foo>
 
     //---- Fixtures ----
-    private val msg = BasicFixtures.SOME_TEXT_1
+    private val msg = Fixtures.SOME_TEXT_1
     private val fooValue = Foo()
 
     //---- Tests ----

@@ -3,11 +3,13 @@ package es.sfernandez.sqg.model.correcting.questionnaire
 import es.sfernandez.sqg.beans.Questionnaire
 import es.sfernandez.sqg.beans.question.Question
 import es.sfernandez.sqg.model.correcting.replies.Reply
+import es.sfernandez.sqg.utilities.mocking.MocksQuestion
+import es.sfernandez.sqg.utilities.mocking.MocksQuestionnaire
+import es.sfernandez.sqg.utilities.mocking.MocksReply
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import org.mockito.Mockito
 import java.util.stream.Stream
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -38,22 +40,22 @@ class QuestionnaireCorrectorTest {
     private lateinit var corrector: FooQuestionnaireCorrector
 
     //---- Fixtures ----
-    private val questions = createQuestions(10)
+    private val questions = mockQuestions(10)
 
     //---- Configuration ----
     @BeforeTest
     fun setup() {
-        corrector = FooQuestionnaireCorrector(createQuestionnaireWith(questions))
+        corrector = FooQuestionnaireCorrector(mockQuestionnaireWith(questions))
     }
 
     //---- Methods ----
-    companion object {
+    companion object : MocksQuestionnaire, MocksQuestion, MocksReply {
         @JvmStatic
         fun streamOfQuestionnaires(): Stream<Questionnaire> {
             return Stream.of(
-                createQuestionnaireWith(arrayOf()),
-                createQuestionnaireWith(createQuestions(1)),
-                createQuestionnaireWith(createQuestions(20)),
+                mockQuestionnaireWith(arrayOf()),
+                mockQuestionnaireWith(mockQuestions(1)),
+                mockQuestionnaireWith(mockQuestions(20)),
             )
         }
 
@@ -61,34 +63,12 @@ class QuestionnaireCorrectorTest {
             return FooQuestionnaireCorrector(questionnaire)
         }
 
-        private fun createQuestionnaireWith(questions: Array<Question>): Questionnaire {
-            val questionnaire = Mockito.mock(Questionnaire::class.java)
-            Mockito.`when`(questionnaire.questions).thenReturn(questions)
-            return questionnaire
-        }
-
-        private fun createQuestion(): Question {
-            return Mockito.mock(Question::class.java)
-        }
-
-        private fun createQuestions(numOfQuestions: Int): Array<Question> {
-            return generateSequence(0) { it + 1 }
-                .take(numOfQuestions)
-                .map { _ -> createQuestion() }
-                .toList()
-                .toTypedArray()
-        }
-
-        private fun createReply(): Reply<*> {
-            return Mockito.mock(Reply::class.java)
-        }
-
         private fun numOfQuestionsIn(questionnaire: Questionnaire): Int {
             return questionnaire.questions.size
         }
 
         private fun registerReplyForQuestions(corrector: QuestionnaireCorrector<*>, questions: Array<Question>) {
-            questions.forEach { question -> corrector.registerReply(question, createReply()) }
+            questions.forEach { question -> corrector.registerReply(question, mockReply()) }
         }
 
     }
@@ -96,16 +76,16 @@ class QuestionnaireCorrectorTest {
     //---- Tests ----
     @Test
     fun registerReply_forUnknownQuestion_throwsExceptionTest() {
-        val unknownQuestion = createQuestion()
+        val unknownQuestion = mockQuestion()
 
-        assertThrows<QuestionnaireCorrectingException> { corrector.registerReply(unknownQuestion, createReply()) }
+        assertThrows<QuestionnaireCorrectingException> { corrector.registerReply(unknownQuestion, mockReply()) }
     }
 
     @Test
     fun registerReply_decreaseNotAnsweredQuestionAmountTest() {
         val notAnsweredAtFirst = corrector.testCountNotAnswered()
 
-        corrector.registerReply(questions[0], createReply())
+        corrector.registerReply(questions[0], mockReply())
 
         assertThat(corrector.testCountNotAnswered()).isEqualTo(notAnsweredAtFirst - 1)
     }
@@ -113,7 +93,7 @@ class QuestionnaireCorrectorTest {
     @Test
     fun registeredReply_canBeAccessedTest() {
         val question = questions[0]
-        val reply = createReply()
+        val reply = mockReply()
         corrector.registerReply(question, reply)
 
         val registeredReply = corrector.testReplyFor(question)
@@ -124,8 +104,8 @@ class QuestionnaireCorrectorTest {
     @Test
     fun registerReplyTwice_overwriteOldReplyTest() {
         val question = questions[0]
-        val secondReply = createReply()
-        corrector.registerReply(question, createReply())
+        val secondReply = mockReply()
+        corrector.registerReply(question, mockReply())
 
         corrector.registerReply(question, secondReply)
         val registeredReply = corrector.testReplyFor(question)
@@ -136,10 +116,10 @@ class QuestionnaireCorrectorTest {
     @Test
     fun registerReplyTwice_doesNotDecreaseNotAnsweredQuestionsTest() {
         val question = questions[0]
-        corrector.registerReply(question, createReply())
+        corrector.registerReply(question, mockReply())
         val notAnsweredAtFirst = corrector.testCountNotAnswered()
 
-        corrector.registerReply(question, createReply())
+        corrector.registerReply(question, mockReply())
         val notAnswered = corrector.testCountNotAnswered()
 
         assertThat(notAnswered).isEqualTo(notAnsweredAtFirst)
@@ -154,7 +134,7 @@ class QuestionnaireCorrectorTest {
 
     @Test
     fun replyFor_unknownQuestion_throwsExceptionTest() {
-        val unknownQuestion = createQuestion()
+        val unknownQuestion = mockQuestion()
 
         assertThrows<QuestionnaireCorrectingException> { corrector.testReplyFor(unknownQuestion) }
     }

@@ -1,10 +1,10 @@
 package es.sfernandez.sqg.deserializer.json.questionnaire.contents
 
-import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.deserializer.json.JsonDeserializer
 import es.sfernandez.sqg.deserializer.json.JsonFixtures
 import es.sfernandez.sqg.deserializer.json.JsonKeys
 import es.sfernandez.sqg.deserializer.logs.DeserializationLogUtilsForTests
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -32,7 +32,7 @@ class VideoJsonDeserializerTest {
 
     @Test
     fun deserialize_jsonWithPath_returnPathTest() {
-        val path = BasicFixtures.SOME_TEXT_1
+        val path = Fixtures.SOME_TEXT_1
         val json = """
             { "${JsonKeys.Contents.Video.PATH}": "$path"}
         """.trimIndent()

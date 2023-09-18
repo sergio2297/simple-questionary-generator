@@ -1,6 +1,6 @@
 package es.sfernandez.sqg.deserializer.logs
 
-import es.sfernandez.sqg.BasicFixtures
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
@@ -14,12 +14,12 @@ class DeserializationLogTest {
     //---- Methods ----
     private fun createArbitraryDeserializationLog() : DeserializationLog {
         return DeserializationLog(DeserializationLog.Level.ERROR,
-            BasicFixtures.SOME_TEXT_1, mockDeserializationContext())
+            Fixtures.SOME_TEXT_1, mockDeserializationContext())
     }
 
     private fun mockDeserializationContext() : DeserializationContext {
         val context = Mockito.mock(DeserializationContext::class.java)
-        Mockito.`when`(context.toString()).thenReturn(BasicFixtures.SOME_TEXT_2)
+        Mockito.`when`(context.toString()).thenReturn(Fixtures.SOME_TEXT_2)
         return context
     }
 

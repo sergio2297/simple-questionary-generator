@@ -1,6 +1,5 @@
 package es.sfernandez.sqg.deserializer.json.questionnaire
 
-import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.beans.contents.Image
 import es.sfernandez.sqg.beans.question.Question
 import es.sfernandez.sqg.deserializer.json.JsonFixtures
@@ -9,6 +8,7 @@ import es.sfernandez.sqg.deserializer.json.questionnaire.contents.ImageJsonDeser
 import es.sfernandez.sqg.deserializer.json.questionnaire.question.QuestionJsonDeserializer
 import es.sfernandez.sqg.deserializer.logs.DeserializationLog
 import es.sfernandez.sqg.deserializer.logs.DeserializationLogUtilsForTests
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -108,7 +108,7 @@ class QuestionnaireJsonDeserializerTest {
 
     @Test
     fun deserialize_objectWithTitle_returnsQuestionnaireWithCorrectTitleTest() {
-        val title = BasicFixtures.SOME_TEXT_1
+        val title = Fixtures.SOME_TEXT_1
         val json = """
             {
                 "${JsonKeys.Questionnaire.TITLE}": "$title"

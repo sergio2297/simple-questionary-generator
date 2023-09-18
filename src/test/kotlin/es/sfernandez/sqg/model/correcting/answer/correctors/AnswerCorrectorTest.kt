@@ -1,9 +1,9 @@
 package es.sfernandez.sqg.model.correcting.answer.correctors
 
-import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.beans.question.answers.correction.AnswerCorrection
 import es.sfernandez.sqg.model.correcting.answer.AnswerCorrectingException
 import es.sfernandez.sqg.model.correcting.replies.Reply
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -16,8 +16,8 @@ class AnswerCorrectorTest {
     private class FooAnswerCorrector(
         private val acceptAllCorrections: Boolean,
         private val acceptAllReplies: Boolean,
-        private val safeCorrectResult: BasicFixtures.Foo = BasicFixtures.Foo(),
-    ) : AnswerCorrector<BasicFixtures.Foo>() {
+        private val safeCorrectResult: Fixtures.Foo = Fixtures.Foo(),
+    ) : AnswerCorrector<Fixtures.Foo>() {
 
         override fun accept(correction: AnswerCorrection): Boolean {
             return acceptAllCorrections
@@ -27,28 +27,28 @@ class AnswerCorrectorTest {
             return acceptAllReplies
         }
 
-        override fun safeCorrect(correction: AnswerCorrection, reply: Reply<*>): BasicFixtures.Foo {
+        override fun safeCorrect(correction: AnswerCorrection, reply: Reply<*>): Fixtures.Foo {
             return safeCorrectResult
         }
     }
 
     //---- Attributes ----
-    private lateinit var corrector: AnswerCorrector<BasicFixtures.Foo>
+    private lateinit var corrector: AnswerCorrector<Fixtures.Foo>
 
     //---- Fixtures ----
     private val aCorrection = Mockito.mock(AnswerCorrection::class.java)
     private val aReply = Mockito.mock(Reply::class.java)
 
     //---- Methods ----
-    private fun correctorThatAcceptAll(): AnswerCorrector<BasicFixtures.Foo> {
+    private fun correctorThatAcceptAll(): AnswerCorrector<Fixtures.Foo> {
         return FooAnswerCorrector(acceptAllCorrections = true, acceptAllReplies = true)
     }
 
-    private fun correctorThatDoNotAcceptCorrections(): AnswerCorrector<BasicFixtures.Foo> {
+    private fun correctorThatDoNotAcceptCorrections(): AnswerCorrector<Fixtures.Foo> {
         return FooAnswerCorrector(acceptAllCorrections = false, acceptAllReplies = true)
     }
 
-    private fun correctorThatDoNotAcceptReplies(): AnswerCorrector<BasicFixtures.Foo> {
+    private fun correctorThatDoNotAcceptReplies(): AnswerCorrector<Fixtures.Foo> {
         return FooAnswerCorrector(acceptAllCorrections = true, acceptAllReplies = false)
     }
 
@@ -123,7 +123,7 @@ class AnswerCorrectorTest {
 
         val result = corrector.correct(aCorrection, aReply)
 
-        assertThat(result).isInstanceOf(BasicFixtures.Foo::class.java)
+        assertThat(result).isInstanceOf(Fixtures.Foo::class.java)
     }
 
 }

@@ -1,37 +1,27 @@
 package es.sfernandez.sqg.model.correcting.questionnaire.numofrights
 
-import es.sfernandez.sqg.beans.question.Question
-import es.sfernandez.sqg.model.correcting.replies.Reply
+import es.sfernandez.sqg.utilities.mocking.MocksQuestion
+import es.sfernandez.sqg.utilities.mocking.MocksReply
 import org.assertj.core.api.Assertions.assertThat
-import org.mockito.Mockito
 import kotlin.test.Test
 
-class RightOrNotQuestionResultTest {
-
-    //---- Methods ----
-    private fun createQuestion(): Question {
-        return Mockito.mock(Question::class.java)
-    }
-
-    private fun createReply(): Reply<*> {
-        return Mockito.mock(Reply::class.java)
-    }
+class RightOrNotQuestionResultTest : MocksQuestion, MocksReply {
 
     //---- Tests ----
     @Test
     fun afterConstruct_questionIsAssignedCorrectlyTest() {
-        val question = createQuestion()
+        val question = mockQuestion()
 
-        val result = RightOrNotQuestionResult(question, createReply(), true)
+        val result = RightOrNotQuestionResult(question, mockReply(), true)
 
         assertThat(result.question).isSameAs(question)
     }
 
     @Test
     fun afterConstruct_replyIsAssignedCorrectlyTest() {
-        val reply = createReply()
+        val reply = mockReply()
 
-        val result = RightOrNotQuestionResult(createQuestion(), reply, true)
+        val result = RightOrNotQuestionResult(mockQuestion(), reply, true)
 
         assertThat(result.reply).isSameAs(reply)
     }
@@ -40,7 +30,7 @@ class RightOrNotQuestionResultTest {
     fun afterConstruct_isRightIsAssignedCorrectlyTest() {
         val isRight = true
 
-        val result = RightOrNotQuestionResult(createQuestion(), createReply(), isRight)
+        val result = RightOrNotQuestionResult(mockQuestion(), mockReply(), isRight)
 
         assertThat(result.isRight).isSameAs(isRight)
     }

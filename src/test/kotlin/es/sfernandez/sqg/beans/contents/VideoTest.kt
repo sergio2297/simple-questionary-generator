@@ -1,6 +1,6 @@
 package es.sfernandez.sqg.beans.contents
 
-import es.sfernandez.sqg.BasicFixtures
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import kotlin.test.BeforeTest
@@ -44,7 +44,7 @@ class VideoTest {
 
     @Test
     fun construct_withPath_worksTest() {
-        val path = BasicFixtures.SOME_TEXT_1
+        val path = Fixtures.SOME_TEXT_1
 
         video = Video(path)
 

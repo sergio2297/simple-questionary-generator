@@ -1,8 +1,8 @@
 package es.sfernandez.sqg.beans
 
-import es.sfernandez.sqg.BasicFixtures
 import es.sfernandez.sqg.beans.contents.Image
 import es.sfernandez.sqg.beans.question.Question
+import es.sfernandez.sqg.utilities.Fixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.mockito.Mockito
 import kotlin.test.BeforeTest
@@ -35,7 +35,7 @@ class QuestionnaireTest {
 
     @Test
     fun construct_withTitle_worksTest() {
-        val title = BasicFixtures.SOME_TEXT_1
+        val title = Fixtures.SOME_TEXT_1
 
         questionnaire = Questionnaire(title = title)
 
