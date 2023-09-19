@@ -34,6 +34,16 @@ object JsonKeys {
         const val INPUT = "input"
         const val CORRECTION = "correction"
 
+        object Input {
+
+            const val TYPE = "type"
+
+            object Selection {
+                const val POSSIBLE_CHOICES = "possibleChoices"
+            }
+
+        }
+
         object Text {
             const val POSSIBLE_REPLIES = "possibleReplies"
             const val REPLY_REGEX = "replyRegex"
