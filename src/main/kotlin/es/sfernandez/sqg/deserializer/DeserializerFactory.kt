@@ -6,7 +6,6 @@ import es.sfernandez.sqg.beans.question.Question
 import es.sfernandez.sqg.beans.question.answers.Answer
 import es.sfernandez.sqg.beans.question.answers.Choice
 import es.sfernandez.sqg.beans.question.answers.correction.AnswerCorrection
-import es.sfernandez.sqg.beans.question.answers.input.AnswerInput
 import es.sfernandez.sqg.beans.question.explanations.Explanation
 import es.sfernandez.sqg.beans.question.problems.Problem
 import kotlin.reflect.KClass
@@ -38,10 +37,6 @@ interface DeserializerFactory {
         if(clazz == Answer::class)
             return createAnswerDeserializer()
         if(clazz == AnswerCorrection::class)
-            return createAnswerCorrectionDeserializer()
-        if(clazz == AnswerInput::class)
-            return createAnswerInputDeserializer()
-        if(clazz == Choice::class)
             return createChoiceDeserializer()
         if(clazz == Explanation::class)
             return createExplanationDeserializer()
@@ -67,10 +62,6 @@ interface DeserializerFactory {
     fun createProblemDeserializer() : Deserializer<Problem>
 
     fun createAnswerDeserializer(): Deserializer<Answer>
-
-    fun createAnswerCorrectionDeserializer(): Deserializer<AnswerCorrection>
-
-    fun createAnswerInputDeserializer(): Deserializer<AnswerInput>
 
     fun createChoiceDeserializer(): Deserializer<Choice>
 
