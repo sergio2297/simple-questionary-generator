@@ -44,19 +44,18 @@ object JsonKeys {
 
         }
 
-        object Text {
-            const val POSSIBLE_REPLIES = "possibleReplies"
-            const val REPLY_REGEX = "replyRegex"
-        }
+        object Correction {
 
-        object SingleSelection {
-            const val POSSIBLE_CHOICES = "possibleChoices"
-            const val RIGHT_CHOICE_ID = "rightChoice"
-        }
+            const val TYPE = "type"
 
-        object MultipleSelection {
-            const val POSSIBLE_CHOICES = "possibleChoices"
-            const val RIGHT_CHOICES_IDS = "rightChoices"
+            object RightOrNot {
+
+                const val IDS = "ids"
+                const val VALUES = "values"
+                const val REGEX = "regex"
+
+            }
+
         }
 
     }
