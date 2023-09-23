@@ -21,7 +21,7 @@ class ValidationResultTest {
     fun validationResult_createdWithOk_isOkTypeTest() {
         result = ValidationResult.ok()
 
-        assertThat(result.type).isEqualTo(ValidationResult.ValidationResultType.OK)
+        assertThat(result.type).isEqualTo(ValidationResult.Type.OK)
     }
 
     @Test
@@ -49,7 +49,7 @@ class ValidationResultTest {
     fun validationResult_createdWithWarning_isWarningTypeTest() {
         result = ValidationResult.warning(msg)
 
-        assertThat(result.type).isEqualTo(ValidationResult.ValidationResultType.WARNING)
+        assertThat(result.type).isEqualTo(ValidationResult.Type.WARNING)
     }
 
     @Test
@@ -84,7 +84,7 @@ class ValidationResultTest {
     fun validationResult_createdWithError_isErrorTypeTest() {
         result = ValidationResult.error(msg)
 
-        assertThat(result.type).isEqualTo(ValidationResult.ValidationResultType.ERROR)
+        assertThat(result.type).isEqualTo(ValidationResult.Type.ERROR)
     }
 
     @Test
