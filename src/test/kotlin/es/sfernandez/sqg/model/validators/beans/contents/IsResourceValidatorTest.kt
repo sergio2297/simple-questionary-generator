@@ -1,4 +1,4 @@
-package es.sfernandez.sqg.model.validators.contents
+package es.sfernandez.sqg.model.validators.beans.contents
 
 import es.sfernandez.sqg.beans.contents.IsResource
 import es.sfernandez.sqg.model.validators.ValidatorTest
