@@ -7,12 +7,14 @@ import es.sfernandez.sqg.model.validators.Validator
 class QuestionnaireValidator : Validator<Questionnaire> {
 
     override fun validate(value: Questionnaire): ValidationResult<Questionnaire> {
-        val result = checkIfHasEmptyTitle(value)
+        return Validator.validateIteratively(value, *validations())
+    }
 
-        return if(result.isOk())
-                checkIfHasQuestions(value)
-            else
-                result
+    private fun validations() : Array<(Questionnaire) -> ValidationResult<Questionnaire>> {
+        return arrayOf(
+            ::checkIfHasEmptyTitle,
+            ::checkIfHasQuestions
+        )
     }
 
     private fun checkIfHasEmptyTitle(questionnaire: Questionnaire): ValidationResult<Questionnaire> {
