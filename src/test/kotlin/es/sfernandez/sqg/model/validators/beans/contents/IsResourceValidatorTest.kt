@@ -2,41 +2,30 @@ package es.sfernandez.sqg.model.validators.beans.contents
 
 import es.sfernandez.sqg.beans.contents.IsResource
 import es.sfernandez.sqg.model.validators.ValidatorTest
+import es.sfernandez.sqg.utilities.fixtures.beans.contents.UsesIsResourceFixtures
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito
 
-class IsResourceValidatorTest : ValidatorTest<IsResource> {
+class IsResourceValidatorTest : ValidatorTest<IsResource>, UsesIsResourceFixtures {
 
     //---- Attributes ----
     override val validator = IsResourceValidator()
 
-    //---- Methods ----
-    private fun resourceWith(path: String) : IsResource {
-        val resource = Mockito.mock(IsResource::class.java)
-        Mockito.`when`(resource.path).thenReturn(path)
-        return resource
-    }
-
     //---- Tests ----
     @Test
     fun validate_resourceWithEmptyPath_returnErrorTest() {
-        val emptyPath = ""
-
-        assertIsErrorValidate(resourceWith(emptyPath))
+        assertIsErrorValidate(anEmptyResource())
     }
 
     @Test
     fun validate_resourceWithPathWithoutCharacters_returnErrorTest() {
-        val pathWithBlank = "   \t "
+        val blankPath = "   \t "
 
-        assertIsErrorValidate(resourceWith(pathWithBlank))
+        assertIsErrorValidate(aResourceWith(blankPath))
     }
 
     @Test
     fun validate_resourceWithNotEmptyPath_returnOkTest() {
-        val somePath = "C:\\Users\\Photos\\img.jpg"
-
-        assertIsOkValidate(resourceWith(somePath))
+        assertIsOkValidate(aResource())
     }
 
 }
