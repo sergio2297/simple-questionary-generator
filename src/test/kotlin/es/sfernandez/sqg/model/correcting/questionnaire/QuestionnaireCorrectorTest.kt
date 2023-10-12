@@ -20,7 +20,11 @@ class QuestionnaireCorrectorTest {
     //---- Constants and Definitions ----
     private class FooQuestionnaireCorrector(
         questionnaire: Questionnaire
-    ) : QuestionnaireCorrector<QuestionnaireResult>(questionnaire) {
+    ) : QuestionnaireCorrector<QuestionnaireResult>() {
+
+        init {
+            super.correct(questionnaire)
+        }
 
         override fun generateResult(): QuestionnaireResult {
             fail("Error. This method shouldn't be tested")
@@ -76,7 +80,7 @@ class QuestionnaireCorrectorTest {
     //---- Tests ----
     @Test
     fun registerReply_forUnknownQuestion_throwsExceptionTest() {
-        val unknownQuestion = mockQuestion()
+        val unknownQuestion = aQuestion()
 
         assertThrows<QuestionnaireCorrectingException> { corrector.registerReply(unknownQuestion, mockReply()) }
     }
@@ -134,7 +138,7 @@ class QuestionnaireCorrectorTest {
 
     @Test
     fun replyFor_unknownQuestion_throwsExceptionTest() {
-        val unknownQuestion = mockQuestion()
+        val unknownQuestion = aQuestion()
 
         assertThrows<QuestionnaireCorrectingException> { corrector.testReplyFor(unknownQuestion) }
     }

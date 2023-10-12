@@ -9,17 +9,28 @@ import java.util.*
  * A QuestionnaireCorrector can generate the result of correcting a [Questionnaire] from replies given to its questions
  *
  * @param RESULT [QuestionnaireResult] that the corrector generates
- * @property questionnaire Questionnaire that will be corrected
  */
-abstract class QuestionnaireCorrector<RESULT: QuestionnaireResult>(
-    protected val questionnaire: Questionnaire
-) {
+abstract class QuestionnaireCorrector<RESULT: QuestionnaireResult> {
 
     //---- Attributes ----
+    /** True if the corrector has benn initialized for one questionnaire */
+    private var initialized = false
+
+    /** Questionnaire that will be corrected */
+    protected lateinit var questionnaire: Questionnaire
+
     /** Map that stores the question's replies */
     protected val questionReplies = mutableMapOf<Question, Reply<*>>()
 
     //---- Methods ----
+    fun reset() {
+
+    }
+
+    fun correct(questionnaire: Questionnaire) {
+        this.questionnaire = questionnaire
+    }
+
     /**
      * Register for the given question its reply.
      *

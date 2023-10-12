@@ -10,7 +10,7 @@ class RightOrNotQuestionResultTest : MocksQuestion, MocksReply {
     //---- Tests ----
     @Test
     fun afterConstruct_questionIsAssignedCorrectlyTest() {
-        val question = mockQuestion()
+        val question = aQuestion()
 
         val result = RightOrNotQuestionResult(question, mockReply(), true)
 
@@ -21,7 +21,7 @@ class RightOrNotQuestionResultTest : MocksQuestion, MocksReply {
     fun afterConstruct_replyIsAssignedCorrectlyTest() {
         val reply = mockReply()
 
-        val result = RightOrNotQuestionResult(mockQuestion(), reply, true)
+        val result = RightOrNotQuestionResult(aQuestion(), reply, true)
 
         assertThat(result.reply).isSameAs(reply)
     }
@@ -30,7 +30,7 @@ class RightOrNotQuestionResultTest : MocksQuestion, MocksReply {
     fun afterConstruct_isRightIsAssignedCorrectlyTest() {
         val isRight = true
 
-        val result = RightOrNotQuestionResult(mockQuestion(), mockReply(), isRight)
+        val result = RightOrNotQuestionResult(aQuestion(), mockReply(), isRight)
 
         assertThat(result.isRight).isSameAs(isRight)
     }

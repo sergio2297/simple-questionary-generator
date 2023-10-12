@@ -19,10 +19,15 @@ import es.sfernandez.sqg.model.correcting.replies.Reply
  */
 class NumOfRightsQuestionnaireCorrector(
     questionnaire: Questionnaire,
-) : QuestionnaireCorrector<NumOfRightsQuestionnaireResult>(questionnaire) {
+) : QuestionnaireCorrector<NumOfRightsQuestionnaireResult>() {
 
     //---- Attributes ----
     private val answerCorrectorSeeker = RightOrNotCorrectorSeeker()
+
+    //---- Constructor ----
+    init {
+        correct(questionnaire)
+    }
 
     //---- Methods ----
     override fun generateResult(): NumOfRightsQuestionnaireResult {
