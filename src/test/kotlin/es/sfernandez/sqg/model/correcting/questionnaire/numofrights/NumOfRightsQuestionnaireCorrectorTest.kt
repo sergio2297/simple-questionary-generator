@@ -32,7 +32,8 @@ class NumOfRightsQuestionnaireCorrectorTest {
             questionWithPossibleValuesCorrection("", Fixtures.SOME_TEXT_1),
             questionWithRegexValuesCorrection(Regex(".*"))
         )
-        corrector = NumOfRightsQuestionnaireCorrector(createQuestionnaire(questions))
+        corrector = NumOfRightsQuestionnaireCorrector()
+        corrector.correct(createQuestionnaire(questions))
     }
 
     //---- Methods ----
@@ -79,7 +80,8 @@ class NumOfRightsQuestionnaireCorrectorTest {
     @Test
     fun generatedResultQuestionnaire_isSameAs_correctorsQuestionnaireTest() {
         val questionnaire = Questionnaire()
-        corrector = NumOfRightsQuestionnaireCorrector(questionnaire)
+        corrector = NumOfRightsQuestionnaireCorrector()
+        corrector.correct(questionnaire)
 
         val result = corrector.generateResult()
 
@@ -89,7 +91,8 @@ class NumOfRightsQuestionnaireCorrectorTest {
     @ParameterizedTest
     @MethodSource("streamOfQuestionnaires")
     fun generatedResultNumOfQuestions_isSameAs_questionnaireSizeTest(questionnaire: Questionnaire) {
-        corrector = NumOfRightsQuestionnaireCorrector(questionnaire)
+        corrector = NumOfRightsQuestionnaireCorrector()
+        corrector.correct(questionnaire)
 
         val result = corrector.generateResult()
 
@@ -99,7 +102,8 @@ class NumOfRightsQuestionnaireCorrectorTest {
     @ParameterizedTest
     @MethodSource("streamOfQuestionnaires")
     fun generatedResult_withNoReplies_hasNotAnsweredAtFullTest(questionnaire: Questionnaire) {
-        corrector = NumOfRightsQuestionnaireCorrector(questionnaire)
+        corrector = NumOfRightsQuestionnaireCorrector()
+        corrector.correct(questionnaire)
 
         val result = corrector.generateResult()
 

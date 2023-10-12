@@ -17,17 +17,10 @@ import es.sfernandez.sqg.model.correcting.replies.Reply
  * wouldn't be able to find an apropiate [AnswerCorrector] and an exception will be thrown
  *
  */
-class NumOfRightsQuestionnaireCorrector(
-    questionnaire: Questionnaire,
-) : QuestionnaireCorrector<NumOfRightsQuestionnaireResult>() {
+class NumOfRightsQuestionnaireCorrector : QuestionnaireCorrector<NumOfRightsQuestionnaireResult>() {
 
     //---- Attributes ----
     private val answerCorrectorSeeker = RightOrNotCorrectorSeeker()
-
-    //---- Constructor ----
-    init {
-        correct(questionnaire)
-    }
 
     //---- Methods ----
     override fun generateResultSafely(): NumOfRightsQuestionnaireResult {
