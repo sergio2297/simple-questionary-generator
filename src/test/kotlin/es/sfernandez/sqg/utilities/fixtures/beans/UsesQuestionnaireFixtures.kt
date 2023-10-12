@@ -38,18 +38,13 @@ interface UsesQuestionnaireFixtures : UsesQuestionFixtures {
             return title("   ")
         }
 
-        private fun questions(vararg questions: Question): QuestionnaireFixtureBuilder {
+        fun questions(vararg questions: Question): QuestionnaireFixtureBuilder {
             questionnaire.questions = arrayOf(*questions)
             return this
         }
 
         fun numOfQuestions(numOfQuestions: Int): QuestionnaireFixtureBuilder {
-            return questions(
-                *generateSequence { aQuestion() }
-                    .take(numOfQuestions)
-                    .toList()
-                    .toTypedArray()
-            )
+            return questions(*someQuestions(numOfQuestions))
         }
 
         fun build(): Questionnaire {

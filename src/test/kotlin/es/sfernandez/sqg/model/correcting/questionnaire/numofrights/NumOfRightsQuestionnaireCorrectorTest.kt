@@ -7,8 +7,8 @@ import es.sfernandez.sqg.beans.question.answers.correction.rightornot.CorrectVal
 import es.sfernandez.sqg.beans.question.answers.correction.rightornot.PossibleValues
 import es.sfernandez.sqg.model.correcting.replies.TextReply
 import es.sfernandez.sqg.utilities.Fixtures
-import es.sfernandez.sqg.utilities.mocking.MocksQuestion
-import es.sfernandez.sqg.utilities.mocking.MocksQuestionnaire
+import es.sfernandez.sqg.utilities.fixtures.beans.UsesQuestionnaireFixtures
+import es.sfernandez.sqg.utilities.fixtures.beans.question.UsesQuestionFixtures
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -36,14 +36,14 @@ class NumOfRightsQuestionnaireCorrectorTest {
     }
 
     //---- Methods ----
-    companion object : MocksQuestionnaire, MocksQuestion {
+    companion object : UsesQuestionnaireFixtures, UsesQuestionFixtures {
 
         @JvmStatic
         fun streamOfQuestionnaires(): Stream<Questionnaire> {
             return Stream.of(
-                mockQuestionnaireWith(arrayOf()),
-                mockQuestionnaireWith(mockQuestions(1)),
-                mockQuestionnaireWith(mockQuestions(20)),
+                anEmptyQuestionnaire(),
+                anEmptyQuestionnaireWith().numOfQuestions(1).build(),
+                anEmptyQuestionnaireWith().numOfQuestions(20).build(),
             )
         }
 

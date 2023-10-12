@@ -29,6 +29,13 @@ interface UsesQuestionFixtures : UsesProblemFixtures, UsesAnswerFixtures, UsesEx
         return QuestionFixtureBuilder(aQuestion())
     }
 
+    fun someQuestions(numOfQuestions: Int): Array<Question> {
+        return generateSequence { aQuestion() }
+            .take(numOfQuestions)
+            .toList()
+            .toTypedArray()
+    }
+
     class QuestionFixtureBuilder(
         private val question: Question
     ) : UsesQuestionFixtures {
