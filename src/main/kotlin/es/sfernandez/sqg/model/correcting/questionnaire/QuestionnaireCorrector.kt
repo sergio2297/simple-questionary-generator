@@ -23,11 +23,32 @@ abstract class QuestionnaireCorrector<RESULT: QuestionnaireResult> {
     protected val questionReplies = mutableMapOf<Question, Reply<*>>()
 
     //---- Methods ----
+    /**
+     * Reset the corrector stop correcting the old questionnaire and removing all the given replies
+     */
     fun reset() {
-
+        this.correcting = false
+        this.questionReplies.clear()
     }
 
+    /**
+     * @return true if the corrector is correcting a questionnaire
+     */
+    fun isCorrecting(): Boolean {
+        return correcting
+    }
+
+    /**
+     * Initialize the corrector for correcting the given questionnaire
+     *
+     * @param questionnaire Questionnaire to correct
+     * @throws QuestionnaireCorrectingException if no questionnaire is being correcting
+     */
     fun correct(questionnaire: Questionnaire) {
+        if(isCorrecting())
+            throw QuestionnaireCorrectingException("Error. Corrector is already correcting a questionnaire. If you want " +
+                    "to correct another one, it's necessary to reset it first.")
+
         this.correcting = true
         this.questionnaire = questionnaire
     }
@@ -41,7 +62,8 @@ abstract class QuestionnaireCorrector<RESULT: QuestionnaireResult> {
      *
      * @param quest Question replied
      * @param reply Reply given
-     * @throws QuestionnaireCorrectingException iff the given question doesn't belong to the corrector's questionnaire
+     * @throws QuestionnaireCorrectingException iff the given question doesn't belong to the corrector's questionnaire or
+     * if corrector isn't correcting any questionnaire
      */
     fun registerReply(quest: Question, reply: Reply<*>) {
         throwExceptionIfNotCorrectingAnything("register a reply")
@@ -66,7 +88,8 @@ abstract class QuestionnaireCorrector<RESULT: QuestionnaireResult> {
      *
      * @param quest Question
      * @return the reply registered for the given question, or throws an exception
-     * @throws QuestionnaireCorrectingException iff the given question hasn't got a reply registered
+     * @throws QuestionnaireCorrectingException iff the given question hasn't got a reply registered or if the corrector
+     * isn't correcting any questionnaire
      */
     protected fun replyFor(quest: Question) : Reply<*> {
         throwExceptionIfNotCorrectingAnything("get a question's reply")
@@ -80,6 +103,7 @@ abstract class QuestionnaireCorrector<RESULT: QuestionnaireResult> {
      * Generates the questionnaire's result using the registered replies
      *
      * @return the result of correcting the questionnaire
+     * @throws QuestionnaireCorrectingException if no questionnaire is being correcting
      */
     fun generateResult() : RESULT {
         throwExceptionIfNotCorrectingAnything("generate a result")
@@ -98,6 +122,7 @@ abstract class QuestionnaireCorrector<RESULT: QuestionnaireResult> {
 
     /**
      * @return the amount of questions that haven't got a reply registered
+     * @throws QuestionnaireCorrectingException if no questionnaire is being correcting
      */
     protected fun countNotAnswered(): Int {
         throwExceptionIfNotCorrectingAnything("count not answered questions")
@@ -106,7 +131,7 @@ abstract class QuestionnaireCorrector<RESULT: QuestionnaireResult> {
     }
 
     private fun throwExceptionIfNotCorrectingAnything(operation: String) {
-        if(!correcting)
+        if(!isCorrecting())
             throw QuestionnaireCorrectingException("Error. It's not possible to $operation because the corrector " +
                     "isn't correcting any questionnaire.")
     }

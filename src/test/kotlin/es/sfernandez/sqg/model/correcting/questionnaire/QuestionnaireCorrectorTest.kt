@@ -80,12 +80,31 @@ class QuestionnaireCorrectorTest {
 
     //---- Tests ----
     @Test
-    fun afterReset_noQuestionnaireIsBeenCorrectingTest() {
+    fun afterReset_correctorIsNotCorrectingTest() {
+        corrector.reset()
 
+        assertThat(corrector.isCorrecting()).isFalse()
     }
 
     @Test
-    fun registerReply_whenNoQuestionnaireIsBeenCorrecting_throwsExceptionTest() {
+    fun correct_whenCorrectorsIsAlreadyCorrecting_throwsExceptionTest() {
+        corrector = FooQuestionnaireCorrector()
+        corrector.correct(mockQuestionnaire())
+
+        assertThrows<QuestionnaireCorrectingException> { corrector.correct(mockQuestionnaire()) }
+    }
+
+    @Test
+    fun afterCorrect_correctorIsCorrectingTest() {
+        corrector = FooQuestionnaireCorrector()
+
+        corrector.correct(mockQuestionnaire())
+
+        assertThat(corrector.isCorrecting()).isTrue()
+    }
+
+    @Test
+    fun registerReply_whenNoQuestionnaireIsBeingCorrecting_throwsExceptionTest() {
         corrector = FooQuestionnaireCorrector()
 
         assertThrows<QuestionnaireCorrectingException> { corrector.registerReply(questions[0], mockReply()) }
@@ -143,7 +162,7 @@ class QuestionnaireCorrectorTest {
     }
 
     @Test
-    fun replyFor_whenNoQuestionnaireIsBeenCorrecting_throwsExceptionTest() {
+    fun replyFor_whenNoQuestionnaireIsBeingCorrecting_throwsExceptionTest() {
         corrector = FooQuestionnaireCorrector()
 
         assertThrows<QuestionnaireCorrectingException> { corrector.testReplyFor(questions[0]) }
@@ -164,7 +183,7 @@ class QuestionnaireCorrectorTest {
     }
 
     @Test
-    fun countNotAnswered_whenNoQuestionnaireIsBeenCorrecting_throwsExceptionTest() {
+    fun countNotAnswered_whenNoQuestionnaireIsBeingCorrecting_throwsExceptionTest() {
         corrector = FooQuestionnaireCorrector()
 
         assertThrows<QuestionnaireCorrectingException> { corrector.testCountNotAnswered() }
@@ -192,7 +211,7 @@ class QuestionnaireCorrectorTest {
     }
 
     @Test
-    fun generateResult_whenNoQuestionnaireIsBeenCorrecting_throwsExceptionTest() {
+    fun generateResult_whenNoQuestionnaireIsBeingCorrecting_throwsExceptionTest() {
         corrector = FooQuestionnaireCorrector()
 
         assertThrows<QuestionnaireCorrectingException> { corrector.generateResult() }
