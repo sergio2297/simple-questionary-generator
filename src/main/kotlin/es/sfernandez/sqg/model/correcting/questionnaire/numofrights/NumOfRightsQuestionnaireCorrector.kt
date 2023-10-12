@@ -30,7 +30,7 @@ class NumOfRightsQuestionnaireCorrector(
     }
 
     //---- Methods ----
-    override fun generateResult(): NumOfRightsQuestionnaireResult {
+    override fun generateResultSafely(): NumOfRightsQuestionnaireResult {
         val questionResults = correctQuestions()
 
         return NumOfRightsQuestionnaireResult(

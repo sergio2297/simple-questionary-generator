@@ -18,15 +18,16 @@ import kotlin.test.fail
 class QuestionnaireCorrectorTest {
 
     //---- Constants and Definitions ----
-    private class FooQuestionnaireCorrector(
-        questionnaire: Questionnaire
-    ) : QuestionnaireCorrector<QuestionnaireResult>() {
+    private class FooQuestionnaireCorrector : QuestionnaireCorrector<QuestionnaireResult> {
 
-        init {
-            super.correct(questionnaire)
+        //---- Constructor ----
+        constructor() : super()
+
+        constructor(questionnaire: Questionnaire) : this() {
+            correct(questionnaire)
         }
 
-        override fun generateResult(): QuestionnaireResult {
+        override fun generateResultSafely(): QuestionnaireResult {
             fail("Error. This method shouldn't be tested")
         }
 
@@ -79,6 +80,18 @@ class QuestionnaireCorrectorTest {
 
     //---- Tests ----
     @Test
+    fun afterReset_noQuestionnaireIsBeenCorrectingTest() {
+
+    }
+
+    @Test
+    fun registerReply_whenNoQuestionnaireIsBeenCorrecting_throwsExceptionTest() {
+        corrector = FooQuestionnaireCorrector()
+
+        assertThrows<QuestionnaireCorrectingException> { corrector.registerReply(questions[0], mockReply()) }
+    }
+
+    @Test
     fun registerReply_forUnknownQuestion_throwsExceptionTest() {
         val unknownQuestion = aQuestion()
 
@@ -130,6 +143,13 @@ class QuestionnaireCorrectorTest {
     }
 
     @Test
+    fun replyFor_whenNoQuestionnaireIsBeenCorrecting_throwsExceptionTest() {
+        corrector = FooQuestionnaireCorrector()
+
+        assertThrows<QuestionnaireCorrectingException> { corrector.testReplyFor(questions[0]) }
+    }
+
+    @Test
     fun replyFor_notAnsweredQuestion_throwsExceptionTest() {
         val notAnsweredQuestion = questions[0]
 
@@ -141,6 +161,13 @@ class QuestionnaireCorrectorTest {
         val unknownQuestion = aQuestion()
 
         assertThrows<QuestionnaireCorrectingException> { corrector.testReplyFor(unknownQuestion) }
+    }
+
+    @Test
+    fun countNotAnswered_whenNoQuestionnaireIsBeenCorrecting_throwsExceptionTest() {
+        corrector = FooQuestionnaireCorrector()
+
+        assertThrows<QuestionnaireCorrectingException> { corrector.testCountNotAnswered() }
     }
 
     @ParameterizedTest
@@ -162,6 +189,13 @@ class QuestionnaireCorrectorTest {
         val notAnswered = corrector.testCountNotAnswered()
 
         assertThat(notAnswered).isZero()
+    }
+
+    @Test
+    fun generateResult_whenNoQuestionnaireIsBeenCorrecting_throwsExceptionTest() {
+        corrector = FooQuestionnaireCorrector()
+
+        assertThrows<QuestionnaireCorrectingException> { corrector.generateResult() }
     }
 
 }

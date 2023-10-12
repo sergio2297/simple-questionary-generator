@@ -13,8 +13,8 @@ import java.util.*
 abstract class QuestionnaireCorrector<RESULT: QuestionnaireResult> {
 
     //---- Attributes ----
-    /** True if the corrector has benn initialized for one questionnaire */
-    private var initialized = false
+    /** True if the corrector is correcting a questionnaire */
+    private var correcting = false
 
     /** Questionnaire that will be corrected */
     protected lateinit var questionnaire: Questionnaire
@@ -28,6 +28,7 @@ abstract class QuestionnaireCorrector<RESULT: QuestionnaireResult> {
     }
 
     fun correct(questionnaire: Questionnaire) {
+        this.correcting = true
         this.questionnaire = questionnaire
     }
 
@@ -43,6 +44,8 @@ abstract class QuestionnaireCorrector<RESULT: QuestionnaireResult> {
      * @throws QuestionnaireCorrectingException iff the given question doesn't belong to the corrector's questionnaire
      */
     fun registerReply(quest: Question, reply: Reply<*>) {
+        throwExceptionIfNotCorrectingAnything("register a reply")
+
         if(!questionnaireContains(quest))
             throw QuestionnaireCorrectingException("Error. It's not possible to register a reply for the given question " +
                     "because it doesn't belong to the corrector's questionnaire.")
@@ -66,6 +69,8 @@ abstract class QuestionnaireCorrector<RESULT: QuestionnaireResult> {
      * @throws QuestionnaireCorrectingException iff the given question hasn't got a reply registered
      */
     protected fun replyFor(quest: Question) : Reply<*> {
+        throwExceptionIfNotCorrectingAnything("get a question's reply")
+
         return Optional.ofNullable(questionReplies[quest])
             .orElseThrow { QuestionnaireCorrectingException("Error. You're trying to get the registered reply for a " +
                     "question that hasn't been replied.") }
@@ -76,12 +81,34 @@ abstract class QuestionnaireCorrector<RESULT: QuestionnaireResult> {
      *
      * @return the result of correcting the questionnaire
      */
-    abstract fun generateResult() : RESULT
+    fun generateResult() : RESULT {
+        throwExceptionIfNotCorrectingAnything("generate a result")
+
+        return generateResultSafely()
+    }
+
+    /**
+     * Generates the questionnaire's result using the registered replies
+     *
+     * When this method is called, it ensures that the corrector is correcting something
+     *
+     * @return the result of correcting the questionnaire
+     */
+    protected abstract fun generateResultSafely() : RESULT
 
     /**
      * @return the amount of questions that haven't got a reply registered
      */
     protected fun countNotAnswered(): Int {
+        throwExceptionIfNotCorrectingAnything("count not answered questions")
+
         return questionnaire.questions.size - questionReplies.size
     }
+
+    private fun throwExceptionIfNotCorrectingAnything(operation: String) {
+        if(!correcting)
+            throw QuestionnaireCorrectingException("Error. It's not possible to $operation because the corrector " +
+                    "isn't correcting any questionnaire.")
+    }
+
 }
