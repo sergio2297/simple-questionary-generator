@@ -18,7 +18,7 @@ dependencies {
         because("It's necessary to parse JSON's String to Kotlin beans")
     }
 
-    testImplementation(kotlin("test"))
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.8.10")
 
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.3")
